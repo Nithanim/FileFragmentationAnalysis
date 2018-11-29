@@ -1,0 +1,151 @@
+MyFragmenter v1.2, 2008 J.C. Kessels
+
+MyFragmenter.exe [-p NNN] [-s NNN] [-i] [-h] filename(s)
+-p NNN       Split file into NNN fragments. Default is 10 fragments. Specify 0 or 1 to defragment.
+-s NNN       When a new file is created then the size will be NNN kilobytes. Default is 1000 kilobyte.
+-i           Information only. Do not fragment or create the file.
+-h           Show this help.
+filename(s)  The file(s) to be fragmented. If a file does not yet exist then a new file will be created containing random data.
+Commandline argument '-i' accepted.
+
+Processing: Roberts Space Industries\StarCitizen\LIVE\Data.p4k
+Fragment list:
+  Extent 1: Lcn=105822180, Vcn=0, NextVcn=10784
+  Extent 2: Lcn=105832964, Vcn=10784, NextVcn=20501
+  Extent 3: Lcn=105842681, Vcn=20501, NextVcn=30796
+  Extent 4: Lcn=105852976, Vcn=30796, NextVcn=37147
+  Extent 5: Lcn=105859327, Vcn=37147, NextVcn=44960
+  Extent 6: Lcn=105867140, Vcn=44960, NextVcn=53828
+  Extent 7: Lcn=105876008, Vcn=53828, NextVcn=61904
+  Extent 8: Lcn=105884084, Vcn=61904, NextVcn=67248
+  Extent 9: Lcn=105889428, Vcn=67248, NextVcn=72784
+  Extent 10: Lcn=105894964, Vcn=72784, NextVcn=84128
+  Extent 11: Lcn=105906308, Vcn=84128, NextVcn=94624
+  Extent 12: Lcn=105916804, Vcn=94624, NextVcn=107936
+  Extent 13: Lcn=105930116, Vcn=107936, NextVcn=118960
+  Extent 14: Lcn=105941140, Vcn=118960, NextVcn=131552
+  Extent 15: Lcn=105953732, Vcn=131552, NextVcn=145904
+  Extent 16: Lcn=105968084, Vcn=145904, NextVcn=159312
+  Extent 17: Lcn=105981492, Vcn=159312, NextVcn=174656
+  Extent 18: Lcn=105996836, Vcn=174656, NextVcn=214784
+  Extent 19: Lcn=106036964, Vcn=214784, NextVcn=271616
+  Extent 20: Lcn=106093796, Vcn=271616, NextVcn=338432
+  Extent 21: Lcn=106160612, Vcn=338432, NextVcn=412939
+  Extent 22: Lcn=106235119, Vcn=412939, NextVcn=481024
+  Extent 23: Lcn=106303204, Vcn=481024, NextVcn=549120
+  Extent 24: Lcn=106371300, Vcn=549120, NextVcn=607488
+  Extent 25: Lcn=106429668, Vcn=607488, NextVcn=680960
+  Extent 26: Lcn=106503140, Vcn=680960, NextVcn=744960
+  Extent 27: Lcn=106567140, Vcn=744960, NextVcn=818880
+  Extent 28: Lcn=106641060, Vcn=818880, NextVcn=892032
+  Extent 29: Lcn=106714212, Vcn=892032, NextVcn=966144
+  Extent 30: Lcn=106788324, Vcn=966144, NextVcn=994144
+  Extent 31: Lcn=106818054, Vcn=994144, NextVcn=1030656
+  Extent 32: Lcn=106854566, Vcn=1030656, NextVcn=1099776
+  Extent 33: Lcn=106923686, Vcn=1099776, NextVcn=1167360
+  Extent 34: Lcn=106991270, Vcn=1167360, NextVcn=1243904
+  Extent 35: Lcn=107067814, Vcn=1243904, NextVcn=1316608
+  Extent 36: Lcn=107140518, Vcn=1316608, NextVcn=1383936
+  Extent 37: Lcn=107207846, Vcn=1383936, NextVcn=1443584
+  Extent 38: Lcn=107267494, Vcn=1443584, NextVcn=1506304
+  Extent 39: Lcn=107330214, Vcn=1506304, NextVcn=1573376
+  Extent 40: Lcn=107397286, Vcn=1573376, NextVcn=1638400
+  Extent 41: Lcn=107462310, Vcn=1638400, NextVcn=1707520
+  Extent 42: Lcn=107531430, Vcn=1707520, NextVcn=1768192
+  Extent 43: Lcn=107592102, Vcn=1768192, NextVcn=1836544
+  Extent 44: Lcn=107660454, Vcn=1836544, NextVcn=1904640
+  Extent 45: Lcn=107728550, Vcn=1904640, NextVcn=1971200
+  Extent 46: Lcn=107795110, Vcn=1971200, NextVcn=1984672
+  Extent 47: Lcn=108434609, Vcn=1984672, NextVcn=2040832
+  Extent 48: Lcn=108490769, Vcn=2040832, NextVcn=2114304
+  Extent 49: Lcn=108564241, Vcn=2114304, NextVcn=2181120
+  Extent 50: Lcn=108631057, Vcn=2181120, NextVcn=2252288
+  Extent 51: Lcn=108702225, Vcn=2252288, NextVcn=2309888
+  Extent 52: Lcn=108759825, Vcn=2309888, NextVcn=2345472
+  Extent 53: Lcn=108795409, Vcn=2345472, NextVcn=2364304
+  Extent 54: Lcn=108814241, Vcn=2364304, NextVcn=2386432
+  Extent 55: Lcn=108836369, Vcn=2386432, NextVcn=2407056
+  Extent 56: Lcn=108856993, Vcn=2407056, NextVcn=2426880
+  Extent 57: Lcn=108876817, Vcn=2426880, NextVcn=2449408
+  Extent 58: Lcn=108899345, Vcn=2449408, NextVcn=2468352
+  Extent 59: Lcn=108918289, Vcn=2468352, NextVcn=2491840
+  Extent 60: Lcn=104967025, Vcn=2491840, NextVcn=2493696
+  Extent 61: Lcn=104968881, Vcn=2493696, NextVcn=2514736
+  Extent 62: Lcn=104989921, Vcn=2514736, NextVcn=2537027
+  Extent 63: Lcn=105012212, Vcn=2537027, NextVcn=2560768
+  Extent 64: Lcn=105035953, Vcn=2560768, NextVcn=2582672
+  Extent 65: Lcn=105057857, Vcn=2582672, NextVcn=2620416
+  Extent 66: Lcn=105095601, Vcn=2620416, NextVcn=2651888
+  Extent 67: Lcn=105127073, Vcn=2651888, NextVcn=2681856
+  Extent 68: Lcn=105157041, Vcn=2681856, NextVcn=2710416
+  Extent 69: Lcn=105185601, Vcn=2710416, NextVcn=2736832
+  Extent 70: Lcn=105212017, Vcn=2736832, NextVcn=2762240
+  Extent 71: Lcn=105237425, Vcn=2762240, NextVcn=2793728
+  Extent 72: Lcn=105268913, Vcn=2793728, NextVcn=2821376
+  Extent 73: Lcn=105296561, Vcn=2821376, NextVcn=2848000
+  Extent 74: Lcn=108298838, Vcn=2848000, NextVcn=2849536
+  Extent 75: Lcn=108300374, Vcn=2849536, NextVcn=2881472
+  Extent 76: Lcn=108332310, Vcn=2881472, NextVcn=2913280
+  Extent 77: Lcn=108364118, Vcn=2913280, NextVcn=2939392
+  Extent 78: Lcn=108390230, Vcn=2939392, NextVcn=2944000
+  Extent 79: Lcn=650579879, Vcn=2944000, NextVcn=2980864
+  Extent 80: Lcn=650616743, Vcn=2980864, NextVcn=2981888
+  Extent 81: Lcn=707982080, Vcn=2981888, NextVcn=3014096
+  Extent 82: Lcn=287588785, Vcn=3014096, NextVcn=3017072
+  Extent 83: Lcn=287591761, Vcn=3017072, NextVcn=3033856
+  Extent 84: Lcn=616371876, Vcn=3033856, NextVcn=3043072
+  Extent 85: Lcn=616381092, Vcn=3043072, NextVcn=3050752
+  Extent 86: Lcn=637746498, Vcn=3050752, NextVcn=3067664
+  Extent 87: Lcn=707239754, Vcn=3067664, NextVcn=3084544
+  Extent 88: Lcn=616353866, Vcn=3084544, NextVcn=3087872
+  Extent 89: Lcn=616357194, Vcn=3087872, NextVcn=3101088
+  Extent 90: Lcn=717754100, Vcn=3101088, NextVcn=3117680
+  Extent 91: Lcn=199502098, Vcn=3117680, NextVcn=3117760
+  Extent 92 (virtual): Vcn=3117760, NextVcn=3144368
+  Extent 93: Lcn=199502178, Vcn=3144368, NextVcn=3154752
+  Extent 94: Lcn=199512562, Vcn=3154752, NextVcn=3163840
+  Extent 95 (virtual): Vcn=3163840, NextVcn=3190448
+  Extent 96: Lcn=199521650, Vcn=3190448, NextVcn=3209408
+  Extent 97 (virtual): Vcn=3209408, NextVcn=3214512
+  Extent 98: Lcn=199540610, Vcn=3214512, NextVcn=3232448
+  Extent 99 (virtual): Vcn=3232448, NextVcn=3237552
+  Extent 100: Lcn=199558546, Vcn=3237552, NextVcn=3256000
+  Extent 101 (virtual): Vcn=3256000, NextVcn=3256496
+  Extent 102: Lcn=199576994, Vcn=3256496, NextVcn=3262144
+  Extent 103: Lcn=199582642, Vcn=3262144, NextVcn=3273060
+  Extent 104: Lcn=199593558, Vcn=3273060, NextVcn=3306688
+  Extent 105: Lcn=254652371, Vcn=3306688, NextVcn=3319488
+  Extent 106: Lcn=254665171, Vcn=3319488, NextVcn=3349616
+  Extent 107: Lcn=254695299, Vcn=3349616, NextVcn=3387568
+  Extent 108: Lcn=254733251, Vcn=3387568, NextVcn=3425984
+  Extent 109: Lcn=200940253, Vcn=3425984, NextVcn=3428032
+  Extent 110: Lcn=200942301, Vcn=3428032, NextVcn=3468992
+  Extent 111: Lcn=200983261, Vcn=3468992, NextVcn=3509440
+  Extent 112: Lcn=201023709, Vcn=3509440, NextVcn=3524800
+  Extent 113: Lcn=130402865, Vcn=3524800, NextVcn=3549888
+  Extent 114 (virtual): Vcn=3549888, NextVcn=3551920
+  Extent 115: Lcn=130427953, Vcn=3551920, NextVcn=3555008
+  Extent 116 (virtual): Vcn=3555008, NextVcn=3556016
+  Extent 117: Lcn=130431041, Vcn=3556016, NextVcn=3558592
+  Extent 118 (virtual): Vcn=3558592, NextVcn=3560112
+  Extent 119: Lcn=130433617, Vcn=3560112, NextVcn=3562176
+  Extent 120 (virtual): Vcn=3562176, NextVcn=3564208
+  Extent 121: Lcn=130435681, Vcn=3564208, NextVcn=3566272
+  Extent 122 (virtual): Vcn=3566272, NextVcn=3568304
+  Extent 123: Lcn=130437745, Vcn=3568304, NextVcn=3570880
+  Extent 124 (virtual): Vcn=3570880, NextVcn=3572400
+  Extent 125: Lcn=130440321, Vcn=3572400, NextVcn=3573952
+  Extent 126 (virtual): Vcn=3573952, NextVcn=3576496
+  Extent 127: Lcn=130441873, Vcn=3576496, NextVcn=3578048
+  Extent 128 (virtual): Vcn=3578048, NextVcn=3580592
+  Extent 129: Lcn=130443425, Vcn=3580592, NextVcn=3582144
+  Extent 130 (virtual): Vcn=3582144, NextVcn=3584176
+  Extent 131: Lcn=130444977, Vcn=3584176, NextVcn=3585216
+  Extent 132 (virtual): Vcn=3585216, NextVcn=3588272
+  Extent 133: Lcn=130446017, Vcn=3588272, NextVcn=3588800
+  Extent 134 (virtual): Vcn=3588800, NextVcn=9965488
+  Extent 135: Lcn=130446545, Vcn=9965488, NextVcn=9970224
+  Extent 136: Lcn=104165090, Vcn=9970224, NextVcn=9992912
+  3531984 clusters, 18 fragments.
+
+Finished, 1 files processed.

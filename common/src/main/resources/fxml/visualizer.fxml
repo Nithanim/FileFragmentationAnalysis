@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.canvas.Canvas?>
+<?import javafx.scene.layout.BorderPane?>
+
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="99.0" prefWidth="1324.0" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1">
+    <center>
+        <Canvas fx:id="canvas" height="57.0" width="1304.0" BorderPane.alignment="CENTER" />
+    </center>
+</BorderPane>

@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<VBox prefHeight="300.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1">
+    <children>
+        <Label alignment="CENTER" maxWidth="1.7976931348623157E308" text="Scanning" />
+        <Label fx:id="lblRootFolder" alignment="CENTER" maxWidth="1.7976931348623157E308" text="E:\Programme\Test">
+            <font>
+                <Font name="Courier New" size="15.0" />
+            </font>
+        </Label>
+        <Label alignment="CENTER" maxWidth="1.7976931348623157E308" text="Currently at:" />
+        <Label fx:id="lblCurrentFile" maxWidth="1.7976931348623157E308" text="E:\Programme\Test\file.txt">
+            <font>
+                <Font name="Courier New" size="15.0" />
+            </font>
+        </Label>
+        <TextArea fx:id="taError" maxHeight="1.7976931348623157E308" prefHeight="200.0" prefWidth="200.0" VBox.vgrow="ALWAYS" />
+        <Button fx:id="btnAbort" maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="Abort" VBox.vgrow="NEVER" />
+    </children>
+</VBox>

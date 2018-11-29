@@ -1,0 +1,24 @@
+package me.nithanim.filefragmentationanalysis.fragmentation.linux.fiemap;
+
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.List;
+import me.nithanim.filefragmentationanalysis.fragmentation.commonapi.Fragment;
+import me.nithanim.filefragmentationanalysis.fragmentation.linux.common.File;
+import me.nithanim.fragmentationstatistics.natives.linux.LinuxApi;
+import me.nithanim.fragmentationstatistics.natives.linux.LinuxApiNative;
+
+public class FiemapMainTest2 {
+
+    public static void main(String[] args) throws Exception {
+        LinuxApi la = new LinuxApiNative();
+        Path path = Paths.get("/home/nithanim/FTB_Launcher.jar");
+        try (File f = File.open(la, path)) {
+            int blockSize = la.getBlocksize(f.getFd());
+            try (LinuxFiemapFileFragmentationAnalyzer a = new LinuxFiemapFileFragmentationAnalyzer(la, 5)) {
+                List<Fragment> r = a.analyze(f, blockSize);
+                System.out.println(r);
+            }
+        }
+    }
+}

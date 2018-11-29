@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>me.nithanim.filefragmentationanalysis</groupId>
+    <artifactId>FileFragmentationAnalysisAssembly</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+    <packaging>jar</packaging>
+    <dependencies>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>FileFragmentationAnalysis</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <!-- For later java versions include openjfx. -->
+        <!-- System classloader is used first so if javafx is installed it takes priority. -->
+        <!-- However, will give bytecode version mismatch if on "old" jvm without openjfx. -->
+        <!-- Warning: There ARE discrepancies between javafx and openjfx! Program and test accordingly! -->
+        <!-- (packages, additional or removed methods, ... A bit like on android) -->
+        <dependency>
+            <groupId>org.openjfx</groupId>
+            <artifactId>javafx-controls</artifactId>
+            <version>${openjfxVersion}</version>
+        </dependency>
+        <!-- Need to specify all transitives again with matching OS classifier -->
+        <!-- because only active OS natives are included. -->
+        <!-- Although all deps have classifiers, they only partially contain natives. -->
+        <dependency>
+            <groupId>org.openjfx</groupId>
+            <artifactId>javafx-graphics</artifactId>
+            <version>${openjfxVersion}</version>
+            <classifier>linux</classifier>
+        </dependency>
+        <dependency>
+            <groupId>org.openjfx</groupId>
+            <artifactId>javafx-graphics</artifactId>
+            <version>${openjfxVersion}</version>
+            <classifier>mac</classifier>
+        </dependency>
+        <dependency>
+            <groupId>org.openjfx</groupId>
+            <artifactId>javafx-graphics</artifactId>
+            <version>${openjfxVersion}</version>
+            <classifier>win</classifier>
+        </dependency>
+        <!-- End openjfx -->
+        
+    </dependencies>
+    <build>
+        <resources>
+            <!-- Only includes active OS for now! :/ -->
+            <resource>
+                <targetPath>lib</targetPath>
+                <directory>${project.build.directory}/nar-include/lib</directory>
+            </resource>
+            <!--<resource> wildcard not working
+                <directory>${project.build.directory}/nar/lib/*</directory>
+                <targetPath>lib</targetPath>
+            </resource>-->
+        </resources>
+        <plugins>
+            <plugin>
+                <groupId>com.github.maven-nar</groupId>
+                <artifactId>nar-maven-plugin</artifactId>
+                <version>3.6.0</version>
+                <extensions>true</extensions>
+                <configuration>
+                    <!--
+                    <classifiers>
+                        <classifier>x86-Windows-gpp-jni</classifier>
+                        <classifier>amd64-Windows-gpp-jni</classifier>
+                        <classifier>i386-Linux-g++-jni</classifier>
+                        <classifier>amd64-Linux-g++-jni</classifier>
+                    </classifiers>
+                    -->
+                    <linker>
+                        <name>g++</name>
+                    </linker>
+                </configuration>
+                <executions>
+                    <!--<execution>
+                        <goals>
+                            <goal>nar-download</goal>
+                            <goal>nar-unpack</goal>
+                        </goals>
+                    </execution>-->
+                    <execution>
+                        <!-- fix such that the extraction will be executed before resource inclusion -->
+                        <id>moveit</id>
+                        <phase>generate-resources</phase>
+                        <goals>
+                            <goal>nar-assembly</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-antrun-plugin</artifactId>
+                <version>1.8</version>
+                <executions>
+                    <execution>
+                        <phase>generate-resources</phase>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                        <configuration>
+                            <tasks>
+                                <move todir="${project.build.directory}/nar-include" verbose="true">
+                                    <fileset dir="${project.build.directory}/nar/" >
+                                        <include name="**/*" />
+                                    </fileset>
+                                </move>
+                            </tasks>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-shade-plugin</artifactId>
+                <version>3.2.0</version>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>shade</goal>
+                        </goals>
+                        <configuration>
+                            <transformers>
+                                <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
+                                    <mainClass>me.nithanim.filefragmentationanalysis.gui.Main</mainClass>
+                                </transformer>
+                            </transformers>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
+        <openjfxVersion>11</openjfxVersion>
+    </properties>
+</project>
