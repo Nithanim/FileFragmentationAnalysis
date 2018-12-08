@@ -22,7 +22,6 @@ public class Main {
         while (!sl.getFuture().isDone()) {
             Thread.sleep(500);
             System.out.println(sl.getCurrentPath().get());
-            break;
         }
         CsvStatisticFormatter csf = new CsvStatisticFormatter();
         TextStatisticFormatter tsf = new TextStatisticFormatter();

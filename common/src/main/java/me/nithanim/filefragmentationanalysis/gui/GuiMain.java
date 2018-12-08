@@ -17,7 +17,7 @@ import lombok.extern.slf4j.Slf4j;
 import me.nithanim.filefragmentationanalysis.scanning.PathFragmentationScanner;
 
 @Slf4j
-public class Main extends Application {
+public class GuiMain extends Application {
     private Parent scanView;
     private ScanController scanController;
     private Parent statisticsView;
@@ -84,7 +84,7 @@ public class Main extends Application {
         scanController = new ScanController();
         FXMLLoader l = new FXMLLoader();
         l.setController(scanController);
-        l.setLocation(Main.class.getResource("/fxml/scanning.fxml"));
+        l.setLocation(GuiMain.class.getResource("/fxml/scanning.fxml"));
         scanView = l.load();
     }
 
@@ -92,11 +92,11 @@ public class Main extends Application {
         statisticsController = new StatisticsController(this::onNewScanButtonPress);
         FXMLLoader l = new FXMLLoader();
         l.setController(statisticsController);
-        l.setLocation(Main.class.getResource("/fxml/statistics.fxml"));
+        l.setLocation(GuiMain.class.getResource("/fxml/statistics.fxml"));
         statisticsView = l.load();
     }
 
     public static void main(String[] args) {
-        launch(Main.class, args);
+        launch(GuiMain.class, args);
     }
 }
