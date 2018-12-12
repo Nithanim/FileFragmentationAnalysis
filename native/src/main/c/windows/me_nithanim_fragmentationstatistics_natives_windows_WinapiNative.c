@@ -61,7 +61,7 @@ JNIEXPORT jboolean JNICALL Java_me_nithanim_fragmentationstatistics_natives_wind
   return r;
 }
 
-JNIEXPORT jobject JNICALL Java_me_nithanim_fragmentationstatistics_natives_windows_WinapiNative_getFileSystemInformation(
+JNIEXPORT jobject JNICALL Java_me_nithanim_fragmentationstatistics_natives_windows_WinapiNative_getInternalFileSystemInformation(
     JNIEnv *env, jobject obj, jstring path)
 {
   const char *filePath = (*env)->GetStringUTFChars(env, path, 0);
@@ -118,7 +118,7 @@ JNIEXPORT jobject JNICALL Java_me_nithanim_fragmentationstatistics_natives_windo
   }
 
   jstring filesystemNameJni = (*env)->NewStringUTF(env, filesystemName);
-  const char *fsiClassName = "me/nithanim/fragmentationstatistics/natives/windows/FileSystemInformation";
+  const char *fsiClassName = "me/nithanim/fragmentationstatistics/natives/windows/InternalFileSystemInformation";
   jclass fsiClass = (*env)->FindClass(env, fsiClassName);
   if (fsiClass == NULL)
   {
