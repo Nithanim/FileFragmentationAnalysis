@@ -5,7 +5,7 @@ import java.io.DataInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import me.nithanim.filefragmentationanalysis.filetypes.FileType;
-import me.nithanim.filefragmentationanalysis.fragmentation.commonapi.FileSystemUtil;
+import me.nithanim.fragmentationstatistics.natives.FileSystemUtil;
 
 public class StorageFormatReader {
     public Index read(InputStream in) throws IOException {

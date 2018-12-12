@@ -54,4 +54,18 @@ public class LinuxApiNative implements LinuxApi {
 
     @Override
     public native int fibmap(int fd, int idx);
+
+    @Override
+    public FileSystemInformation getFileSystemInformation(Path p) {
+        long magic = getFilesystemType(p);
+        //TODO FS whose support is programmed via FUSE will have type "fuseblk".
+        //Mybe get underlying blkdev and look into code of "lsblk -no name,fstype" (which returns e.g. ntfs) for possible fix.
+        LinuxFileSystemType t = LinuxFileSystemType.getFileSystemType(magic);
+        return new FileSystemInformation(t == null ? null : t.getName(), magic);
+    }
+
+    @Override
+    public OperatingSytem getOperatingSystem() {
+        return OperatingSytem.LINUX;
+    }
 }

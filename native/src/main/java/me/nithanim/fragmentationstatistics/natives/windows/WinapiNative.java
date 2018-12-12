@@ -11,7 +11,7 @@ import me.nithanim.fragmentationstatistics.natives.NativeLoader;
 
 public class WinapiNative implements Winapi {
     private static final int ERROR_FILE_NOT_FOUND = 2;
-    
+
     static {
         NativeLoader.loadLibrary();
     }
@@ -23,8 +23,8 @@ public class WinapiNative implements Winapi {
         try {
             long h = createFile(p.toString());
             return new WinNT.HANDLE(new Pointer(h));
-        } catch(NativeCallException ex) {
-            if(ex.getErrorCode() == ERROR_FILE_NOT_FOUND) {
+        } catch (NativeCallException ex) {
+            if (ex.getErrorCode() == ERROR_FILE_NOT_FOUND) {
                 throw new IOException("Unable to open file " + p, ex);
             } else {
                 throw ex;
@@ -74,8 +74,19 @@ public class WinapiNative implements Winapi {
 
     @Override
     public FileSystemInformation getFileSystemInformation(Path p) {
-        return getFileSystemInformation(p.toString());
+        InternalFileSystemInformation ifsi = getInternalFileSystemInformation(p);
+        return new FileSystemInformation(ifsi.getFileSystemName(), null);
     }
 
-    private native FileSystemInformation getFileSystemInformation(String p);
+    @Override
+    public InternalFileSystemInformation getInternalFileSystemInformation(Path p) {
+        return getInternalFileSystemInformation(p.toString());
+    }
+
+    public native InternalFileSystemInformation getInternalFileSystemInformation(String p);
+
+    @Override
+    public OperatingSytem getOperatingSystem() {
+        return OperatingSytem.WINDOWS;
+    }
 }

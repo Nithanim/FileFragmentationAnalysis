@@ -10,7 +10,7 @@ import me.nithanim.filefragmentationanalysis.filetypes.Classification;
 import me.nithanim.filefragmentationanalysis.filetypes.FileType;
 import me.nithanim.filefragmentationanalysis.filetypes.FileTypeCategory;
 import me.nithanim.filefragmentationanalysis.fragmentation.commonapi.FileReport;
-import me.nithanim.filefragmentationanalysis.fragmentation.commonapi.FileSystemUtil;
+import me.nithanim.fragmentationstatistics.natives.FileSystemUtil;
 
 public class Index {
     private final String path;

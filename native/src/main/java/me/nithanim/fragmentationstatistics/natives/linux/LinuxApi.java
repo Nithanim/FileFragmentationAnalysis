@@ -2,8 +2,9 @@ package me.nithanim.fragmentationstatistics.natives.linux;
 
 import java.io.IOException;
 import java.nio.file.Path;
+import me.nithanim.fragmentationstatistics.natives.FileSystemUtil;
 
-public interface LinuxApi {
+public interface LinuxApi extends FileSystemUtil {
     int openFileForReading(Path path) throws IOException;
     
     void closeFile(int fd); 

@@ -1,4 +1,4 @@
-package me.nithanim.filefragmentationanalysis.fragmentation.commonapi;
+package me.nithanim.fragmentationstatistics.natives;
 
 import java.nio.file.Path;
 import java.util.Objects;
@@ -7,9 +7,9 @@ import javax.annotation.Nullable;
 import lombok.Value;
 
 public interface FileSystemUtil {
-    public FileSystemInformation getFileSystemInfo(Path p);
+    FileSystemInformation getFileSystemInformation(Path p);
 
-    public OperatingSytem getOperatingSystem();
+    OperatingSytem getOperatingSystem();
 
     @Value
     public static class FileSystemInformation {

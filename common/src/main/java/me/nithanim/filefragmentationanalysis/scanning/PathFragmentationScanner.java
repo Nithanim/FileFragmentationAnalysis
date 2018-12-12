@@ -13,8 +13,8 @@ import java.util.function.Consumer;
 import lombok.Value;
 import me.nithanim.filefragmentationanalysis.fragmentation.FragmentationAnalyzationException;
 import me.nithanim.filefragmentationanalysis.fragmentation.NativeToolbox;
-import me.nithanim.filefragmentationanalysis.fragmentation.commonapi.FileSystemUtil;
 import me.nithanim.filefragmentationanalysis.storage.Index;
+import me.nithanim.fragmentationstatistics.natives.FileSystemUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -31,7 +31,7 @@ public class PathFragmentationScanner {
 
         List<FragmentationAnalyzationException> errors = new ArrayList<>();
         NativeToolbox nt = NativeToolbox.create();
-        FileSystemUtil.FileSystemInformation fsi = nt.getFileSystemUtil().getFileSystemInfo(path);
+        FileSystemUtil.FileSystemInformation fsi = nt.getFileSystemUtil().getFileSystemInformation(path);
 
         ScanningContext ctx = new ScanningContext(
             nt,

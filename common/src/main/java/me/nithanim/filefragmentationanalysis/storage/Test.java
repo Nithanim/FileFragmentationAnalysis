@@ -12,8 +12,8 @@ import me.nithanim.filefragmentationanalysis.filetypes.FileType;
 import me.nithanim.filefragmentationanalysis.fragmentation.NativeToolbox;
 import me.nithanim.filefragmentationanalysis.fragmentation.commonapi.FileFragmentationAnalyzer;
 import me.nithanim.filefragmentationanalysis.fragmentation.commonapi.FileReport;
-import me.nithanim.filefragmentationanalysis.fragmentation.commonapi.FileSystemUtil;
 import me.nithanim.filefragmentationanalysis.fragmentation.commonapi.Fragment;
+import me.nithanim.fragmentationstatistics.natives.FileSystemUtil;
 
 public class Test {
     public static void main(String[] args) throws IOException {
@@ -24,7 +24,7 @@ public class Test {
         FileFragmentationAnalyzer ffa = nt.getFileFragmentationAnalyzer();
         List<Fragment> fragments = ffa.analyze(p);
         
-        FileSystemUtil.FileSystemInformation fsi = nt.getFileSystemUtil().getFileSystemInfo(p);
+        FileSystemUtil.FileSystemInformation fsi = nt.getFileSystemUtil().getFileSystemInformation(p);
 
         Index idx = new Index(p.toString(), nt.getFileSystemUtil().getOperatingSystem(), fsi.getMagic(), fsi.getName());
         idx.add(FileReport.of(

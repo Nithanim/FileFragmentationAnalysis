@@ -3,8 +3,9 @@ package me.nithanim.fragmentationstatistics.natives.windows;
 import com.sun.jna.platform.win32.WinNT;
 import java.io.IOException;
 import java.nio.file.Path;
+import me.nithanim.fragmentationstatistics.natives.FileSystemUtil;
 
-public interface Winapi {
+public interface Winapi extends FileSystemUtil {
     WinNT.HANDLE createFile(Path p) throws IOException;
 
     void closeHandle(WinNT.HANDLE h);
@@ -22,5 +23,5 @@ public interface Winapi {
      */
     boolean fetchData(WinNT.HANDLE file, StartingVcnInputBuffer inputBuffer, RetrievalPointersBuffer outputBuffer);
 
-    FileSystemInformation getFileSystemInformation(Path p);
+    InternalFileSystemInformation getInternalFileSystemInformation(Path p);
 }

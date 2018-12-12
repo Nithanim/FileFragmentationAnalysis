@@ -1,4 +1,4 @@
-package me.nithanim.filefragmentationanalysis.fragmentation.linux.common;
+package me.nithanim.fragmentationstatistics.natives.linux;
 
 import java.util.HashMap;
 import java.util.Map;

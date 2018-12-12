@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 import me.nithanim.filefragmentationanalysis.fragmentation.commonapi.Fragment;
-import me.nithanim.fragmentationstatistics.natives.windows.FileSystemInformation;
+import me.nithanim.fragmentationstatistics.natives.windows.InternalFileSystemInformation;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -59,8 +59,8 @@ public class WindowsFileFragmentationAnalyzerTest {
         return extents;
     }
 
-    private static FileSystemInformation fileSystemInformationFromString(String s) {
+    private static InternalFileSystemInformation fileSystemInformationFromString(String s) {
         String[] split = s.split(",");
-        return new FileSystemInformation(split[0], Integer.parseInt(split[1]), Integer.parseInt(split[2]));
+        return new InternalFileSystemInformation(split[0], Integer.parseInt(split[1]), Integer.parseInt(split[2]));
     }
 }
