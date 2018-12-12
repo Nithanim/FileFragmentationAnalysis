@@ -1,0 +1,13 @@
+#!/bin/bash
+set -e
+
+cd native
+../mvnw install
+cd ..
+
+cd common
+../mvnw install
+cd ..
+
+cd assembly
+../mvnw package

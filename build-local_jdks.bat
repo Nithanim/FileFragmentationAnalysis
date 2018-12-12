@@ -12,7 +12,9 @@ set PATH=%JAVA_HOME%\bin;%P%
 cd common
 call ..\mvnw clean install
 cd ..
+
 cd assembly
 call ..\mvnw clean package
+cd ..
 
 set PATH=%P%

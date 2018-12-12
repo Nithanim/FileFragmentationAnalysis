@@ -17,5 +17,6 @@ cd ..
 
 cd assembly
 ../mvnw clean package
+cd ..
 
 export PATH="$P"
