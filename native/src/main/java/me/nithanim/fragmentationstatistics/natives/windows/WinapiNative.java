@@ -1,9 +1,6 @@
 package me.nithanim.fragmentationstatistics.natives.windows;
 
-import com.sun.jna.Pointer;
-import com.sun.jna.platform.win32.Kernel32;
 import com.sun.jna.platform.win32.WinError;
-import com.sun.jna.platform.win32.WinNT;
 import java.io.IOException;
 import java.nio.file.Path;
 import me.nithanim.fragmentationstatistics.natives.NativeCallException;
@@ -16,13 +13,10 @@ public class WinapiNative implements Winapi {
         NativeLoader.loadLibrary();
     }
 
-    private static native long getInvalidHandleValue();
-
     @Override
-    public WinNT.HANDLE createFile(Path p) throws IOException {
+    public long createFile(Path p) throws IOException {
         try {
-            long h = createFile(p.toString());
-            return new WinNT.HANDLE(new Pointer(h));
+            return createFile(p.toString());
         } catch (NativeCallException ex) {
             if (ex.getErrorCode() == ERROR_FILE_NOT_FOUND) {
                 throw new IOException("Unable to open file " + p, ex);
@@ -35,15 +29,11 @@ public class WinapiNative implements Winapi {
     public native long createFile(String p);
 
     @Override
-    public void closeHandle(WinNT.HANDLE h) {
-        Kernel32.INSTANCE.CloseHandle(h);
-    }
-
-    public native boolean closeHandle(long h);
+    public native void closeHandle(long h);
 
     @Override
-    public boolean fetchData(WinNT.HANDLE file, StartingVcnInputBuffer inputBuffer, RetrievalPointersBuffer outputBuffer) {
-        int r = fillRetrievalPointers(Pointer.nativeValue(file.getPointer()), inputBuffer.getAddr(), outputBuffer.getAddr(), outputBuffer.getNumberAllocatedExtents());
+    public boolean fetchData(long fileHandle, StartingVcnInputBuffer inputBuffer, RetrievalPointersBuffer outputBuffer) {
+        int r = fillRetrievalPointers(fileHandle, inputBuffer.getAddr(), outputBuffer.getAddr(), outputBuffer.getNumberAllocatedExtents());
         if (r != 0) {
             if (r == WinError.ERROR_HANDLE_EOF) {
                 return true;

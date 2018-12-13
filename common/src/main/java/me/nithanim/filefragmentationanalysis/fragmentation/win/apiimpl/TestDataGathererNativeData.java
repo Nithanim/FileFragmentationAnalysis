@@ -1,6 +1,5 @@
 package me.nithanim.filefragmentationanalysis.fragmentation.win.apiimpl;
 
-import com.sun.jna.platform.win32.WinNT;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -23,7 +22,7 @@ public class TestDataGathererNativeData {
         StartingVcnInputBufferNative inputBuffer = StartingVcnInputBufferNative.allocate();
         RetrievalPointersBufferNative outputBuffer = RetrievalPointersBufferNative.allocate(10);
 
-        WinNT.HANDLE h = winapi.createFile(p);
+        long h = winapi.createFile(p);
         try {
             long currentVcn = 0;
             inputBuffer.setStartingVcn(currentVcn);

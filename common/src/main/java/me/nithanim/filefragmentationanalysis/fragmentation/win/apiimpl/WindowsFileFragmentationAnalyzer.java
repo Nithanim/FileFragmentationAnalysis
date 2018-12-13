@@ -1,6 +1,5 @@
 package me.nithanim.filefragmentationanalysis.fragmentation.win.apiimpl;
 
-import com.sun.jna.platform.win32.WinNT;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.util.List;
@@ -40,7 +39,7 @@ public class WindowsFileFragmentationAnalyzer implements FileFragmentationAnalyz
     @Override
     public List<Fragment> analyze(Path p) throws IOException {
         ensureClusterSize(p);
-        WinNT.HANDLE h = winapi.createFile(p);
+        long h = winapi.createFile(p);
 
         try {
             long currentVcn = 0;

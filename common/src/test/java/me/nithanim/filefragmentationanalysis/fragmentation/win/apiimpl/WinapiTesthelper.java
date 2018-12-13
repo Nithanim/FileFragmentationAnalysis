@@ -1,7 +1,5 @@
 package me.nithanim.filefragmentationanalysis.fragmentation.win.apiimpl;
 
-import com.sun.jna.Pointer;
-import com.sun.jna.platform.win32.WinNT;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.util.ArrayList;
@@ -28,12 +26,12 @@ public class WinapiTesthelper implements Winapi {
     }
 
     @Override
-    public WinNT.HANDLE createFile(Path p) throws IOException {
-        return new WinNT.HANDLE(new Pointer(paths.get(p)));
+    public long createFile(Path p) throws IOException {
+        return paths.get(p);
     }
 
     @Override
-    public void closeHandle(WinNT.HANDLE h) {
+    public void closeHandle(long h) {
         //openHandles[(int)Pointer.nativeValue(h.getPointer())].close();
     }
 
@@ -43,9 +41,9 @@ public class WinapiTesthelper implements Winapi {
     }
 
     @Override
-    public boolean fetchData(WinNT.HANDLE file, StartingVcnInputBuffer inputBuffer, RetrievalPointersBuffer outputBuffer) {
+    public boolean fetchData(long fileHandle, StartingVcnInputBuffer inputBuffer, RetrievalPointersBuffer outputBuffer) {
         RetrievalPointersBufferTesthelper testOutputBuffer = (RetrievalPointersBufferTesthelper) outputBuffer;
-        List<ExtendedExtentTestHelper> allExtents = openHandles[(int) Pointer.nativeValue(file.getPointer())];
+        List<ExtendedExtentTestHelper> allExtents = openHandles[(int) fileHandle];
         ArrayList<ExtendedExtentTestHelper> partialExtents = new ArrayList<>();
         for (int i = 0; i < allExtents.size(); i++) {
             ExtendedExtentTestHelper e = allExtents.get(i);
