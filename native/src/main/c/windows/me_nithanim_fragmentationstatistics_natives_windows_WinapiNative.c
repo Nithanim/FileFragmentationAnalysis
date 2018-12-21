@@ -34,7 +34,7 @@ JNIEXPORT jlong JNICALL Java_me_nithanim_fragmentationstatistics_natives_windows
   const char *pathNative = (*env)->GetStringUTFChars(env, path, 0);
   HANDLE h = CreateFile(
       pathNative,
-      FILE_GENERIC_READ,
+      0,
       FILE_SHARE_READ,
       NULL,
       OPEN_EXISTING,
