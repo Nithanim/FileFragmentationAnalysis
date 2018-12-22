@@ -1,5 +1,6 @@
 package me.nithanim.filefragmentationanalysis.storage;
 
+import me.nithanim.filefragmentationanalysis.storage.formats.writer.FragStorageFormatWriter;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.nio.file.Files;
@@ -39,7 +40,7 @@ public class Test {
         ));
 
         try (OutputStream out = Files.newOutputStream(Paths.get(System.getProperty("java.io.tmpdir")).resolve("fragtempfile"), StandardOpenOption.CREATE, StandardOpenOption.TRUNCATE_EXISTING)) {
-            new StorageFormatWriter().write(out, idx);
+            new FragStorageFormatWriter().write(out, idx);
         }
     }
 }

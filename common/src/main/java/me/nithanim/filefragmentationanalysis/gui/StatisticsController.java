@@ -1,5 +1,6 @@
 package me.nithanim.filefragmentationanalysis.gui;
 
+import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -17,6 +18,7 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeView;
 import javafx.stage.FileChooser;
+import lombok.Value;
 import lombok.extern.slf4j.Slf4j;
 import me.nithanim.filefragmentationanalysis.filetypes.FileType;
 import me.nithanim.filefragmentationanalysis.filetypes.FileTypeCategory;
@@ -25,7 +27,12 @@ import me.nithanim.filefragmentationanalysis.statistics.StatisticalAnalysis;
 import me.nithanim.filefragmentationanalysis.statistics.StatisticsCalculator;
 import me.nithanim.filefragmentationanalysis.storage.Index;
 import me.nithanim.filefragmentationanalysis.storage.StorageFormatReader;
-import me.nithanim.filefragmentationanalysis.storage.StorageFormatWriter;
+import me.nithanim.filefragmentationanalysis.storage.formats.writer.CsvStorageFormatWriter;
+import me.nithanim.filefragmentationanalysis.storage.formats.writer.FragStorageFormatWriter;
+import me.nithanim.filefragmentationanalysis.storage.formats.writer.GzipStorageFormatWriter;
+import me.nithanim.filefragmentationanalysis.storage.formats.writer.JsonStorageFormatWriter;
+import me.nithanim.filefragmentationanalysis.storage.formats.writer.ObjStorageFormatWriter;
+import me.nithanim.filefragmentationanalysis.storage.formats.writer.StorageFormatWriter;
 
 @Slf4j
 public class StatisticsController implements Initializable {
@@ -172,15 +179,19 @@ public class StatisticsController implements Initializable {
         }
         FileChooser fc = new FileChooser();
         fc.getExtensionFilters().add(new FileChooser.ExtensionFilter("File Fragmentation Index files (*.ffi)", "*.ffi"));
+        fc.getExtensionFilters().add(new FileChooser.ExtensionFilter("File Fragmentation Index files gzipped (*.ffi.gz)", "*.ffi.gz"));
+        fc.getExtensionFilters().add(new FileChooser.ExtensionFilter("Comma-separated values (*.csv)", "*.csv"));
+        fc.getExtensionFilters().add(new FileChooser.ExtensionFilter("Comma-separated values gzipped (*.csv.gz)", "*.csv.gz"));
+        fc.getExtensionFilters().add(new FileChooser.ExtensionFilter("Json (*.json)", "*.json"));
+        fc.getExtensionFilters().add(new FileChooser.ExtensionFilter("Json gzipped (*.json.gz)", "*.json.gz"));
+        fc.getExtensionFilters().add(new FileChooser.ExtensionFilter("Wavefront obj (*.obj)", "*.obj"));
         fc.setSelectedExtensionFilter(fc.getExtensionFilters().get(0));
         File f = fc.showSaveDialog(btnSave.getScene().getWindow());
         if (f != null) {
-            if(!f.getName().endsWith(".ffi")) {
-                f = new File(f.getParentFile(), f.getName()+".ffi");
-            }
+            SaveFile sv = getSaveFile(fc, f);
             try {
-                try(FileOutputStream out = new FileOutputStream(f)) {
-                    new StorageFormatWriter().write(out, index);
+                try (FileOutputStream out = new FileOutputStream(sv.getF())) {
+                    sv.getSfw().write(new BufferedOutputStream(out), index);
                 }
             } catch (IOException ex) {
                 log.error("Error saving index", ex);
@@ -192,6 +203,51 @@ public class StatisticsController implements Initializable {
                 alert.showAndWait();
             }
         }
+    }
+
+    private static SaveFile getSaveFile(FileChooser fs, File chosen) {
+        String ext = fs.getSelectedExtensionFilter().getExtensions().get(0).substring(1);
+        String origName = chosen.getName();
+        int lastDot = origName.lastIndexOf('.');
+        if (lastDot == -1) {
+            origName = origName + ext;
+            lastDot = origName.lastIndexOf('.');
+            chosen = new File(chosen.getParent(), origName);
+        }
+
+        boolean gzip = false;
+        String last = origName.substring(lastDot + 1);
+        if (last.equalsIgnoreCase("gz")) {
+            gzip = true;
+            int newLastDot = origName.substring(0, origName.length()-last.length()-1).lastIndexOf('.', lastDot);
+            last = origName.substring(newLastDot + 1, lastDot);
+        }
+
+        StorageFormatWriter sfw;
+        if (last.equalsIgnoreCase("csv")) {
+            sfw = new CsvStorageFormatWriter();
+        } else if (last.equalsIgnoreCase("ffi")) {
+            sfw = new FragStorageFormatWriter();
+        } else if (last.equalsIgnoreCase("json")) {
+            sfw = new JsonStorageFormatWriter();
+        } else if (last.equalsIgnoreCase("obj")) {
+            sfw = new ObjStorageFormatWriter();
+        } else {
+            sfw = new FragStorageFormatWriter();
+            gzip = false;
+            chosen = new File(chosen.getParentFile(), chosen.getName() + ".ffi");
+        }
+
+        if (gzip) {
+            sfw = new GzipStorageFormatWriter(sfw);
+        }
+        return new SaveFile(chosen, sfw);
+    }
+
+    @Value
+    private static class SaveFile {
+        File f;
+        StorageFormatWriter sfw;
     }
 
     private void onLoad(ActionEvent ae) {

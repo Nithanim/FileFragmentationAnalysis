@@ -12,7 +12,7 @@ import me.nithanim.filefragmentationanalysis.fragmentation.FragmentationAnalyzat
 import me.nithanim.filefragmentationanalysis.scanning.PathFragmentationScanner;
 import me.nithanim.filefragmentationanalysis.storage.Index;
 import me.nithanim.filefragmentationanalysis.storage.StorageFormatReader;
-import me.nithanim.filefragmentationanalysis.storage.StorageFormatWriter;
+import me.nithanim.filefragmentationanalysis.storage.formats.writer.FragStorageFormatWriter;
 import picocli.CommandLine;
 import picocli.CommandLine.ParameterException;
 import picocli.CommandLine.ParseResult;
@@ -40,7 +40,7 @@ public class CliMain {
                     Index index = getIndex(p, cliData);
                     System.out.println("Done scanning!");
 
-                    StorageFormatWriter writer = new StorageFormatWriter();
+                    FragStorageFormatWriter writer = new FragStorageFormatWriter();
                     if (outFileStream != null) {
                         writer.write(outFileStream, index);
                     }

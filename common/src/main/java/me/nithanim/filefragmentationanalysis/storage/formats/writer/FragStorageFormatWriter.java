@@ -1,18 +1,17 @@
-package me.nithanim.filefragmentationanalysis.storage;
+package me.nithanim.filefragmentationanalysis.storage.formats.writer;
 
-import java.io.BufferedOutputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.util.function.Consumer;
 import java.util.stream.Stream;
 import lombok.SneakyThrows;
+import me.nithanim.filefragmentationanalysis.storage.Index;
+import me.nithanim.filefragmentationanalysis.storage.IndexEntry;
 
-public class StorageFormatWriter {
+public class FragStorageFormatWriter implements StorageFormatWriter {
+    @Override
     public void write(OutputStream out, Index index) throws IOException {
-        if (!(out instanceof BufferedOutputStream)) {
-            out = new BufferedOutputStream(out);
-        }
         DataOutputStream o = new DataOutputStream(out);
 
         writeMagic(o);
