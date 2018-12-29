@@ -15,8 +15,8 @@
             <children>
                 <Button fx:id="btnOpen" maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="Select" />
                 <TreeView fx:id="tvFiles" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="200.0" prefWidth="200.0" VBox.vgrow="ALWAYS" />
-                <Button fx:id="btnSave" maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="Save" />
                 <Button fx:id="btnLoad" maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="Load" />
+                <Button fx:id="btnSave" maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="Save" />
                 <Button fx:id="btnUpload" maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="Upload" />
             </children>
         </VBox>
