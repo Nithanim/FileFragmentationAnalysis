@@ -39,6 +39,13 @@ public class LinuxApiNative implements LinuxApi {
     }
 
     private native void fstat(int fd, long statStructPointer);
+    
+    @Override
+    public void stat(Path file, StatStruct stat) {
+        stat(file.toString(), stat.getAddr());
+    }
+    
+    private native void stat(String path, long statStructPointer);
 
     @Override
     public void fillFiemap(int fd, FiemapStruct fs) {

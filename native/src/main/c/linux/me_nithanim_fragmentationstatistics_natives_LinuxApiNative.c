@@ -77,6 +77,17 @@ JNIEXPORT void JNICALL Java_me_nithanim_fragmentationstatistics_natives_linux_Li
     }
 }
 
+JNIEXPORT void JNICALL Java_me_nithanim_fragmentationstatistics_natives_linux_LinuxApiNative_stat(JNIEnv *env, jobject obj, jstring file, jlong statAddr)
+{
+    const char *filename = (*env)->GetStringUTFChars(env, file, NULL);
+    int r = stat(filename, (struct stat *)statAddr);
+    if (r == -1)
+    {
+        throwNativeCallException(env, "stat", r, errno);
+    }
+    (*env)->ReleaseStringUTFChars(env, file, filename);
+}
+
 JNIEXPORT void JNICALL Java_me_nithanim_fragmentationstatistics_natives_linux_LinuxApiNative_fillFiemap(JNIEnv *env, jobject obj, jint fd, jlong fsAddr)
 {
     int r = ioctl(fd, FS_IOC_FIEMAP, (struct fiemap*) fsAddr);

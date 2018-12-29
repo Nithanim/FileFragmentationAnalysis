@@ -2,6 +2,7 @@ package me.nithanim.filefragmentationanalysis.fragmentation.linux;
 
 import java.io.IOException;
 import java.nio.file.Path;
+import java.nio.file.attribute.BasicFileAttributes;
 import java.util.List;
 import me.nithanim.filefragmentationanalysis.fragmentation.commonapi.FileFragmentationAnalyzer;
 import me.nithanim.filefragmentationanalysis.fragmentation.commonapi.Fragment;
@@ -16,13 +17,15 @@ public class LinuxFileFragmentationAnalizer implements FileFragmentationAnalyzer
     private final LinuxApi linuxapi;
     private final LinuxFiemapFileFragmentationAnalyzer fiemap = new LinuxFiemapFileFragmentationAnalyzer(100);
     private final LinuxFibmapFileFragmentationAnalyzer fibmap = new LinuxFibmapFileFragmentationAnalyzer();
+    private final LinuxDeviceGetter linuxDeviceGetter;
 
     public LinuxFileFragmentationAnalizer() {
-        this.linuxapi = new LinuxApiNative();
+        this(new LinuxApiNative());
     }
 
     public LinuxFileFragmentationAnalizer(LinuxApi linuxapi) {
         this.linuxapi = linuxapi;
+        this.linuxDeviceGetter = LinuxDeviceGetter.newInstance(linuxapi);
     }
 
     @Override
@@ -47,5 +50,12 @@ public class LinuxFileFragmentationAnalizer implements FileFragmentationAnalyzer
 
     @Override
     public void close() throws Exception {
+        fibmap.close();
+        fiemap.close();
+        linuxDeviceGetter.close();
+    }
+
+    public long getDevice(Path p, BasicFileAttributes bfa) {
+        return linuxDeviceGetter.getDev(p, bfa);
     }
 }

@@ -15,6 +15,8 @@ public interface LinuxApi extends FileSystemUtil {
     
     void fstat(int fd, StatStruct stat);
     
+    void stat(Path file, StatStruct stat);
+    
     void fillFiemap(int fd, FiemapStruct fs);
     
     FiemapStruct allocateFiemapStruct(int maxExtents);
