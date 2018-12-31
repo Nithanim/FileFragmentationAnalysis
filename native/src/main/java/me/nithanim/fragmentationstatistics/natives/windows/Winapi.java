@@ -9,8 +9,6 @@ public interface Winapi extends FileSystemUtil {
 
     void closeHandle(long h);
 
-    public int getLastError();
-
     /**
      * Fills the output buffer starting from given VCN in the input buffer.
      *

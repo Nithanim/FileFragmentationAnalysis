@@ -60,9 +60,6 @@ public class WinapiNative implements Winapi {
     private native int fillRetrievalPointers(long handle, long inputBufferAddr, long outputBufferAddr, int nAllocatedExtents);
 
     @Override
-    public native int getLastError();
-
-    @Override
     public FileSystemInformation getFileSystemInformation(Path p) {
         InternalFileSystemInformation ifsi = getInternalFileSystemInformation(p);
         return new FileSystemInformation(ifsi.getFileSystemName(), null);

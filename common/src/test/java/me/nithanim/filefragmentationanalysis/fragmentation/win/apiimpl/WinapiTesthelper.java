@@ -36,11 +36,6 @@ public class WinapiTesthelper implements Winapi {
     }
 
     @Override
-    public int getLastError() {
-        return 0;
-    }
-
-    @Override
     public boolean fetchData(long fileHandle, StartingVcnInputBuffer inputBuffer, RetrievalPointersBuffer outputBuffer) {
         RetrievalPointersBufferTesthelper testOutputBuffer = (RetrievalPointersBufferTesthelper) outputBuffer;
         List<ExtendedExtentTestHelper> allExtents = openHandles[(int) fileHandle];
