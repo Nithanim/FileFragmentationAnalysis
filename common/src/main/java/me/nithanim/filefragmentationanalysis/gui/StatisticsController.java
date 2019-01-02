@@ -26,7 +26,7 @@ import me.nithanim.filefragmentationanalysis.statistics.FileStatisticsReport;
 import me.nithanim.filefragmentationanalysis.statistics.StatisticalAnalysis;
 import me.nithanim.filefragmentationanalysis.statistics.StatisticsCalculator;
 import me.nithanim.filefragmentationanalysis.storage.Index;
-import me.nithanim.filefragmentationanalysis.storage.StorageFormatReader;
+import me.nithanim.filefragmentationanalysis.storage.formats.reader.FragStorageFormatReader;
 import me.nithanim.filefragmentationanalysis.storage.formats.writer.CsvStorageFormatWriter;
 import me.nithanim.filefragmentationanalysis.storage.formats.writer.FragStorageFormatWriter;
 import me.nithanim.filefragmentationanalysis.storage.formats.writer.GzipStorageFormatWriter;
@@ -259,7 +259,7 @@ public class StatisticsController implements Initializable {
         if (f != null) {
             try {
                 FileInputStream in = new FileInputStream(f);
-                Index index = new StorageFormatReader().read(in);
+                Index index = new FragStorageFormatReader().read(in);
                 displayIndex(index);
             } catch (IOException ex) {
                 log.error("Error reading index", ex);

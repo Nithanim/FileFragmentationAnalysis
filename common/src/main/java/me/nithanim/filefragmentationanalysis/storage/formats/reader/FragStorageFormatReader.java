@@ -1,13 +1,17 @@
-package me.nithanim.filefragmentationanalysis.storage;
+package me.nithanim.filefragmentationanalysis.storage.formats.reader;
 
 import java.io.BufferedInputStream;
 import java.io.DataInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import me.nithanim.filefragmentationanalysis.filetypes.FileType;
+import me.nithanim.filefragmentationanalysis.storage.Index;
+import me.nithanim.filefragmentationanalysis.storage.IndexEntry;
+import me.nithanim.filefragmentationanalysis.storage.NotAnIndexFileException;
+import me.nithanim.filefragmentationanalysis.storage.UnsupportedVersionException;
 import me.nithanim.fragmentationstatistics.natives.FileSystemUtil;
 
-public class StorageFormatReader {
+public class FragStorageFormatReader {
     public Index read(InputStream in) throws IOException {
         if (!(in instanceof BufferedInputStream)) {
             in = new BufferedInputStream(in);
@@ -20,7 +24,7 @@ public class StorageFormatReader {
             throw new NotAnIndexFileException();
         }
 
-        int version = dis.readShort();
+        int version = (int) readVarint(dis);
         if (version != 1) {
             throw new UnsupportedVersionException("File version is " + version + " but only 1 is supported.");
         }

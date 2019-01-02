@@ -11,7 +11,7 @@ import java.util.function.Consumer;
 import me.nithanim.filefragmentationanalysis.fragmentation.FragmentationAnalyzationException;
 import me.nithanim.filefragmentationanalysis.scanning.PathFragmentationScanner;
 import me.nithanim.filefragmentationanalysis.storage.Index;
-import me.nithanim.filefragmentationanalysis.storage.StorageFormatReader;
+import me.nithanim.filefragmentationanalysis.storage.formats.reader.FragStorageFormatReader;
 import me.nithanim.filefragmentationanalysis.storage.formats.writer.FragStorageFormatWriter;
 import picocli.CommandLine;
 import picocli.CommandLine.ParameterException;
@@ -62,7 +62,7 @@ public class CliMain {
     private static Index getIndex(Path p, CliData cliData) throws ExecutionException, InterruptedException, IOException {
         if (p.getFileName().toString().endsWith(".ffi")) {
             try (InputStream in = Files.newInputStream(p)) {
-                return new StorageFormatReader().read(in);
+                return new FragStorageFormatReader().read(in);
             }
         } else {
             Consumer<FragmentationAnalyzationException> onException;

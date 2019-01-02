@@ -35,7 +35,7 @@ public class FragStorageFormatWriter implements StorageFormatWriter {
     }
 
     private void writeVersion(DataOutputStream o) throws IOException {
-        o.writeShort(1);
+        writeVarint(o, 1);
     }
 
     private void writeMagic(DataOutputStream o) throws IOException {
