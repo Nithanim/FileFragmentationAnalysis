@@ -9,7 +9,7 @@ import me.nithanim.fragmentationstatistics.natives.linux.FiemapStructNative;
 import me.nithanim.fragmentationstatistics.natives.linux.LinuxApi;
 import me.nithanim.fragmentationstatistics.natives.linux.LinuxApiNative;
 
-public class FiemapMainTest1 {
+public class FiemapMainTestBlocks {
 
     public static void main(String[] args) throws Exception {
         LinuxApi la = new LinuxApiNative();

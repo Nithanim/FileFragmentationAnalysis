@@ -14,9 +14,7 @@ import me.nithanim.filefragmentationanalysis.fragmentation.FragmentationAnalyzat
 public class Main {
     @SneakyThrows
     public static void main(String[] args) throws IOException {
-        System.out.println(System.console());
-        Path p = Paths.get("E:\\Spiele\\Roberts Space Industries\\StarCitizen\\LIVE\\Data.p4k");
-        //Path p = Paths.get("Y:\\test");
+        Path p = Paths.get(args[0]);
         PathFragmentationScanner.Scan sl = new PathFragmentationScanner().scan(p);
 
         while (!sl.getFuture().isDone()) {
@@ -28,7 +26,7 @@ public class Main {
 
         PathFragmentationScanner.ScanResult r = sl.getFuture().get();
 
-        try (PrintWriter pw = new PrintWriter(Files.newOutputStream(Paths.get("Y:\\logs.csv"), StandardOpenOption.CREATE, StandardOpenOption.TRUNCATE_EXISTING))) {
+        try (PrintWriter pw = new PrintWriter(Files.newOutputStream(Paths.get("logs.csv"), StandardOpenOption.CREATE, StandardOpenOption.TRUNCATE_EXISTING))) {
             pw.println("ext;n;min;max;mean;sdv;25perc;75perc;n;min;max;mean;sdv;25perc;75perc;");
             /*r.getStatistics()
                 .values()

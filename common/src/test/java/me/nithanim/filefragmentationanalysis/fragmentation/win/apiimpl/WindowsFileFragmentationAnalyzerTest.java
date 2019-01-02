@@ -5,6 +5,7 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
+import me.nithanim.filefragmentationanalysis.fragmentation.JavaTestHelper;
 import me.nithanim.filefragmentationanalysis.fragmentation.commonapi.Fragment;
 import me.nithanim.fragmentationstatistics.natives.windows.InternalFileSystemInformation;
 import org.junit.Assert;
@@ -14,39 +15,25 @@ public class WindowsFileFragmentationAnalyzerTest {
     @Test
     public void test_starcitizen_datap4k() throws Exception {
         Path p = Paths.get("test");
-        WinapiTesthelper winapi = winapiFromResource(p, "/nativedata/windows/starcitizen_data.p4k.fsraw");
+        WinapiTesthelper winapi = winapiFromFile(p, "starcitizen_data.p4k.fsraw");
         StartingVcnInputBufferTesthelper inputBuffer = new StartingVcnInputBufferTesthelper();
         RetrievalPointersBufferTesthelper outputBuffer = new RetrievalPointersBufferTesthelper(10);
 
         WindowsFileFragmentationAnalyzer analyzer = new WindowsFileFragmentationAnalyzer(winapi, inputBuffer, outputBuffer);
         List<Fragment> actual = analyzer.analyze(p);
-        List<Fragment> expected = fragmentsFromResource("/nativedata/windows/starcitizen_data.p4k.fragments");
+        List<Fragment> expected = JavaTestHelper.fragmentsFromResourceWindows("starcitizen_data.p4k");
         Assert.assertEquals(expected.size(), actual.size());
         for (int i = 0; i < actual.size(); i++) {
             Assert.assertEquals(expected.get(i), actual.get(i));
         }
     }
 
-    private WinapiTesthelper winapiFromResource(Path p, String path) {
+    private WinapiTesthelper winapiFromFile(Path p, String file) {
         WinapiTesthelper winapi;
-        try (Scanner scanner = new Scanner(WindowsFileFragmentationAnalyzerTest.class.getResourceAsStream(path))) {
+        try (Scanner scanner = new Scanner(JavaTestHelper.getResourceWindows(file))) {
             winapi = new WinapiTesthelper(fileSystemInformationFromString(scanner.nextLine()));
             winapi.expect(p, extentsFromScanner(scanner));
             return winapi;
-        }
-    }
-
-    private List<Fragment> fragmentsFromResource(String path) {
-        try (Scanner scanner = new Scanner(WindowsFileFragmentationAnalyzerTest.class.getResourceAsStream(path))) {
-            List<Fragment> l = new ArrayList<>();
-            while (scanner.hasNextLine()) {
-                String[] split = scanner.nextLine().split(",");
-                long offset = Long.parseLong(split[0]);
-                long diskOffset = Long.parseLong(split[1]);
-                long size = Long.parseLong(split[2]);
-                l.add(new Fragment(offset, diskOffset, size));
-            }
-            return l;
         }
     }
 
