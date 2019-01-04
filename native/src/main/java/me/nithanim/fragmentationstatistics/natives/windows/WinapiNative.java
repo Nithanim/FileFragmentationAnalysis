@@ -62,7 +62,8 @@ public class WinapiNative implements Winapi {
     @Override
     public FileSystemInformation getFileSystemInformation(Path p) {
         InternalFileSystemInformation ifsi = getInternalFileSystemInformation(p);
-        return new FileSystemInformation(ifsi.getFileSystemName(), null);
+        int clustersize = ifsi.getBytesPerSector() * ifsi.getSectorsPerCluster();
+        return new FileSystemInformation(ifsi.getFileSystemName(), 0, ifsi.getTotalNumberOfClusters(), ifsi.getNumberOfFreeClusters(), clustersize);
     }
 
     @Override

@@ -48,6 +48,12 @@ public class WindowsFileFragmentationAnalyzerTest {
 
     private static InternalFileSystemInformation fileSystemInformationFromString(String s) {
         String[] split = s.split(",");
-        return new InternalFileSystemInformation(split[0], Integer.parseInt(split[1]), Integer.parseInt(split[2]));
+        return new InternalFileSystemInformation(
+            split[0], 
+            Integer.parseInt(split[1]), 
+            Integer.parseInt(split[2]),
+            0,
+            0
+        );
     }
 }

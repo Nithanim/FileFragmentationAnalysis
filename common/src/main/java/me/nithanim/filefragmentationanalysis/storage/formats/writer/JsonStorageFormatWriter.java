@@ -7,6 +7,7 @@ import java.io.PrintWriter;
 import java.util.Iterator;
 import me.nithanim.filefragmentationanalysis.storage.Index;
 import me.nithanim.filefragmentationanalysis.storage.IndexEntry;
+import me.nithanim.fragmentationstatistics.natives.FileSystemUtil;
 
 public class JsonStorageFormatWriter implements StorageFormatWriter {
     @Override
@@ -23,11 +24,21 @@ public class JsonStorageFormatWriter implements StorageFormatWriter {
         pw.print(index.getOperatingSystem().name());
         pw.print('\"');
         pw.print(',');
+        FileSystemUtil.FileSystemInformation fsi = index.getFileSystemInformation();
         pw.print("\"fsmagic\": ");
-        pw.print(index.getFileSystemMagic());
+        pw.print(fsi.getMagic());
         pw.print(',');
         pw.print("\"fsname\": ");
-        pw.print(index.getFileSystemName() == null ? "null" : '"' + index.getFileSystemName() + '"');
+        pw.print(fsi.getName() == null ? "null" : '"' + fsi.getName() + '"');
+        pw.print(',');
+        pw.print("\"fstotalsize\": ");
+        pw.print(fsi.getTotalSize());
+        pw.print(',');
+        pw.print("\"fsfreesize\": ");
+        pw.print(fsi.getFreeSize());
+        pw.print(',');
+        pw.print("\"fsblocksize\": ");
+        pw.print(fsi.getBlockSize());
         pw.print(',');
         pw.print("\"count\": ");
         pw.print(index.getAllCount());

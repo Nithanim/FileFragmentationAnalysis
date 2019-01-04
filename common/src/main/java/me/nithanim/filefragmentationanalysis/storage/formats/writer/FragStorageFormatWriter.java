@@ -8,6 +8,7 @@ import java.util.stream.Stream;
 import lombok.SneakyThrows;
 import me.nithanim.filefragmentationanalysis.storage.Index;
 import me.nithanim.filefragmentationanalysis.storage.IndexEntry;
+import me.nithanim.fragmentationstatistics.natives.FileSystemUtil;
 
 public class FragStorageFormatWriter implements StorageFormatWriter {
     @Override
@@ -18,8 +19,13 @@ public class FragStorageFormatWriter implements StorageFormatWriter {
         writeVersion(o);
         
         o.writeByte(index.getOperatingSystem().ordinal());
-        o.writeLong(index.getFileSystemMagic());
-        o.writeUTF(index.getFileSystemName() == null ? "" : index.getFileSystemName());
+        FileSystemUtil.FileSystemInformation fsi = index.getFileSystemInformation();
+        o.writeLong(fsi.getMagic());
+        o.writeUTF(fsi.getName() == null ? "" : fsi.getName());
+        writeVarint(o, fsi.getTotalSize());
+        writeVarint(o, fsi.getFreeSize());
+        writeVarint(o, fsi.getBlockSize());
+        
         
         writeVarint(o, index.getAllCount());
 

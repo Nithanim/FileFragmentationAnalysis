@@ -5,6 +5,7 @@
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <sys/statfs.h>
+#include <sys/statvfs.h>
 #include <linux/fs.h>
 #include <string.h>
 #include <errno.h>
@@ -114,6 +115,17 @@ JNIEXPORT jint JNICALL Java_me_nithanim_fragmentationstatistics_natives_linux_Li
         }
     }
     return block;
+}
+
+JNIEXPORT void JNICALL Java_me_nithanim_fragmentationstatistics_natives_linux_LinuxApiNative_statvfs(JNIEnv *env, jobject obj, jstring file, jlong statAddr)
+{
+    const char *filename = (*env)->GetStringUTFChars(env, file, NULL);
+    int r = statvfs(filename, (struct statvfs *)statAddr);
+    if (r == -1)
+    {
+        throwNativeCallException(env, "stat", r, errno);
+    }
+    (*env)->ReleaseStringUTFChars(env, file, filename);
 }
 
 //DOES NOT WORK BECAUSE IT NEEDS ROOT! WE CAN ONLY USE BLOCKS (CLUSTERS), NEVER SECTORS.

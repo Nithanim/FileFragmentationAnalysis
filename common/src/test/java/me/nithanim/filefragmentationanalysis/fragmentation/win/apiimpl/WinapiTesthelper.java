@@ -66,7 +66,14 @@ public class WinapiTesthelper implements Winapi {
 
     @Override
     public FileSystemInformation getFileSystemInformation(Path p) {
-        return new FileSystemInformation(getInternalFileSystemInformation(p).getFileSystemName(), null);
+        InternalFileSystemInformation i = getInternalFileSystemInformation(p);
+        return new FileSystemInformation(
+            i.getFileSystemName(),
+            0,
+            i.getTotalNumberOfClusters(),
+            i.getNumberOfFreeClusters(),
+            i.getBytesPerSector() * i.getSectorsPerCluster()
+        );
     }
 
     @Override

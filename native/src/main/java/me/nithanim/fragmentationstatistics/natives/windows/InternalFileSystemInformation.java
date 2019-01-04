@@ -7,4 +7,6 @@ public class InternalFileSystemInformation {
     String fileSystemName;
     int sectorsPerCluster;
     int bytesPerSector;
+    long totalNumberOfClusters;
+    long numberOfFreeClusters;
 }

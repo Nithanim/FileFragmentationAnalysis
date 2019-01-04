@@ -1,6 +1,5 @@
 package me.nithanim.filefragmentationanalysis.storage;
 
-import me.nithanim.filefragmentationanalysis.storage.formats.writer.FragStorageFormatWriter;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.nio.file.Files;
@@ -14,6 +13,7 @@ import me.nithanim.filefragmentationanalysis.fragmentation.NativeToolbox;
 import me.nithanim.filefragmentationanalysis.fragmentation.commonapi.FileFragmentationAnalyzer;
 import me.nithanim.filefragmentationanalysis.fragmentation.commonapi.FileReport;
 import me.nithanim.filefragmentationanalysis.fragmentation.commonapi.Fragment;
+import me.nithanim.filefragmentationanalysis.storage.formats.writer.FragStorageFormatWriter;
 import me.nithanim.fragmentationstatistics.natives.FileSystemUtil;
 
 public class Test {
@@ -27,7 +27,7 @@ public class Test {
         
         FileSystemUtil.FileSystemInformation fsi = nt.getFileSystemUtil().getFileSystemInformation(p);
 
-        Index idx = new Index(p.toString(), nt.getFileSystemUtil().getOperatingSystem(), fsi.getMagic(), fsi.getName());
+        Index idx = new Index(p.toString(), nt.getFileSystemUtil().getOperatingSystem(), fsi);
         idx.add(FileReport.of(
             p,
             fragments,

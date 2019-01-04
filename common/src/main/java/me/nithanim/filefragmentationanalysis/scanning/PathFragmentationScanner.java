@@ -38,8 +38,7 @@ public class PathFragmentationScanner {
             new Index(
                 path.toString(),
                 nt.getFileSystemUtil().getOperatingSystem(),
-                fsi.getMagic() == null ? 0 : fsi.getMagic(),
-                fsi.getName()
+                fsi
             ),
             (e) -> {
                 log.error("Exception examining file!", e);

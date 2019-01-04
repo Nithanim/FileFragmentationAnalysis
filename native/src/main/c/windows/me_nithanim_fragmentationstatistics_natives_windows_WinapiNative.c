@@ -51,14 +51,13 @@ JNIEXPORT jlong JNICALL Java_me_nithanim_fragmentationstatistics_natives_windows
   return (jlong)h;
 }
 
-JNIEXPORT jboolean JNICALL Java_me_nithanim_fragmentationstatistics_natives_windows_WinapiNative_closeHandle(JNIEnv *env, jobject obj, jlong handle)
+JNIEXPORT void JNICALL Java_me_nithanim_fragmentationstatistics_natives_windows_WinapiNative_closeHandle(JNIEnv *env, jobject obj, jlong handle)
 {
   BOOL r = CloseHandle((HANDLE)handle);
   if (r == 0)
   {
     throwNativeCallException(env, "CloseHandle", r, GetLastError());
   }
-  return r;
 }
 
 JNIEXPORT jobject JNICALL Java_me_nithanim_fragmentationstatistics_natives_windows_WinapiNative_getInternalFileSystemInformation(
@@ -125,12 +124,12 @@ JNIEXPORT jobject JNICALL Java_me_nithanim_fragmentationstatistics_natives_windo
     (*env)->ThrowNew(env, (*env)->FindClass(env, "java/lang/NoClassDefFoundError"), fsiClassName);
     return NULL;
   }
-  jmethodID fsiConstructor = (*env)->GetMethodID(env, fsiClass, "<init>", "(Ljava/lang/String;II)V");
+  jmethodID fsiConstructor = (*env)->GetMethodID(env, fsiClass, "<init>", "(Ljava/lang/String;IIJJ)V");
   if (fsiConstructor == NULL)
   {
     (*env)->ThrowNew(env, (*env)->FindClass(env, "java/lang/NoSuchMethodError"), "Cannot find constructor!");
     return NULL;
   }
-  jobject fsi = (*env)->NewObject(env, fsiClass, fsiConstructor, filesystemNameJni, sectorsPerCluster, bytesPerSector);
+  jobject fsi = (*env)->NewObject(env, fsiClass, fsiConstructor, filesystemNameJni, sectorsPerCluster, bytesPerSector, totalNumberOfClusters, numberOfFreeClusters);
   return fsi;
 }

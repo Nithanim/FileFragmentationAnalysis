@@ -32,10 +32,24 @@ public class FragStorageFormatReader {
         FileSystemUtil.OperatingSytem os = FileSystemUtil.OperatingSytem.values()[dis.readByte()];
         long fileSystemMagic = dis.readLong();
         String fileSystemName = dis.readUTF();
-        if(fileSystemName.isEmpty()) {
+        if (fileSystemName.isEmpty()) {
             fileSystemName = null;
         }
-        Index index = new Index(null, os, fileSystemMagic, fileSystemName);
+        long fileSystemTotalSize = readVarint(dis);
+        long fileSystemFreeSize = readVarint(dis);
+        long fileSystemBlockSize = readVarint(dis);
+
+        Index index = new Index(
+            null,
+            os,
+            new FileSystemUtil.FileSystemInformation(
+                fileSystemName,
+                fileSystemMagic,
+                fileSystemTotalSize,
+                fileSystemFreeSize,
+                fileSystemBlockSize
+            )
+        );
 
         long count = readVarint(dis);
         for (long i = 0; i < count; i++) {

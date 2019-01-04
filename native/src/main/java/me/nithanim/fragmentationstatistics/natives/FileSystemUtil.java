@@ -2,7 +2,6 @@ package me.nithanim.fragmentationstatistics.natives;
 
 import java.nio.file.Path;
 import java.util.Objects;
-import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import lombok.Value;
 
@@ -13,17 +12,21 @@ public interface FileSystemUtil {
 
     @Value
     public static class FileSystemInformation {
-        @Nonnull
-        String name;
         @Nullable
-        Long magic;
+        String name;
+        long magic;
+        long totalSize;
+        long freeSize;
+        long blockSize;
 
         @Override
-
         public String toString() {
             return FileSystemUtil.class.getSimpleName()
                 + "(" + name + ", "
-                + (Objects.isNull(magic) ? "null" : "0x" + Long.toHexString(magic))
+                + (Objects.isNull(magic) ? "null" : "0x" + Long.toHexString(magic)) + ", "
+                + Long.toUnsignedString(totalSize) + ", "
+                + Long.toUnsignedString(freeSize) + ", "
+                + Long.toUnsignedString(blockSize)
                 + ")";
         }
     }

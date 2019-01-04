@@ -8,6 +8,7 @@ import java.util.stream.Stream;
 import lombok.SneakyThrows;
 import me.nithanim.filefragmentationanalysis.storage.Index;
 import me.nithanim.filefragmentationanalysis.storage.IndexEntry;
+import me.nithanim.fragmentationstatistics.natives.FileSystemUtil;
 
 public class CsvStorageFormatWriter implements StorageFormatWriter {
     @Override
@@ -21,12 +22,22 @@ public class CsvStorageFormatWriter implements StorageFormatWriter {
         pw.print(index.getOperatingSystem().name());
         pw.print('\n');
         pw.print("# fsmagic ");
-        pw.print(index.getFileSystemMagic());
+        FileSystemUtil.FileSystemInformation fsi = index.getFileSystemInformation();
+        pw.print(fsi.getMagic());
         pw.print('\n');
         pw.print("# fsname ");
-        pw.print(index.getFileSystemName() == null ? "" : index.getFileSystemName());
+        pw.print(fsi.getName());
         pw.print('\n');
-        pw.print("# count ");
+        pw.print("# total size ");
+        pw.print(fsi.getTotalSize());
+        pw.print('\n');
+        pw.print("# free size ");
+        pw.print(fsi.getFreeSize());
+        pw.print('\n');
+        pw.print("# block size ");
+        pw.print(fsi.getBlockSize());
+        pw.print('\n');
+        pw.print("# datarows ");
         pw.print(index.getAllCount());
         pw.print('\n');
         pw.print("FileType,VirtualFileSize,Fragments,Backtracks,TimeCreation,TimeLastModified,TimeLastAccessed");

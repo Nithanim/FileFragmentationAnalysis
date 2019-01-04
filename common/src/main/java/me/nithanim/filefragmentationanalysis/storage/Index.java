@@ -15,8 +15,7 @@ import me.nithanim.fragmentationstatistics.natives.FileSystemUtil;
 public class Index {
     private final String path;
     private final FileSystemUtil.OperatingSytem operatingSystem;
-    private final long fileSystemMagic;
-    private final String fileSystemName;
+    private final FileSystemUtil.FileSystemInformation fileSystemInformation;
 
     private final Buckets all = new Buckets(Classification.DEFAULT);
     private final Buckets known = new Buckets(Classification.DEFAULT);
@@ -24,11 +23,10 @@ public class Index {
     private final Map<FileTypeCategory, Buckets> byFileTypeCategory = new EnumMap<>(FileTypeCategory.class);
     private final Map<FileType, Buckets> byFileType = new EnumMap<>(FileType.class);
 
-    public Index(String path, FileSystemUtil.OperatingSytem os, long fileSystemMagic, String fileSystemName) {
+    public Index(String path, FileSystemUtil.OperatingSytem os, FileSystemUtil.FileSystemInformation fileSystemInformation) {
         this.path = path;
         this.operatingSystem = os;
-        this.fileSystemMagic = fileSystemMagic;
-        this.fileSystemName = fileSystemName;
+        this.fileSystemInformation = fileSystemInformation;
     }
 
     public void add(FileReport fr) {
@@ -64,12 +62,8 @@ public class Index {
         return operatingSystem;
     }
 
-    public long getFileSystemMagic() {
-        return fileSystemMagic;
-    }
-
-    public String getFileSystemName() {
-        return fileSystemName;
+    public FileSystemUtil.FileSystemInformation getFileSystemInformation() {
+        return fileSystemInformation;
     }
 
     public String getPath() {

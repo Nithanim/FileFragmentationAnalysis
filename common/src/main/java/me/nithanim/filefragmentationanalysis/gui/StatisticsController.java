@@ -33,6 +33,7 @@ import me.nithanim.filefragmentationanalysis.storage.formats.writer.GzipStorageF
 import me.nithanim.filefragmentationanalysis.storage.formats.writer.JsonStorageFormatWriter;
 import me.nithanim.filefragmentationanalysis.storage.formats.writer.ObjStorageFormatWriter;
 import me.nithanim.filefragmentationanalysis.storage.formats.writer.StorageFormatWriter;
+import me.nithanim.fragmentationstatistics.natives.FileSystemUtil;
 
 @Slf4j
 public class StatisticsController implements Initializable {
@@ -83,7 +84,14 @@ public class StatisticsController implements Initializable {
     }
 
     private String buildText(StatisticNode w) {
-        return "Size:\n"
+        FileSystemUtil.FileSystemInformation fsi = index.getFileSystemInformation();
+        return "File system:\n"
+            + "    name: " + fsi.getName()+ "\n"
+            + "    magic: " + Long.toHexString(fsi.getMagic()) + "\n"
+            + "    total size: " + fsi.getTotalSize() + "\n"
+            + "    free size: " + fsi.getFreeSize() + "\n"
+            + "    block size: " + fsi.getBlockSize() + "\n\n\n"
+            + "Size:\n"
             + toString(StatisticalAnalysis.from(w.getSize()))
             + "\n\n\nFragments:\n"
             + toString(StatisticalAnalysis.from(w.getFragments()));

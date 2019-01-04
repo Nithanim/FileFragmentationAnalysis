@@ -2,6 +2,7 @@ package me.nithanim.fragmentationstatistics.natives.linux;
 
 import java.io.IOException;
 import java.nio.file.Path;
+import lombok.SneakyThrows;
 import me.nithanim.fragmentationstatistics.natives.NativeLoader;
 
 public class LinuxApiNative implements LinuxApi {
@@ -39,12 +40,12 @@ public class LinuxApiNative implements LinuxApi {
     }
 
     private native void fstat(int fd, long statStructPointer);
-    
+
     @Override
     public void stat(Path file, StatStruct stat) {
         stat(file.toString(), stat.getAddr());
     }
-    
+
     private native void stat(String path, long statStructPointer);
 
     @Override
@@ -63,12 +64,33 @@ public class LinuxApiNative implements LinuxApi {
     public native int fibmap(int fd, int idx);
 
     @Override
+    @SneakyThrows
     public FileSystemInformation getFileSystemInformation(Path p) {
-        long magic = getFilesystemType(p);
-        //TODO FS whose support is programmed via FUSE will have type "fuseblk".
-        //Mybe get underlying blkdev and look into code of "lsblk -no name,fstype" (which returns e.g. ntfs) for possible fix.
-        LinuxFileSystemType t = LinuxFileSystemType.getFileSystemType(magic);
-        return new FileSystemInformation(t == null ? null : t.getName(), magic);
+        try (StatVfsStruct ss = allocateStatVfsStruct()) {
+            statvfs(p, ss);
+
+            long magic = getFilesystemType(p);
+            long blockSize = ss.getMinimumBlockSize();
+            long freeSize = ss.getNumberOfFreeBlocks() * blockSize;
+            long totalSize = ss.getTotalNumberOfBlocks() * blockSize;
+
+            //TODO FS whose support is implemented via FUSE will have type "fuseblk".
+            //Maybe get underlying blkdev and look into code of "lsblk -no name,fstype" (which returns e.g. ntfs) for possible fix.
+            LinuxFileSystemType t = LinuxFileSystemType.getFileSystemType(magic);
+            return new FileSystemInformation(t == null ? null : t.getName(), magic, totalSize, freeSize, blockSize);
+        }
+    }
+
+    @Override
+    public void statvfs(Path file, StatVfsStruct stat) {
+        statvfs(file.toString(), ((StatVfsStructNative) stat).getAddr());
+    }
+
+    private native void statvfs(String file, long addr);
+
+    @Override
+    public StatVfsStruct allocateStatVfsStruct() {
+        return StatVfsStructNative.allocate();
     }
 
     @Override

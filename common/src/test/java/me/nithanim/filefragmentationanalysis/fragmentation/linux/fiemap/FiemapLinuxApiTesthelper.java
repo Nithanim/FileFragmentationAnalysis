@@ -11,6 +11,7 @@ import lombok.Value;
 import me.nithanim.fragmentationstatistics.natives.linux.FiemapStruct;
 import me.nithanim.fragmentationstatistics.natives.linux.LinuxApi;
 import me.nithanim.fragmentationstatistics.natives.linux.StatStruct;
+import me.nithanim.fragmentationstatistics.natives.linux.StatVfsStruct;
 import org.junit.Assert;
 
 @RequiredArgsConstructor
@@ -98,12 +99,12 @@ public class FiemapLinuxApiTesthelper implements LinuxApi {
 
     @Override
     public void fstat(int fd, StatStruct stat) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        throw new UnsupportedOperationException();
     }
 
     @Override
     public void stat(Path file, StatStruct stat) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        throw new UnsupportedOperationException();
     }
 
     @Override
@@ -113,7 +114,17 @@ public class FiemapLinuxApiTesthelper implements LinuxApi {
 
     @Override
     public int fibmap(int fd, int idx) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public void statvfs(Path file, StatVfsStruct stat) {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public StatVfsStruct allocateStatVfsStruct() {
+        throw new UnsupportedOperationException();
     }
 
     @Value
