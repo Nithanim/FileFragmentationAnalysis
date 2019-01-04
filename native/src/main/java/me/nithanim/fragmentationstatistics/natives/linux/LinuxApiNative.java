@@ -89,6 +89,11 @@ public class LinuxApiNative implements LinuxApi {
     private native void statvfs(String file, long addr);
 
     @Override
+    public StatStruct allocateStatStruct() {
+        return StatStruct.allocate();
+    }
+
+    @Override
     public StatVfsStruct allocateStatVfsStruct() {
         return StatVfsStructNative.allocate();
     }

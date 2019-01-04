@@ -17,8 +17,8 @@ public class LinuxFibmapFileFragmentationAnalyzer implements LinuxSubFileFragmen
     }
 
     public LinuxFibmapFileFragmentationAnalyzer(LinuxApi la) {
-        st = StatStruct.allocate();
-        la = this.la;
+        this.la = la;
+        this.st = la.allocateStatStruct();
     }
 
     @Override

@@ -12,11 +12,11 @@ public class StatVfsStructNative implements StatVfsStruct {
 
     private long addr;
 
-    public static StatVfsStructNative allocate() {
+    static StatVfsStructNative allocate() {
         return new StatVfsStructNative();
     }
 
-    public StatVfsStructNative() {
+    private StatVfsStructNative() {
         alloc();
     }
 

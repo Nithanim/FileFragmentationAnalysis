@@ -70,4 +70,14 @@ public class WinapiNative implements Winapi {
     public OperatingSytem getOperatingSystem() {
         return OperatingSytem.WINDOWS;
     }
+
+    @Override
+    public StartingVcnInputBuffer allocateStartingVcnInputBuffer() {
+        return StartingVcnInputBufferNative.allocate();
+    }
+
+    @Override
+    public RetrievalPointersBuffer allocateRetrievalPointersBuffer(int nElements) {
+        return RetrievalPointersBufferNative.allocate(nElements);
+    }
 }

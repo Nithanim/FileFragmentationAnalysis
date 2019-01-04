@@ -16,7 +16,7 @@ public class FibmapMain {
         try (File f = File.open(la, path)) {
             int blocksize = la.getBlocksize(f.getFd());
 
-            try (StatStruct st = StatStruct.allocate()) {
+            try (StatStruct st = la.allocateStatStruct()) {
                 la.fstat(f.getFd(), st);
 
                 int blockCount = (int) ((st.getSize() + blocksize - 1) / blocksize);

@@ -38,7 +38,7 @@ interface LinuxDeviceGetter extends AutoCloseable {
         private final LinuxApi la;
 
         public LinuxDeviceGetterNative(LinuxApi la) {
-            this.ss = StatStruct.allocate();
+            this.ss = la.allocateStatStruct();
             this.la = la;
         }
 

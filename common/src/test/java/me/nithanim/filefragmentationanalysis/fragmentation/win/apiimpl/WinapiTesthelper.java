@@ -71,4 +71,14 @@ public class WinapiTesthelper implements Winapi {
     public OperatingSytem getOperatingSystem() {
         return OperatingSytem.WINDOWS;
     }
+
+    @Override
+    public StartingVcnInputBuffer allocateStartingVcnInputBuffer() {
+        return new StartingVcnInputBufferTesthelper();
+    }
+
+    @Override
+    public RetrievalPointersBuffer allocateRetrievalPointersBuffer(int nElements) {
+        return new RetrievalPointersBufferTesthelper(nElements);
+    }
 }

@@ -12,11 +12,11 @@ public class StatStruct implements AutoCloseable {
 
     private long addr;
 
-    public static StatStruct allocate() {
+    static StatStruct allocate() {
         return new StatStruct();
     }
 
-    public StatStruct() {
+    private StatStruct() {
         alloc();
     }
 

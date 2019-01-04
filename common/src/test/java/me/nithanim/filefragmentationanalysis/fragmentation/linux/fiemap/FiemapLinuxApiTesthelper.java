@@ -127,6 +127,11 @@ public class FiemapLinuxApiTesthelper implements LinuxApi {
         throw new UnsupportedOperationException();
     }
 
+    @Override
+    public StatStruct allocateStatStruct() {
+        throw new UnsupportedOperationException();
+    }
+
     @Value
     public static class FileData {
         long fileSystemMagic;
