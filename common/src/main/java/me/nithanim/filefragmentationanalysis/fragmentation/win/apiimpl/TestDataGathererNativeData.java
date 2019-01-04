@@ -3,7 +3,7 @@ package me.nithanim.filefragmentationanalysis.fragmentation.win.apiimpl;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import me.nithanim.fragmentationstatistics.natives.windows.InternalFileSystemInformation;
+import me.nithanim.fragmentationstatistics.natives.FileSystemUtil.FileSystemInformation;
 import me.nithanim.fragmentationstatistics.natives.windows.RetrievalPointersBuffer;
 import me.nithanim.fragmentationstatistics.natives.windows.RetrievalPointersBufferNative;
 import me.nithanim.fragmentationstatistics.natives.windows.StartingVcnInputBufferNative;
@@ -16,8 +16,8 @@ public class TestDataGathererNativeData {
         Path p = Paths.get(args[0]);
 
         Winapi winapi = new WinapiNative();
-        InternalFileSystemInformation inf = winapi.getInternalFileSystemInformation(p);
-        System.out.println(inf.getFileSystemName() + "," + inf.getSectorsPerCluster() + "," + inf.getBytesPerSector());
+        FileSystemInformation fsi = winapi.getFileSystemInformation(p);
+        System.out.println(fsi.getName() + "," + fsi.getBlockSize() + "," + fsi.getTotalSize() + "," + fsi.getFreeSize());
 
         StartingVcnInputBufferNative inputBuffer = StartingVcnInputBufferNative.allocate();
         RetrievalPointersBufferNative outputBuffer = RetrievalPointersBufferNative.allocate(10);

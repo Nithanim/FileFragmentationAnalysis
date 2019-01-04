@@ -19,6 +19,4 @@ public interface Winapi extends FileSystemUtil {
      * nextVCN in inputBuffer
      */
     boolean fetchData(long fileHandle, StartingVcnInputBuffer inputBuffer, RetrievalPointersBuffer outputBuffer);
-
-    InternalFileSystemInformation getInternalFileSystemInformation(Path p);
 }

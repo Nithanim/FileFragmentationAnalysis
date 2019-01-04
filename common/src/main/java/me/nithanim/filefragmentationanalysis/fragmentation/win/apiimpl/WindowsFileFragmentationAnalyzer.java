@@ -7,7 +7,7 @@ import me.nithanim.filefragmentationanalysis.fragmentation.FragmentationAnalyzat
 import me.nithanim.filefragmentationanalysis.fragmentation.commonapi.FileFragmentationAnalyzer;
 import me.nithanim.filefragmentationanalysis.fragmentation.commonapi.Fragment;
 import me.nithanim.filefragmentationanalysis.fragmentation.win.ExtentToFragmentCombiner;
-import me.nithanim.fragmentationstatistics.natives.windows.InternalFileSystemInformation;
+import me.nithanim.fragmentationstatistics.natives.FileSystemUtil.FileSystemInformation;
 import me.nithanim.fragmentationstatistics.natives.windows.RetrievalPointersBuffer;
 import me.nithanim.fragmentationstatistics.natives.windows.RetrievalPointersBufferNative;
 import me.nithanim.fragmentationstatistics.natives.windows.StartingVcnInputBuffer;
@@ -21,8 +21,7 @@ public class WindowsFileFragmentationAnalyzer implements FileFragmentationAnalyz
     private final RetrievalPointersBuffer outputBuffer;
 
     private Path lastRoot;
-    private int sectorsPerCluster;
-    private int bytesPerSector;
+    private int blocksize;
 
     public WindowsFileFragmentationAnalyzer() {
         winapi = new WinapiNative();
@@ -46,7 +45,7 @@ public class WindowsFileFragmentationAnalyzer implements FileFragmentationAnalyz
             inputBuffer.setStartingVcn(currentVcn);
 
             try {
-                ExtentToFragmentCombiner etfc = new ExtentToFragmentCombiner(p, sectorsPerCluster, bytesPerSector);
+                ExtentToFragmentCombiner etfc = new ExtentToFragmentCombiner(p, blocksize);
 
                 boolean moreData;
                 do {
@@ -92,9 +91,8 @@ public class WindowsFileFragmentationAnalyzer implements FileFragmentationAnalyz
         if (lastRoot == null || !lastRoot.startsWith(p)) {
             Path root = p.getRoot();
 
-            InternalFileSystemInformation fsi = winapi.getInternalFileSystemInformation(p.getRoot());
-            bytesPerSector = fsi.getBytesPerSector();
-            sectorsPerCluster = fsi.getSectorsPerCluster();
+            FileSystemInformation fsi = winapi.getFileSystemInformation(p.getRoot());
+            blocksize = (int) fsi.getBlockSize();
 
             lastRoot = root;
         }

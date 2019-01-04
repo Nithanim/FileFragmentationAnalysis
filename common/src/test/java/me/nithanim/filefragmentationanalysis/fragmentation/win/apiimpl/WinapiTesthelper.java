@@ -7,15 +7,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import lombok.RequiredArgsConstructor;
-import me.nithanim.fragmentationstatistics.natives.windows.InternalFileSystemInformation;
 import me.nithanim.fragmentationstatistics.natives.windows.RetrievalPointersBuffer;
 import me.nithanim.fragmentationstatistics.natives.windows.StartingVcnInputBuffer;
 import me.nithanim.fragmentationstatistics.natives.windows.Winapi;
 
 @RequiredArgsConstructor
 public class WinapiTesthelper implements Winapi {
-    private final InternalFileSystemInformation internalFileSystemInformation;
-
+    private final FileSystemInformation fileSystemInformation;
     private final List<ExtendedExtentTestHelper>[] openHandles = new List[5];
     private final Map<Path, Integer> paths = new HashMap<>();
     private int nextHandle = 0;
@@ -66,19 +64,7 @@ public class WinapiTesthelper implements Winapi {
 
     @Override
     public FileSystemInformation getFileSystemInformation(Path p) {
-        InternalFileSystemInformation i = getInternalFileSystemInformation(p);
-        return new FileSystemInformation(
-            i.getFileSystemName(),
-            0,
-            i.getTotalNumberOfClusters(),
-            i.getNumberOfFreeClusters(),
-            i.getBytesPerSector() * i.getSectorsPerCluster()
-        );
-    }
-
-    @Override
-    public InternalFileSystemInformation getInternalFileSystemInformation(Path p) {
-        return internalFileSystemInformation;
+        return fileSystemInformation;
     }
 
     @Override

@@ -16,8 +16,7 @@ public class ExtentToFragmentCombiner {
     private final List<Fragment> fragments;
 
     private final Path p;
-    private final int sectorsPerCluster;
-    private final int bytesPerSector;
+    private final int blocksize;
 
     boolean openFragment = false;
     /**
@@ -36,11 +35,10 @@ public class ExtentToFragmentCombiner {
      */
     private long nextLcnExpected;
 
-    public ExtentToFragmentCombiner(Path p, int sectorsPerCluster, int bytesPerSector) {
+    public ExtentToFragmentCombiner(Path p, int blocksize) {
         fragments = new ArrayList<>();
         this.p = p;
-        this.sectorsPerCluster = sectorsPerCluster;
-        this.bytesPerSector = bytesPerSector;
+        this.blocksize = blocksize;
     }
 
     public List<Fragment> complete() {
@@ -87,9 +85,9 @@ public class ExtentToFragmentCombiner {
 
     private void closeFragment() {
         Fragment c = new Fragment(
-            fragmentStartVcn * sectorsPerCluster * bytesPerSector,
-            fragmentStartLcn * sectorsPerCluster * bytesPerSector,
-            fragmentLength * sectorsPerCluster * bytesPerSector
+            fragmentStartVcn * blocksize,
+            fragmentStartLcn * blocksize,
+            fragmentLength * blocksize
         );
         fragments.add(c);
         openFragment = false;

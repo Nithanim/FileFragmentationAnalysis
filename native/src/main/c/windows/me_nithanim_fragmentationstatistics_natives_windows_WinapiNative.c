@@ -60,7 +60,7 @@ JNIEXPORT void JNICALL Java_me_nithanim_fragmentationstatistics_natives_windows_
   }
 }
 
-JNIEXPORT jobject JNICALL Java_me_nithanim_fragmentationstatistics_natives_windows_WinapiNative_getInternalFileSystemInformation(
+JNIEXPORT jobject JNICALL Java_me_nithanim_fragmentationstatistics_natives_windows_WinapiNative_getFileSystemInformation(
     JNIEnv *env, jobject obj, jstring path)
 {
   const char *filePath = (*env)->GetStringUTFChars(env, path, 0);
@@ -116,20 +116,26 @@ JNIEXPORT jobject JNICALL Java_me_nithanim_fragmentationstatistics_natives_windo
     return NULL;
   }
 
-  jstring filesystemNameJni = (*env)->NewStringUTF(env, filesystemName);
-  const char *fsiClassName = "me/nithanim/fragmentationstatistics/natives/windows/InternalFileSystemInformation";
+  
+  const char *fsiClassName = "me/nithanim/fragmentationstatistics/natives/FileSystemUtil$FileSystemInformation";
   jclass fsiClass = (*env)->FindClass(env, fsiClassName);
   if (fsiClass == NULL)
   {
     (*env)->ThrowNew(env, (*env)->FindClass(env, "java/lang/NoClassDefFoundError"), fsiClassName);
     return NULL;
   }
-  jmethodID fsiConstructor = (*env)->GetMethodID(env, fsiClass, "<init>", "(Ljava/lang/String;IIJJ)V");
+  jmethodID fsiConstructor = (*env)->GetMethodID(env, fsiClass, "<init>", "(Ljava/lang/String;JJJJ)V");
   if (fsiConstructor == NULL)
   {
     (*env)->ThrowNew(env, (*env)->FindClass(env, "java/lang/NoSuchMethodError"), "Cannot find constructor!");
     return NULL;
   }
-  jobject fsi = (*env)->NewObject(env, fsiClass, fsiConstructor, filesystemNameJni, sectorsPerCluster, bytesPerSector, totalNumberOfClusters, numberOfFreeClusters);
+
+  jstring filesystemNameJni = (*env)->NewStringUTF(env, filesystemName); //No release of jstring!
+  jlong fsBlockSize = sectorsPerCluster * bytesPerSector;
+  jlong fsTotalSize = totalNumberOfClusters * fsBlockSize;
+  jlong fsFreeSize = numberOfFreeClusters * fsBlockSize;
+
+  jobject fsi = (*env)->NewObject(env, fsiClass, fsiConstructor, filesystemNameJni, 0, fsTotalSize, fsFreeSize, fsBlockSize);
   return fsi;
 }
