@@ -7,14 +7,14 @@ public class StartingVcnInputBufferNative implements StartingVcnInputBuffer {
         NativeLoader.loadLibrary();
     }
 
-    public static StartingVcnInputBufferNative allocate() {
+    static StartingVcnInputBufferNative allocate() {
         return new StartingVcnInputBufferNative();
     }
 
     @java.lang.annotation.Native
     private long addr;
 
-    public StartingVcnInputBufferNative() {
+    StartingVcnInputBufferNative() {
         _allocate();
     }
 

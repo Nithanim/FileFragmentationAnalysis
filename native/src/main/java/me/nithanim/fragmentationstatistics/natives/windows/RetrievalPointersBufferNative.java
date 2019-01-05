@@ -9,7 +9,7 @@ public class RetrievalPointersBufferNative implements RetrievalPointersBuffer {
 
     private static native int getStructSize(int nExtents);
 
-    public static RetrievalPointersBufferNative allocate(int nExtents) {
+    static RetrievalPointersBufferNative allocate(int nExtents) {
         if (nExtents < 1) {
             throw new IllegalArgumentException("Minimal number of extents is 1!");
         }
@@ -21,7 +21,7 @@ public class RetrievalPointersBufferNative implements RetrievalPointersBuffer {
     @java.lang.annotation.Native
     private long addr;
 
-    public RetrievalPointersBufferNative(int nExtents) {
+    RetrievalPointersBufferNative(int nExtents) {
         this.nAllocatedExtents = nExtents;
         _allocate(nExtents);
     }
