@@ -9,11 +9,8 @@ import me.nithanim.filefragmentationanalysis.fragmentation.commonapi.Fragment;
 import me.nithanim.filefragmentationanalysis.fragmentation.win.ExtentToFragmentCombiner;
 import me.nithanim.fragmentationstatistics.natives.FileSystemUtil.FileSystemInformation;
 import me.nithanim.fragmentationstatistics.natives.windows.RetrievalPointersBuffer;
-import me.nithanim.fragmentationstatistics.natives.windows.RetrievalPointersBufferNative;
 import me.nithanim.fragmentationstatistics.natives.windows.StartingVcnInputBuffer;
-import me.nithanim.fragmentationstatistics.natives.windows.StartingVcnInputBufferNative;
 import me.nithanim.fragmentationstatistics.natives.windows.Winapi;
-import me.nithanim.fragmentationstatistics.natives.windows.WinapiNative;
 
 public class WindowsFileFragmentationAnalyzer implements FileFragmentationAnalyzer {
     private final Winapi winapi;
@@ -23,10 +20,10 @@ public class WindowsFileFragmentationAnalyzer implements FileFragmentationAnalyz
     private Path lastRoot;
     private int blocksize;
 
-    public WindowsFileFragmentationAnalyzer() {
-        winapi = new WinapiNative();
-        inputBuffer = StartingVcnInputBufferNative.allocate();
-        outputBuffer = RetrievalPointersBufferNative.allocate(100);
+    public WindowsFileFragmentationAnalyzer(Winapi winapi) {
+        this.winapi = winapi;
+        this.inputBuffer = winapi.allocateStartingVcnInputBuffer();
+        this.outputBuffer = winapi.allocateRetrievalPointersBuffer(100);
     }
 
     public WindowsFileFragmentationAnalyzer(Winapi winapi, StartingVcnInputBuffer inputBuffer, RetrievalPointersBuffer outputBuffer) {

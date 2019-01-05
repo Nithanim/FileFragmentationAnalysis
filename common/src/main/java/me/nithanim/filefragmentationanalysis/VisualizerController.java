@@ -12,6 +12,7 @@ import javafx.scene.paint.Color;
 import lombok.SneakyThrows;
 import me.nithanim.filefragmentationanalysis.fragmentation.commonapi.Fragment;
 import me.nithanim.filefragmentationanalysis.fragmentation.win.apiimpl.WindowsFileFragmentationAnalyzer;
+import me.nithanim.fragmentationstatistics.natives.windows.WinapiNative;
 
 public class VisualizerController implements Initializable {
     @FXML
@@ -21,7 +22,7 @@ public class VisualizerController implements Initializable {
     @Override
     @SneakyThrows
     public void initialize(URL location, ResourceBundle resources) {
-        WindowsFileFragmentationAnalyzer a = new WindowsFileFragmentationAnalyzer();
+        WindowsFileFragmentationAnalyzer a = new WindowsFileFragmentationAnalyzer(new WinapiNative());
         fragments = a.analyze(Paths.get("E:\\Programme\\MyDefrag v4.3.1\\FTB_Launcher.jar"));
         //r = a.analyze(Paths.get("E:\\videos\\Wow-64 2018-05-05 23-45-55-18.avi"));
         repaint();

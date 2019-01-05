@@ -4,13 +4,14 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
 import me.nithanim.filefragmentationanalysis.fragmentation.commonapi.Fragment;
+import me.nithanim.fragmentationstatistics.natives.windows.WinapiNative;
 
 public class TestDataGathererFragmentsData {
 
     public static void main(String[] args) throws Exception {
         Path p = Paths.get(args[0]);
-
-        try (WindowsFileFragmentationAnalyzer analyzer = new WindowsFileFragmentationAnalyzer()) {
+        WinapiNative wa = new WinapiNative();
+        try (WindowsFileFragmentationAnalyzer analyzer = new WindowsFileFragmentationAnalyzer(wa)) {
             List<Fragment> fs = analyzer.analyze(p);
             for (Fragment f : fs) {
                 System.out.println(f.getOffset() + "," + f.getDiskOffset() + "," + f.getSize());

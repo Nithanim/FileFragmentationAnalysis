@@ -5,8 +5,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import me.nithanim.fragmentationstatistics.natives.FileSystemUtil.FileSystemInformation;
 import me.nithanim.fragmentationstatistics.natives.windows.RetrievalPointersBuffer;
-import me.nithanim.fragmentationstatistics.natives.windows.RetrievalPointersBufferNative;
-import me.nithanim.fragmentationstatistics.natives.windows.StartingVcnInputBufferNative;
+import me.nithanim.fragmentationstatistics.natives.windows.StartingVcnInputBuffer;
 import me.nithanim.fragmentationstatistics.natives.windows.Winapi;
 import me.nithanim.fragmentationstatistics.natives.windows.WinapiNative;
 
@@ -19,8 +18,8 @@ public class TestDataGathererNativeData {
         FileSystemInformation fsi = winapi.getFileSystemInformation(p);
         System.out.println(fsi.getName() + "," + fsi.getBlockSize() + "," + fsi.getTotalSize() + "," + fsi.getFreeSize());
 
-        StartingVcnInputBufferNative inputBuffer = StartingVcnInputBufferNative.allocate();
-        RetrievalPointersBufferNative outputBuffer = RetrievalPointersBufferNative.allocate(10);
+        StartingVcnInputBuffer inputBuffer = winapi.allocateStartingVcnInputBuffer();
+        RetrievalPointersBuffer outputBuffer = winapi.allocateRetrievalPointersBuffer(10);
 
         long h = winapi.createFile(p);
         try {

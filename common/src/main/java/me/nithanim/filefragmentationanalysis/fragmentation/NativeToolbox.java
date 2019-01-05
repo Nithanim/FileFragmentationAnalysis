@@ -10,22 +10,20 @@ import me.nithanim.filefragmentationanalysis.fragmentation.win.apiimpl.WindowsFi
 import me.nithanim.fragmentationstatistics.natives.FileSystemUtil;
 import me.nithanim.fragmentationstatistics.natives.linux.LinuxApi;
 import me.nithanim.fragmentationstatistics.natives.linux.LinuxApiNative;
-import me.nithanim.fragmentationstatistics.natives.windows.RetrievalPointersBufferNative;
-import me.nithanim.fragmentationstatistics.natives.windows.StartingVcnInputBufferNative;
 import me.nithanim.fragmentationstatistics.natives.windows.WinapiNative;
 
 @Value
 public class NativeToolbox {
     public static NativeToolbox create() {
         if (Platform.isWindows()) {
-            WinapiNative na = new WinapiNative();
+            WinapiNative wa = new WinapiNative();
             return new NativeToolbox(
                 new WindowsFileFragmentationAnalyzer(
-                    na,
-                    StartingVcnInputBufferNative.allocate(),
-                    RetrievalPointersBufferNative.allocate(100)
+                    wa,
+                    wa.allocateStartingVcnInputBuffer(),
+                    wa.allocateRetrievalPointersBuffer(100)
                 ),
-                na
+                wa
             );
         } else if (Platform.isMac()) {
             throw new UnsupportedOperatingSystem("MacOS is not supported!");
