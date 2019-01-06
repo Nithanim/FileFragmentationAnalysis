@@ -12,7 +12,7 @@ import me.nithanim.filefragmentationanalysis.fragmentation.FragmentationAnalyzat
 import me.nithanim.filefragmentationanalysis.fragmentation.commonapi.FileFragmentationAnalyzer;
 import me.nithanim.filefragmentationanalysis.fragmentation.commonapi.FileReport;
 import me.nithanim.filefragmentationanalysis.fragmentation.commonapi.Fragment;
-import me.nithanim.filefragmentationanalysis.fragmentation.linux.LinuxFileFragmentationAnalizer;
+import me.nithanim.filefragmentationanalysis.fragmentation.linux.LinuxFileFragmentationAnalyzer;
 
 class FileScanner extends SimpleFileVisitor<Path> {
     private final ScanningContext context;
@@ -45,7 +45,7 @@ class FileScanner extends SimpleFileVisitor<Path> {
     }
 
     private boolean isOnSameLinuxDevice(Path dir, BasicFileAttributes attrs) {
-        LinuxFileFragmentationAnalizer lffa = (LinuxFileFragmentationAnalizer) context.getNativeToolbox().getFileFragmentationAnalyzer();
+        LinuxFileFragmentationAnalyzer lffa = (LinuxFileFragmentationAnalyzer) context.getNativeToolbox().getFileFragmentationAnalyzer();
         long dev = lffa.getDevice(dir, attrs);
         if (this.linuxDevice == 0) {
             //init

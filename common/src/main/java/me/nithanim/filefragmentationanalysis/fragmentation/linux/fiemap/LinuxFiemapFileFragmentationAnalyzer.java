@@ -47,8 +47,10 @@ public class LinuxFiemapFileFragmentationAnalyzer implements LinuxSubFileFragmen
             la.fillFiemap(fd, struct);
             int nExtents = struct.getMappedExtents();
             long nextStart = 0;
+
+            FiemapExtent lastExtent = null;
             for (int i = 0; i < nExtents; i++) {
-                FiemapExtent e = struct.getExtent(i);
+                FiemapExtent e = lastExtent = struct.getExtent(i);
                 long inFileByteOffset = e.getLogical();
                 long mediumOffsetInBytes = e.getPhysical();
                 long extentSizeInBytes = e.getLength();
@@ -56,6 +58,19 @@ public class LinuxFiemapFileFragmentationAnalyzer implements LinuxSubFileFragmen
                 fragments.add(c);
                 nextStart = inFileByteOffset + extentSizeInBytes;
             }
+            if (nExtents == 0) { //safeguard if file changed and suddenly no extens are returned anymore
+                //just updates number of extents again and if smalle the loop will break
+                //so this will keep going just in case nothing is returned one iteration for some reason; you never know
+                la.fillFiemap(fd, sizeStruct);
+                nAllExtents = sizeStruct.getMappedExtents();
+            } else {
+                int flags = lastExtent.getFlags();
+                //safeguard in case when less extents are returned we can check the last in the array
+                if ((flags & FiemapExtent.FIEMAP_EXTENT_LAST) > 0) {
+                    break;
+                }
+            }
+
             struct.setStart(nextStart);
             finishedExtents += nExtents;
         }

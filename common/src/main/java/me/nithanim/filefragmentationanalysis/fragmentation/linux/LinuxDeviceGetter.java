@@ -17,11 +17,11 @@ interface LinuxDeviceGetter extends AutoCloseable {
         try {
             //Since the needed data is already present but hidden, we try to get access to it.
             //For 9+ it needs the "--add-opens java.base/java.lang=ALL-UNNAMED" jvm arg
-            Class<?> uasfb = LinuxFileFragmentationAnalizer.class.getClassLoader().loadClass("sun.nio.fs.UnixFileAttributes$UnixAsBasicFileAttributes");
+            Class<?> uasfb = LinuxFileFragmentationAnalyzer.class.getClassLoader().loadClass("sun.nio.fs.UnixFileAttributes$UnixAsBasicFileAttributes");
             Method unwrapMethod = uasfb.getDeclaredMethod("unwrap");
             unwrapMethod.setAccessible(true);
 
-            Class<?> ufs = LinuxFileFragmentationAnalizer.class.getClassLoader().loadClass("sun.nio.fs.UnixFileAttributes");
+            Class<?> ufs = LinuxFileFragmentationAnalyzer.class.getClassLoader().loadClass("sun.nio.fs.UnixFileAttributes");
             Method getDevMethod = ufs.getDeclaredMethod("dev");
             getDevMethod.setAccessible(true);
 

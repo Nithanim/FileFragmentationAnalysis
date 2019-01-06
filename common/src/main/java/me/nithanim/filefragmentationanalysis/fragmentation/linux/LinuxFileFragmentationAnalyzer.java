@@ -13,17 +13,17 @@ import me.nithanim.fragmentationstatistics.natives.NativeCallException;
 import me.nithanim.fragmentationstatistics.natives.linux.LinuxApi;
 import me.nithanim.fragmentationstatistics.natives.linux.LinuxApiNative;
 
-public class LinuxFileFragmentationAnalizer implements FileFragmentationAnalyzer {
+public class LinuxFileFragmentationAnalyzer implements FileFragmentationAnalyzer {
     private final LinuxApi linuxapi;
     private final LinuxFiemapFileFragmentationAnalyzer fiemap = new LinuxFiemapFileFragmentationAnalyzer(100);
     private final LinuxFibmapFileFragmentationAnalyzer fibmap = new LinuxFibmapFileFragmentationAnalyzer();
     private final LinuxDeviceGetter linuxDeviceGetter;
 
-    public LinuxFileFragmentationAnalizer() {
+    public LinuxFileFragmentationAnalyzer() {
         this(new LinuxApiNative());
     }
 
-    public LinuxFileFragmentationAnalizer(LinuxApi linuxapi) {
+    public LinuxFileFragmentationAnalyzer(LinuxApi linuxapi) {
         this.linuxapi = linuxapi;
         this.linuxDeviceGetter = LinuxDeviceGetter.newInstance(linuxapi);
     }

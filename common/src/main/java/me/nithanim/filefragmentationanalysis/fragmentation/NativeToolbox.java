@@ -5,7 +5,7 @@ import java.nio.file.Paths;
 import lombok.Value;
 import me.nithanim.filefragmentationanalysis.fragmentation.commonapi.FileFragmentationAnalyzer;
 import me.nithanim.filefragmentationanalysis.fragmentation.commonapi.UnsupportedOperatingSystem;
-import me.nithanim.filefragmentationanalysis.fragmentation.linux.LinuxFileFragmentationAnalizer;
+import me.nithanim.filefragmentationanalysis.fragmentation.linux.LinuxFileFragmentationAnalyzer;
 import me.nithanim.filefragmentationanalysis.fragmentation.win.apiimpl.WindowsFileFragmentationAnalyzer;
 import me.nithanim.fragmentationstatistics.natives.FileSystemUtil;
 import me.nithanim.fragmentationstatistics.natives.linux.LinuxApi;
@@ -31,7 +31,7 @@ public class NativeToolbox {
             //For the rest delegate to linux
             LinuxApi la = new LinuxApiNative();
             return new NativeToolbox(
-                new LinuxFileFragmentationAnalizer(la),
+                new LinuxFileFragmentationAnalyzer(la),
                 la
             );
         }
