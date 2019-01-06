@@ -17,7 +17,7 @@ public class FiemapMainTest2 {
             int blockSize = la.getBlocksize(f.getFd());
             try (LinuxFiemapFileFragmentationAnalyzer a = new LinuxFiemapFileFragmentationAnalyzer(la, 5)) {
                 List<Fragment> r = a.analyze(f, blockSize);
-                System.out.println(r);
+                r.forEach(System.out::println);
             }
         }
     }

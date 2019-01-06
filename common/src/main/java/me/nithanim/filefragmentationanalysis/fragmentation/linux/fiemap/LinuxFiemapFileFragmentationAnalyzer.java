@@ -1,8 +1,8 @@
 package me.nithanim.filefragmentationanalysis.fragmentation.linux.fiemap;
 
-import java.util.ArrayList;
 import java.util.List;
 import me.nithanim.filefragmentationanalysis.fragmentation.commonapi.Fragment;
+import me.nithanim.filefragmentationanalysis.fragmentation.linux.common.ExtentToFragmentCombiner;
 import me.nithanim.filefragmentationanalysis.fragmentation.linux.common.File;
 import me.nithanim.filefragmentationanalysis.fragmentation.linux.common.LinuxSubFileFragmentationAnalyzer;
 import me.nithanim.fragmentationstatistics.natives.linux.FiemapExtent;
@@ -41,8 +41,8 @@ public class LinuxFiemapFileFragmentationAnalyzer implements LinuxSubFileFragmen
         la.fillFiemap(fd, sizeStruct);
         int nAllExtents = sizeStruct.getMappedExtents();
 
+        ExtentToFragmentCombiner combiner = new ExtentToFragmentCombiner(blockSize);
         struct.setStart(0);
-        List<Fragment> fragments = new ArrayList<>();
         for (int finishedExtents = 0; finishedExtents < nAllExtents;) {
             la.fillFiemap(fd, struct);
             int nExtents = struct.getMappedExtents();
@@ -51,12 +51,11 @@ public class LinuxFiemapFileFragmentationAnalyzer implements LinuxSubFileFragmen
             FiemapExtent lastExtent = null;
             for (int i = 0; i < nExtents; i++) {
                 FiemapExtent e = lastExtent = struct.getExtent(i);
-                long inFileByteOffset = e.getLogical();
-                long mediumOffsetInBytes = e.getPhysical();
-                long extentSizeInBytes = e.getLength();
-                Fragment c = new Fragment(inFileByteOffset, mediumOffsetInBytes, extentSizeInBytes);
-                fragments.add(c);
-                nextStart = inFileByteOffset + extentSizeInBytes;
+                long logical = e.getLogical();
+                long physical = e.getPhysical();
+                long length = e.getLength();
+                combiner.add(logical, physical, length);
+                nextStart = logical + length;
             }
             if (nExtents == 0) { //safeguard if file changed and suddenly no extens are returned anymore
                 //just updates number of extents again and if smalle the loop will break
@@ -74,7 +73,7 @@ public class LinuxFiemapFileFragmentationAnalyzer implements LinuxSubFileFragmen
             struct.setStart(nextStart);
             finishedExtents += nExtents;
         }
-        return fragments;
+        return combiner.complete();
     }
 
     @Override
