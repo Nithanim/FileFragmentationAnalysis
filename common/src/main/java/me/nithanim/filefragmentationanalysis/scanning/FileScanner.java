@@ -1,6 +1,6 @@
 package me.nithanim.filefragmentationanalysis.scanning;
 
-import com.sun.jna.Platform;
+import me.nithanim.filefragmentationanalysis.OperatingSystemUtils;
 import java.io.IOException;
 import java.nio.file.FileVisitResult;
 import java.nio.file.Path;
@@ -32,7 +32,7 @@ class FileScanner extends SimpleFileVisitor<Path> {
             //windows: symbolic links and junctions
             return FileVisitResult.SKIP_SUBTREE;
         } else {
-            if (Platform.isLinux()) {
+            if (OperatingSystemUtils.isLinux()) {
                 //On linux we need to check for mountpoints.
                 //We do not know if it is sufficient but for now we check if we changed the device.
                 if (!isOnSameLinuxDevice(dir, attrs)) {

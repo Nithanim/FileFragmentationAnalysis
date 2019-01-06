@@ -1,8 +1,8 @@
 package me.nithanim.filefragmentationanalysis.fragmentation;
 
-import com.sun.jna.Platform;
 import java.nio.file.Paths;
 import lombok.Value;
+import me.nithanim.filefragmentationanalysis.OperatingSystemUtils;
 import me.nithanim.filefragmentationanalysis.fragmentation.commonapi.FileFragmentationAnalyzer;
 import me.nithanim.filefragmentationanalysis.fragmentation.commonapi.UnsupportedOperatingSystem;
 import me.nithanim.filefragmentationanalysis.fragmentation.linux.LinuxFileFragmentationAnalyzer;
@@ -15,7 +15,7 @@ import me.nithanim.fragmentationstatistics.natives.windows.WinapiNative;
 @Value
 public class NativeToolbox {
     public static NativeToolbox create() {
-        if (Platform.isWindows()) {
+        if (OperatingSystemUtils.isWindows()) {
             WinapiNative wa = new WinapiNative();
             return new NativeToolbox(
                 new WindowsFileFragmentationAnalyzer(
@@ -25,7 +25,7 @@ public class NativeToolbox {
                 ),
                 wa
             );
-        } else if (Platform.isMac()) {
+        } else if (OperatingSystemUtils.isMac()) {
             throw new UnsupportedOperatingSystem("MacOS is not supported!");
         } else {
             //For the rest delegate to linux
