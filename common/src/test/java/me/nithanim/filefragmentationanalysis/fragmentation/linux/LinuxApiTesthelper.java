@@ -1,4 +1,4 @@
-package me.nithanim.filefragmentationanalysis.fragmentation.linux.fiemap;
+package me.nithanim.filefragmentationanalysis.fragmentation.linux;
 
 import java.io.IOException;
 import java.nio.file.Path;
@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Map;
 import lombok.RequiredArgsConstructor;
 import lombok.Value;
+import me.nithanim.filefragmentationanalysis.fragmentation.linux.fiemap.FiemapStructTesthelper;
 import me.nithanim.fragmentationstatistics.natives.linux.FiemapStruct;
 import me.nithanim.fragmentationstatistics.natives.linux.LinuxApi;
 import me.nithanim.fragmentationstatistics.natives.linux.StatStruct;
@@ -15,7 +16,7 @@ import me.nithanim.fragmentationstatistics.natives.linux.StatVfsStruct;
 import org.junit.Assert;
 
 @RequiredArgsConstructor
-public class FiemapLinuxApiTesthelper implements LinuxApi {
+public class LinuxApiTesthelper implements LinuxApi {
     private final FileData[] openHandles = new FileData[10];
     private final Map<Path, Integer> handleMap = new HashMap<>();
     private final Map<Path, FileData> dataMap = new HashMap<>();

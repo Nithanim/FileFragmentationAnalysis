@@ -1,4 +1,4 @@
-package me.nithanim.filefragmentationanalysis.fragmentation.linux.fiemap;
+package me.nithanim.filefragmentationanalysis.fragmentation.linux;
 
 import lombok.Value;
 import me.nithanim.fragmentationstatistics.natives.linux.FiemapExtent;

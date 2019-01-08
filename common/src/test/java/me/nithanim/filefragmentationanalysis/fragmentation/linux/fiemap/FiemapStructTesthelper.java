@@ -1,5 +1,6 @@
 package me.nithanim.filefragmentationanalysis.fragmentation.linux.fiemap;
 
+import me.nithanim.filefragmentationanalysis.fragmentation.linux.TestExtent;
 import java.util.List;
 import me.nithanim.fragmentationstatistics.natives.linux.FiemapExtent;
 import me.nithanim.fragmentationstatistics.natives.linux.FiemapStruct;

@@ -1,7 +1,7 @@
 Filesystem type is: ef53
-File size of /home/nithanim/FTB_Launcher.jar is 7630144 (1863 blocks of 4096 bytes)
+File size of FTB_Launcher.jar is 7630144 (1863 blocks of 4096 bytes)
  ext:     logical_offset:        physical_offset: length:   expected: flags:
    0:        0..     511:   56753152..  56753663:    512:            
    1:      512..     827:   56730112..  56730427:    316:   56753664:
    2:      828..    1862:   56755688..  56756722:   1035:   56730428: last,eof
-/home/nithanim/FTB_Launcher.jar: 3 extents found
+FTB_Launcher.jar: 3 extents found
