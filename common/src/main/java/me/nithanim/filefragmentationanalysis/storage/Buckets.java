@@ -5,7 +5,7 @@ import java.util.Iterator;
 import me.nithanim.filefragmentationanalysis.filetypes.Classification;
 
 public class Buckets implements Iterable<Iterator<IndexEntry>> {
-    private final int[] separators;
+    private final long[] separators;
     private final ResizableArray<IndexEntry>[] occurences;
 
     public Buckets(Classification c) {
@@ -25,7 +25,7 @@ public class Buckets implements Iterable<Iterator<IndexEntry>> {
     private int findIndex(long filesize) {
         int i = 0;
         for (; i < separators.length; i++) {
-            if (filesize < separators[i]) {
+            if (Long.compareUnsigned(filesize,  separators[i]) < 0) {
                 return i;
             }
         }

@@ -7,7 +7,7 @@ import me.nithanim.filefragmentationanalysis.storage.IndexEntry;
 import org.apache.commons.math3.stat.descriptive.DescriptiveStatistics;
 
 public class BucketSeparationData {
-    private final int[] separators;
+    private final long[] separators;
     private final List<DescriptiveStatistics> buckets;
 
     public BucketSeparationData(FileType ft) {
@@ -35,7 +35,7 @@ public class BucketSeparationData {
     private int findIndex(IndexEntry ie) {
         int i = 0;
         for (; i < separators.length; i++) {
-            if (ie.getVirtualFileSize() < separators[i]) {
+            if (Long.compareUnsigned(ie.getVirtualFileSize(), separators[i]) < 0) {
                 return i;
             }
         }

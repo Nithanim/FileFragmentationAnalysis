@@ -4,10 +4,10 @@ import lombok.Getter;
 
 public class LinearClassification implements Classification {
     @Getter
-    private final int separators[];
+    private final long separators[];
 
     public LinearClassification(int start, int stepSize, int steps) {
-        int[] s = new int[steps];
+        long[] s = new long[steps];
         for (int i = 0; i < steps; i++) {
             s[i] = stepSize * (i + 1) * 1024 * 1024;
         }

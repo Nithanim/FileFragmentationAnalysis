@@ -6,7 +6,7 @@ public class ExponentialClassification implements Classification {
     private static final int ONE_MEGABYTE = 1024 * 1024;
 
     @Getter
-    private final int separators[];
+    private final long separators[];
 
     /**
      * Calculates the separators that are used to split the files in different
@@ -22,7 +22,7 @@ public class ExponentialClassification implements Classification {
      * @param steps
      */
     public ExponentialClassification(int steps) {
-        int[] s = new int[steps];
+        long[] s = new long[steps];
         for (int i = 0; i < steps; i++) {
             s[i] = (1 << i) * ONE_MEGABYTE; //effective s[i] = (int) Math.pow(2, i);
         }
