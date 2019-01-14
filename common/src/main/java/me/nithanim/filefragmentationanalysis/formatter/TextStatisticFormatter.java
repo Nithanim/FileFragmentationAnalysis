@@ -2,8 +2,10 @@ package me.nithanim.filefragmentationanalysis.formatter;
 
 import me.nithanim.filefragmentationanalysis.statistics.FileStatisticsReport;
 import me.nithanim.filefragmentationanalysis.statistics.StatisticalAnalysis;
-import me.nithanim.filefragmentationanalysis.statistics.StatisticsCalculator;
 
+/**
+ * Converts the statistics object to a simple text table.
+ */
 public class TextStatisticFormatter implements StatisticsFormatter {
     @Override
     public String format(FileStatisticsReport v) {

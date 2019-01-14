@@ -7,6 +7,10 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import me.nithanim.fragmentationstatistics.natives.linux.LinuxApi;
 
+/**
+ * Helper class wrapping the file descriptor to be able to use the
+ * resource-try-catch construct.
+ */
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 public final class File implements AutoCloseable {
 

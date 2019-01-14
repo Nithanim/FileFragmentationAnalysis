@@ -2,6 +2,11 @@ package me.nithanim.filefragmentationanalysis.filetypes;
 
 import lombok.Getter;
 
+/**
+ * A classification based on the power of two.
+ *
+ * @see LinearClassification
+ */
 public class ExponentialClassification implements Classification {
     private static final int ONE_MEGABYTE = 1024 * 1024;
 
@@ -9,17 +14,14 @@ public class ExponentialClassification implements Classification {
     private final long separators[];
 
     /**
-     * Calculates the separators that are used to split the files in different
-     * buckets based on their size. Bucket 0 contains all below the first
-     * separator, 1 all on and between separator 1 and 2, ...
+     * The separators are built with the power of two. The size is in megabytes.
+     * <p>
+     * Example: With only one step, there would be two buckets. One with all
+     * files smaller than one MB and the other with all equal or above.
+     * Increasing the number of steps, the separators are 2 MB, 4 MB, 8MB, ...
      *
-     * In other words: Let s_i be a separator with i as its index and n_s the
-     * amount of separators then there are n_s+1 buckets b_j where j is the
-     * index of a bucket. A file f with size(f) belongs to the bucket b_j if s_i
-     * &gte; s_i and b_j &lt; s_(i+1). If size(f) &lt; s_0 then f belongs to b_0
-     * and likewise if size(f) &gte; n_(s-1) f belongs to bucket b_(n_s+1)
-     *
-     * @param steps
+     * @param steps the number of separators to calculate
+     * @see LinearClassification
      */
     public ExponentialClassification(int steps) {
         long[] s = new long[steps];

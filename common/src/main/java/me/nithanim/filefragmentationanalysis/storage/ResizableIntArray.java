@@ -4,12 +4,12 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 /**
- * An int array that grows autoamtically.
+ * An int array that grows automatically.
  *
- * Internally it is built as parent array containing muluple children arrays for
+ * Internally it is built as parent array containing multiple children arrays for
  * easier expansion. The {@link ArrayList} enlarges the array by s/2 but this is
- * suboptimal for our puroses because it is not possible to directly access a
- * specific index anymore becuse of the remainder at some point. Also they
+ * suboptimal for our purposes because it is not possible to directly access a
+ * specific index anymore because of the remainder at some point. Also they
  * enlarge it BY but here we append. We settled for doubling the size (easier
  * calculation) which would be too big so we only do it every second time.
  *
@@ -86,7 +86,7 @@ public class ResizableIntArray {
             if (pIdx == currentParentIndex) {
                 return cIdx < currentChildIndex;
             } else {
-                //if smaller then ther must be more and if bigger then it is not possible
+                //if smaller then there must be more and if bigger then it is not possible
                 return pIdx < currentParentIndex;
             }
         }

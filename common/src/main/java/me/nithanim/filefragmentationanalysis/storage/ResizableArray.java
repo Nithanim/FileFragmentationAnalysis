@@ -1,24 +1,10 @@
 package me.nithanim.filefragmentationanalysis.storage;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
 
 /**
- * An int array that grows autoamtically.
- *
- * Internally it is built as parent array containing muluple children arrays for
- * easier expansion. The {@link ArrayList} enlarges the array by s/2 but this is
- * suboptimal for our puroses because it is not possible to directly access a
- * specific index anymore becuse of the remainder at some point. Also they
- * enlarge it BY but here we append. We settled for doubling the size (easier
- * calculation) which would be too big so we only do it every second time.
- *
- * In other words: 100, 100, 200, 200, 400, 400, ...
- *
- * This gives flexibility such that it does not waste too much space if only a
- * hand full elements are added but also enlarges quickly for thousands of
- * entries.
+ * Basically the same as {@link ResizableIntArray} but for objects.
  *
  * @param <T>
  */
@@ -91,7 +77,7 @@ public class ResizableArray<T> implements Iterable<T> {
             if (pIdx == currentParentIndex) {
                 return cIdx < currentChildIndex;
             } else {
-                //if smaller then ther must be more and if bigger then it is not possible
+                //if smaller then there must be more and if bigger then it is not possible
                 return pIdx < currentParentIndex;
             }
         }

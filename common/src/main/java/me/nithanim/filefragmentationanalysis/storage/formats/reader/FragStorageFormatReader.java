@@ -7,8 +7,6 @@ import java.io.InputStream;
 import me.nithanim.filefragmentationanalysis.filetypes.FileType;
 import me.nithanim.filefragmentationanalysis.storage.Index;
 import me.nithanim.filefragmentationanalysis.storage.IndexEntry;
-import me.nithanim.filefragmentationanalysis.storage.NotAnIndexFileException;
-import me.nithanim.filefragmentationanalysis.storage.UnsupportedVersionException;
 import me.nithanim.fragmentationstatistics.natives.FileSystemUtil;
 
 public class FragStorageFormatReader {

@@ -2,6 +2,9 @@ package me.nithanim.filefragmentationanalysis.filetypes;
 
 import lombok.Getter;
 
+/**
+ * An alternative to the {@link ExponentialClassification}.
+ */
 public class LinearClassification implements Classification {
     @Getter
     private final long separators[];

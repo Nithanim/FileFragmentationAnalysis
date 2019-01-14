@@ -4,13 +4,13 @@ import lombok.Value;
 
 /**
  * Represents a fragment of a file. All offsets are given in bytes to allow
- * comparison between different operating systems, filesystems and storage
+ * comparison between different operating systems, file systems and storage
  * devices.
  */
 @Value
 public class Fragment {
     /**
-     * Offset from beginning of file in bytes
+     * Offset from beginning of file in bytes.
      */
     long offset;
     /**

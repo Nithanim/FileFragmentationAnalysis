@@ -5,6 +5,10 @@ import java.util.Objects;
 import javax.annotation.Nullable;
 import lombok.Value;
 
+/**
+ * General interface to query basic information about the operating and file
+ * system.
+ */
 public interface FileSystemUtil {
     FileSystemInformation getFileSystemInformation(Path p);
 
@@ -15,8 +19,17 @@ public interface FileSystemUtil {
         @Nullable
         String name;
         long magic;
+        /**
+         * The total size of the file system in bytes.
+         */
         long totalSize;
+        /**
+         * The free size of the file system in bytes.
+         */
         long freeSize;
+        /**
+         * The block size of the file system.
+         */
         long blockSize;
 
         @Override

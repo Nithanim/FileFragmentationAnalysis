@@ -12,6 +12,10 @@ import me.nithanim.fragmentationstatistics.natives.linux.LinuxApi;
 import me.nithanim.fragmentationstatistics.natives.linux.LinuxApiNative;
 import me.nithanim.fragmentationstatistics.natives.windows.WinapiNative;
 
+/**
+ * Main entry-point to the native world. The static {@link #create()} is used to
+ * create a new instance of this object.
+ */
 @Value
 public class NativeToolbox {
     public static NativeToolbox create() {

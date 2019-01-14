@@ -57,9 +57,9 @@ public class ExtentToFragmentCombiner {
 
     private void closeFragment() {
         Fragment c = new Fragment(
-            fragmentStartLogical, //* blocksize,
-            fragmentStartPhysical, //* blocksize,
-            fragmentLength //* blocksize
+            fragmentStartLogical,
+            fragmentStartPhysical,
+            fragmentLength
         );
         fragments.add(c);
         openFragment = false;

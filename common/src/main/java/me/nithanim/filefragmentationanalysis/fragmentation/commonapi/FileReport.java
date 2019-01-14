@@ -13,7 +13,7 @@ import me.nithanim.filefragmentationanalysis.filetypes.FileType;
 
 @Value
 public class FileReport {
-    private static ZoneId UTC = ZoneId.of("UTC").normalized();
+    private static final ZoneId UTC = ZoneId.of("UTC").normalized();
 
     public static FileReport of(Path p, List<Fragment> fragments, long fileSize, FileType fileType, BasicFileAttributes bfa, LocalDate scantime) {
         return of(

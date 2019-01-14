@@ -4,6 +4,9 @@ import lombok.Value;
 import me.nithanim.filefragmentationanalysis.filetypes.FileType;
 import me.nithanim.filefragmentationanalysis.fragmentation.commonapi.FileReport;
 
+/**
+ * Represents the scan results of a single file in the {@link Index}.
+ */
 @Value
 public class IndexEntry {
     public static IndexEntry of(FileReport fr) {
