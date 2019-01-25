@@ -27,7 +27,7 @@ public class LinuxFibmapFileFragmentationAnalyzer implements LinuxSubFileFragmen
         long nBlocks = (st.getSize() + blockSize - 1) / blockSize;
 
         long fileSize = st.getSize();
-        System.out.format("File: %s Size: %d Blocks: %s Blocksize: %s\n", f, fileSize, Long.toUnsignedString(nBlocks), Long.toUnsignedString(blockSize));
+        //System.out.format("File: %s Size: %d Blocks: %s Blocksize: %s\n", f, fileSize, Long.toUnsignedString(nBlocks), Long.toUnsignedString(blockSize));
 
         BlockMerger em = new BlockMerger(blockSize);
         int fd = f.getFd();
@@ -36,7 +36,7 @@ public class LinuxFibmapFileFragmentationAnalyzer implements LinuxSubFileFragmen
 
             em.add(blockValue);
 
-            System.out.format("%3d %10s\n", i, Long.toUnsignedString(blockValue));
+            //System.out.format("%3d %10s\n", i, Long.toUnsignedString(blockValue));
         }
 
         return em.complete();

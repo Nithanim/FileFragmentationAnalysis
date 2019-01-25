@@ -12,7 +12,7 @@ import me.nithanim.fragmentationstatistics.natives.windows.WinapiNative;
 public class TestDataGathererNativeData {
 
     public static void main(String[] args) throws IOException {
-        Path p = Paths.get(args[0]);
+        Path p = Paths.get("/home/nithanim/FTB_Launcher.jar ");
 
         Winapi winapi = new WinapiNative();
         FileSystemInformation fsi = winapi.getFileSystemInformation(p);

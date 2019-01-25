@@ -14,7 +14,7 @@ public class TestDataGathererFragmentsData {
         try (WindowsFileFragmentationAnalyzer analyzer = new WindowsFileFragmentationAnalyzer(wa)) {
             List<Fragment> fs = analyzer.analyze(p);
             for (Fragment f : fs) {
-                System.out.println(f.getOffset() + "," + f.getDiskOffset() + "," + f.getSize());
+                System.out.println(f);
             }
         }
     }
