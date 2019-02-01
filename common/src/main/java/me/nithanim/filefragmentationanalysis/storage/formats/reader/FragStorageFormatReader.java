@@ -23,7 +23,7 @@ public class FragStorageFormatReader {
         }
 
         int version = (int) readVarint(dis);
-        if (version != 1) {
+        if (version != 2) {
             throw new UnsupportedVersionException("File version is " + version + " but only 1 is supported.");
         }
 
@@ -33,9 +33,9 @@ public class FragStorageFormatReader {
         if (fileSystemName.isEmpty()) {
             fileSystemName = null;
         }
-        long fileSystemTotalSize = readVarint(dis);
-        long fileSystemFreeSize = readVarint(dis);
         long fileSystemBlockSize = readVarint(dis);
+        long fileSystemTotalSize = readVarint(dis) * fileSystemBlockSize;
+        long fileSystemFreeSize = readVarint(dis) * fileSystemBlockSize;
 
         Index index = new Index(
             null,
@@ -51,12 +51,12 @@ public class FragStorageFormatReader {
 
         long count = readVarint(dis);
         for (long i = 0; i < count; i++) {
-            index.add(readEntry(dis));
+            index.add(readEntry(dis, fileSystemBlockSize));
         }
         return index;
     }
 
-    private IndexEntry readEntry(DataInputStream in) throws IOException {
+    private IndexEntry readEntry(DataInputStream in, long fileSystemBlockSize) throws IOException {
         int ftInt = (int) readVarint(in);
         FileType ft;
         if (ftInt == 0) {
@@ -65,13 +65,14 @@ public class FragStorageFormatReader {
             ft = FileType.values()[ftInt - 1];
         }
 
-        long virtualFileSize = readVarint(in);
+        long virtualFileSize = readVarint(in) * fileSystemBlockSize;
         int fragments = (int) readVarint(in);
         int backtracks = (int) readVarint(in);
+        boolean sparse = in.readBoolean();
         long timeCreation = readVarint(in);
         long timeLastModified = readVarint(in);
         long lastTimeAccessed = readVarint(in);
-        return new IndexEntry(ft, virtualFileSize, fragments, backtracks, timeCreation, timeLastModified, lastTimeAccessed);
+        return new IndexEntry(ft, virtualFileSize, fragments, backtracks, sparse, timeCreation, timeLastModified, lastTimeAccessed);
     }
 
     private long readVarint(DataInputStream in) throws IOException {

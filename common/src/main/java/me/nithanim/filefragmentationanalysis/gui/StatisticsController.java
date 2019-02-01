@@ -1,9 +1,5 @@
 package me.nithanim.filefragmentationanalysis.gui;
 
-import java.io.BufferedOutputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.URL;
 import java.nio.file.Path;
@@ -17,8 +13,6 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeView;
-import javafx.stage.FileChooser;
-import lombok.Value;
 import lombok.extern.slf4j.Slf4j;
 import me.nithanim.filefragmentationanalysis.filetypes.FileType;
 import me.nithanim.filefragmentationanalysis.filetypes.FileTypeCategory;
@@ -26,13 +20,6 @@ import me.nithanim.filefragmentationanalysis.statistics.FileStatisticsReport;
 import me.nithanim.filefragmentationanalysis.statistics.StatisticalAnalysis;
 import me.nithanim.filefragmentationanalysis.statistics.StatisticsCalculator;
 import me.nithanim.filefragmentationanalysis.storage.Index;
-import me.nithanim.filefragmentationanalysis.storage.formats.reader.FragStorageFormatReader;
-import me.nithanim.filefragmentationanalysis.storage.formats.writer.CsvStorageFormatWriter;
-import me.nithanim.filefragmentationanalysis.storage.formats.writer.FragStorageFormatWriter;
-import me.nithanim.filefragmentationanalysis.storage.formats.writer.GzipStorageFormatWriter;
-import me.nithanim.filefragmentationanalysis.storage.formats.writer.JsonStorageFormatWriter;
-import me.nithanim.filefragmentationanalysis.storage.formats.writer.ObjStorageFormatWriter;
-import me.nithanim.filefragmentationanalysis.storage.formats.writer.StorageFormatWriter;
 import me.nithanim.fragmentationstatistics.natives.FileSystemUtil;
 
 @Slf4j
@@ -86,7 +73,7 @@ public class StatisticsController implements Initializable {
     private String buildText(StatisticNode w) {
         FileSystemUtil.FileSystemInformation fsi = index.getFileSystemInformation();
         return "File system:\n"
-            + "    name: " + fsi.getName()+ "\n"
+            + "    name: " + fsi.getName() + "\n"
             + "    magic: " + Long.toHexString(fsi.getMagic()) + "\n"
             + "    total size: " + fsi.getTotalSize() + "\n"
             + "    free size: " + fsi.getFreeSize() + "\n"
@@ -182,102 +169,25 @@ public class StatisticsController implements Initializable {
     }
 
     private void onSave(ActionEvent ae) {
-        if (index == null) {
-            return;
+        if (index != null) {
+            StorageHelper.onSave(index, btnSave.getScene().getWindow());
         }
-        FileChooser fc = new FileChooser();
-        fc.getExtensionFilters().add(new FileChooser.ExtensionFilter("File Fragmentation Index files (*.ffi)", "*.ffi"));
-        fc.getExtensionFilters().add(new FileChooser.ExtensionFilter("File Fragmentation Index files gzipped (*.ffi.gz)", "*.ffi.gz"));
-        fc.getExtensionFilters().add(new FileChooser.ExtensionFilter("Comma-separated values (*.csv)", "*.csv"));
-        fc.getExtensionFilters().add(new FileChooser.ExtensionFilter("Comma-separated values gzipped (*.csv.gz)", "*.csv.gz"));
-        fc.getExtensionFilters().add(new FileChooser.ExtensionFilter("Json (*.json)", "*.json"));
-        fc.getExtensionFilters().add(new FileChooser.ExtensionFilter("Json gzipped (*.json.gz)", "*.json.gz"));
-        fc.getExtensionFilters().add(new FileChooser.ExtensionFilter("Wavefront obj (*.obj)", "*.obj"));
-        fc.setSelectedExtensionFilter(fc.getExtensionFilters().get(0));
-        File f = fc.showSaveDialog(btnSave.getScene().getWindow());
-        if (f != null) {
-            SaveFile sv = getSaveFile(fc, f);
-            try {
-                try (FileOutputStream out = new FileOutputStream(sv.getF())) {
-                    sv.getSfw().write(new BufferedOutputStream(out), index);
-                }
-            } catch (IOException ex) {
-                log.error("Error saving index", ex);
-
-                Alert alert = new Alert(Alert.AlertType.ERROR);
-                alert.setTitle("Error saving index!");
-                alert.setHeaderText("Error saving index!");
-                alert.setContentText(ex.getMessage());
-                alert.showAndWait();
-            }
-        }
-    }
-
-    private static SaveFile getSaveFile(FileChooser fs, File chosen) {
-        String ext = fs.getSelectedExtensionFilter().getExtensions().get(0).substring(1);
-        String origName = chosen.getName();
-        int lastDot = origName.lastIndexOf('.');
-        if (lastDot == -1) {
-            origName = origName + ext;
-            lastDot = origName.lastIndexOf('.');
-            chosen = new File(chosen.getParent(), origName);
-        }
-
-        boolean gzip = false;
-        String last = origName.substring(lastDot + 1);
-        if (last.equalsIgnoreCase("gz")) {
-            gzip = true;
-            int newLastDot = origName.substring(0, origName.length()-last.length()-1).lastIndexOf('.', lastDot);
-            last = origName.substring(newLastDot + 1, lastDot);
-        }
-
-        StorageFormatWriter sfw;
-        if (last.equalsIgnoreCase("csv")) {
-            sfw = new CsvStorageFormatWriter();
-        } else if (last.equalsIgnoreCase("ffi")) {
-            sfw = new FragStorageFormatWriter();
-        } else if (last.equalsIgnoreCase("json")) {
-            sfw = new JsonStorageFormatWriter();
-        } else if (last.equalsIgnoreCase("obj")) {
-            sfw = new ObjStorageFormatWriter();
-        } else {
-            sfw = new FragStorageFormatWriter();
-            gzip = false;
-            chosen = new File(chosen.getParentFile(), chosen.getName() + ".ffi");
-        }
-
-        if (gzip) {
-            sfw = new GzipStorageFormatWriter(sfw);
-        }
-        return new SaveFile(chosen, sfw);
-    }
-
-    @Value
-    private static class SaveFile {
-        File f;
-        StorageFormatWriter sfw;
     }
 
     private void onLoad(ActionEvent ae) {
-        FileChooser fc = new FileChooser();
-        fc.getExtensionFilters().add(new FileChooser.ExtensionFilter("File Fragmentation Index files (*.ffi)", "*.ffi"));
-        fc.getExtensionFilters().add(new FileChooser.ExtensionFilter("All files (*.*)", "*.*"));
-        fc.setSelectedExtensionFilter(fc.getExtensionFilters().get(0));
-        File f = fc.showOpenDialog(btnLoad.getScene().getWindow());
-        if (f != null) {
-            try {
-                FileInputStream in = new FileInputStream(f);
-                Index index = new FragStorageFormatReader().read(in);
+        try {
+            Index index = StorageHelper.onLoad(btnLoad.getScene().getWindow());
+            if (index != null) {
                 displayIndex(index);
-            } catch (IOException ex) {
-                log.error("Error reading index", ex);
-
-                Alert alert = new Alert(Alert.AlertType.ERROR);
-                alert.setTitle("Error reading index!");
-                alert.setHeaderText("Error readingindex!");
-                alert.setContentText(ex.getMessage());
-                alert.showAndWait();
             }
+        } catch (IOException ex) {
+            log.error("Error reading index", ex);
+
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error reading index!");
+            alert.setHeaderText("Error readingindex!");
+            alert.setContentText(ex.getMessage());
+            alert.showAndWait();
         }
     }
 

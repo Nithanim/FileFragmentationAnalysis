@@ -15,10 +15,17 @@ public class IndexEntry {
             fr.getVirtualSize(),
             fr.getFragments().size(),
             fr.getBacktracks(),
+            isSparse(fr),
             fr.getTimeCreation(),
             fr.getTimeLastModified(),
             fr.getTimeLastModified()
         );
+    }
+
+    private static boolean isSparse(FileReport fr) {
+        //Normally the allocated (physical) size must be equal or larger.
+        //If smaller, it must have unallocated blocks.
+        return Long.compareUnsigned(fr.getPhysicalSize(), fr.getVirtualSize()) < 0;
     }
 
     FileType fileType;
@@ -33,6 +40,8 @@ public class IndexEntry {
      * Number of times the next fragment actually comes before on disk.
      */
     int backtracks;
+    
+    boolean sparse;
 
     long timeCreation;
 

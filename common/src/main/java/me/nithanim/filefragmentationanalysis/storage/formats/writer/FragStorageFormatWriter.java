@@ -17,16 +17,16 @@ public class FragStorageFormatWriter implements StorageFormatWriter {
 
         writeMagic(o);
         writeVersion(o);
-        
+
         o.writeByte(index.getOperatingSystem().ordinal());
         FileSystemUtil.FileSystemInformation fsi = index.getFileSystemInformation();
         o.writeLong(fsi.getMagic());
         o.writeUTF(fsi.getName() == null ? "" : fsi.getName());
-        writeVarint(o, fsi.getTotalSize());
-        writeVarint(o, fsi.getFreeSize());
-        writeVarint(o, fsi.getBlockSize());
-        
-        
+        long blockSize = fsi.getBlockSize();
+        writeVarint(o, blockSize);
+        writeVarint(o, Long.divideUnsigned(fsi.getTotalSize(), blockSize));
+        writeVarint(o, Long.divideUnsigned(fsi.getFreeSize(), blockSize));
+
         writeVarint(o, index.getAllCount());
 
         Stream<IndexEntry> s = index.getAll();
@@ -34,14 +34,14 @@ public class FragStorageFormatWriter implements StorageFormatWriter {
             @Override
             @SneakyThrows
             public void accept(IndexEntry t) {
-                writeEntry(t, o);
+                writeEntry(t, o, blockSize);
             }
         });
         o.flush(); //required because of wrapped stream
     }
 
     private void writeVersion(DataOutputStream o) throws IOException {
-        writeVarint(o, 1);
+        writeVarint(o, 2);
     }
 
     private void writeMagic(DataOutputStream o) throws IOException {
@@ -51,7 +51,7 @@ public class FragStorageFormatWriter implements StorageFormatWriter {
         o.write('G');
     }
 
-    private void writeEntry(IndexEntry ie, DataOutputStream out) throws IOException {
+    private void writeEntry(IndexEntry ie, DataOutputStream out, long blockSize) throws IOException {
         int ftInt;
         if (ie.getFileType() == null) {
             ftInt = 0;
@@ -60,9 +60,10 @@ public class FragStorageFormatWriter implements StorageFormatWriter {
         }
 
         writeVarint(out, ftInt);
-        writeVarint(out, ie.getVirtualFileSize());
+        writeVarint(out, Long.divideUnsigned(ie.getVirtualFileSize(), blockSize));
         writeVarint(out, ie.getFragments());
         writeVarint(out, ie.getBacktracks());
+        out.writeBoolean(ie.isSparse());
         writeVarint(out, ie.getTimeCreation());
         writeVarint(out, ie.getTimeLastModified());
         writeVarint(out, ie.getTimeLastAccessed());
