@@ -12,7 +12,9 @@ import me.nithanim.filefragmentationanalysis.fragmentation.FragmentationAnalyzat
 import me.nithanim.filefragmentationanalysis.scanning.PathFragmentationScanner;
 import me.nithanim.filefragmentationanalysis.storage.Index;
 import me.nithanim.filefragmentationanalysis.storage.formats.reader.FragStorageFormatReader;
-import me.nithanim.filefragmentationanalysis.storage.formats.writer.FragStorageFormatWriter;
+import me.nithanim.filefragmentationanalysis.storage.formats.writer.StorageFormatSelector;
+import me.nithanim.filefragmentationanalysis.storage.formats.writer.StorageFormatType;
+import me.nithanim.filefragmentationanalysis.storage.formats.writer.StorageFormatWriter;
 import picocli.CommandLine;
 import picocli.CommandLine.ParameterException;
 import picocli.CommandLine.ParseResult;
@@ -36,11 +38,15 @@ public class CliMain {
                     }
 
                     Path p = cliData.getInputDirectory();
-                    System.out.println("Starting scan...");
                     Index index = getIndex(p, cliData);
-                    System.out.println("Done scanning!");
 
-                    FragStorageFormatWriter writer = new FragStorageFormatWriter();
+                    StorageFormatType outputType = cliData.getOutputFileType();
+                    if (outputType == null) {
+                        outputType = StorageFormatType.FRAG;
+                    }
+                    boolean outputCompressed = cliData.isOutputFileCompressed();
+
+                    StorageFormatWriter writer = StorageFormatSelector.getWriter(outputType, outputCompressed);
                     if (outFileStream != null) {
                         writer.write(outFileStream, index);
                     }
@@ -61,27 +67,40 @@ public class CliMain {
 
     private static Index getIndex(Path p, CliData cliData) throws ExecutionException, InterruptedException, IOException {
         if (p.getFileName().toString().endsWith(".ffi")) {
-            try (InputStream in = Files.newInputStream(p)) {
-                return new FragStorageFormatReader().read(in);
-            }
+            return loadStorage(p);
         } else {
-            Consumer<FragmentationAnalyzationException> onException;
-            if (cliData.isNoPrintErrors()) {
-                onException = (ex) -> {
-                };
-            } else {
-                onException = (ex) -> System.err.println(ex.getPath() + ": " + ex.getCause().getMessage());
+            System.out.println("Starting scan...");
+            try {
+                return scanFileTree(cliData, p);
+            } finally {
+                System.out.println("Done scanning!");
             }
+        }
+    }
 
-            PathFragmentationScanner.Scan sl = new PathFragmentationScanner().scan(p, onException);
+    private static Index scanFileTree(CliData cliData, Path p) throws ExecutionException, InterruptedException {
+        Consumer<FragmentationAnalyzationException> onException;
+        if (cliData.isNoPrintErrors()) {
+            onException = (ex) -> {
+            };
+        } else {
+            onException = (ex) -> System.err.println(ex.getPath() + ": " + ex.getCause().getMessage());
+        }
 
-            while (!sl.getFuture().isDone()) {
-                Thread.sleep(5000);
-                System.out.println(sl.getCurrentPath().get());
-            }
-            PathFragmentationScanner.ScanResult result = sl.getFuture().get();
+        PathFragmentationScanner.Scan sl = new PathFragmentationScanner().scan(p, onException);
 
-            return result.getIndex();
+        while (!sl.getFuture().isDone()) {
+            Thread.sleep(5000);
+            System.out.println(sl.getCurrentPath().get());
+        }
+        PathFragmentationScanner.ScanResult result = sl.getFuture().get();
+
+        return result.getIndex();
+    }
+
+    private static Index loadStorage(Path p) throws IOException {
+        try (InputStream in = Files.newInputStream(p)) {
+            return new FragStorageFormatReader().read(in);
         }
     }
 }

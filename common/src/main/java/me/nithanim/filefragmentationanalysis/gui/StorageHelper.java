@@ -11,11 +11,9 @@ import javafx.stage.Window;
 import lombok.Value;
 import me.nithanim.filefragmentationanalysis.storage.Index;
 import me.nithanim.filefragmentationanalysis.storage.formats.reader.FragStorageFormatReader;
-import me.nithanim.filefragmentationanalysis.storage.formats.writer.CsvStorageFormatWriter;
-import me.nithanim.filefragmentationanalysis.storage.formats.writer.FragStorageFormatWriter;
-import me.nithanim.filefragmentationanalysis.storage.formats.writer.GzipStorageFormatWriter;
-import me.nithanim.filefragmentationanalysis.storage.formats.writer.JsonStorageFormatWriter;
-import me.nithanim.filefragmentationanalysis.storage.formats.writer.ObjStorageFormatWriter;
+import me.nithanim.filefragmentationanalysis.storage.formats.writer.StorageFormatSelector;
+import me.nithanim.filefragmentationanalysis.storage.formats.writer.StorageFormatSelectorFx;
+import me.nithanim.filefragmentationanalysis.storage.formats.writer.StorageFormatType;
 import me.nithanim.filefragmentationanalysis.storage.formats.writer.StorageFormatWriter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -25,13 +23,7 @@ class StorageHelper {
 
     public static void onSave(Index index, Window window) {
         FileChooser fc = new FileChooser();
-        fc.getExtensionFilters().add(new FileChooser.ExtensionFilter("File Fragmentation Index files (*.ffi)", "*.ffi"));
-        fc.getExtensionFilters().add(new FileChooser.ExtensionFilter("File Fragmentation Index files gzipped (*.ffi.gz)", "*.ffi.gz"));
-        fc.getExtensionFilters().add(new FileChooser.ExtensionFilter("Comma-separated values (*.csv)", "*.csv"));
-        fc.getExtensionFilters().add(new FileChooser.ExtensionFilter("Comma-separated values gzipped (*.csv.gz)", "*.csv.gz"));
-        fc.getExtensionFilters().add(new FileChooser.ExtensionFilter("Json (*.json)", "*.json"));
-        fc.getExtensionFilters().add(new FileChooser.ExtensionFilter("Json gzipped (*.json.gz)", "*.json.gz"));
-        fc.getExtensionFilters().add(new FileChooser.ExtensionFilter("Wavefront obj (*.obj)", "*.obj"));
+        fc.getExtensionFilters().addAll(StorageFormatSelectorFx.getAll());
         fc.setSelectedExtensionFilter(fc.getExtensionFilters().get(0));
         File f = fc.showSaveDialog(window);
         if (f != null) {
@@ -70,31 +62,20 @@ class StorageHelper {
             last = origName.substring(newLastDot + 1, lastDot);
         }
 
-        StorageFormatWriter sfw;
-        if (last.equalsIgnoreCase("csv")) {
-            sfw = new CsvStorageFormatWriter();
-        } else if (last.equalsIgnoreCase("ffi")) {
-            sfw = new FragStorageFormatWriter();
-        } else if (last.equalsIgnoreCase("json")) {
-            sfw = new JsonStorageFormatWriter();
-        } else if (last.equalsIgnoreCase("obj")) {
-            sfw = new ObjStorageFormatWriter();
-        } else {
-            sfw = new FragStorageFormatWriter();
+        StorageFormatType type = StorageFormatType.typeFromExtension(last);
+        if (type == null) {
+            type = StorageFormatType.FRAG;
             gzip = false;
             chosen = new File(chosen.getParentFile(), chosen.getName() + ".ffi");
         }
 
-        if (gzip) {
-            sfw = new GzipStorageFormatWriter(sfw);
-        }
-        return new SaveFile(chosen, sfw);
+        return new SaveFile(chosen, StorageFormatSelector.getWriter(type, gzip));
     }
 
     static Index onLoad(Window window) throws IOException {
         FileChooser fc = new FileChooser();
-        fc.getExtensionFilters().add(new FileChooser.ExtensionFilter("File Fragmentation Index files (*.ffi)", "*.ffi"));
-        fc.getExtensionFilters().add(new FileChooser.ExtensionFilter("All files (*.*)", "*.*"));
+        fc.getExtensionFilters().add(StorageFormatSelectorFx.MAIN_EXT_FILTER);
+        //fc.getExtensionFilters().add(new FileChooser.ExtensionFilter("All files (*.*)", "*.*"));
         fc.setSelectedExtensionFilter(fc.getExtensionFilters().get(0));
         File f = fc.showOpenDialog(window);
         if (f != null) {
