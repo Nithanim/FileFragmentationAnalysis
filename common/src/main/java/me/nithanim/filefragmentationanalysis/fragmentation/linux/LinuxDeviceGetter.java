@@ -1,7 +1,9 @@
 package me.nithanim.filefragmentationanalysis.fragmentation.linux;
 
 import java.lang.reflect.Method;
+import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.nio.file.attribute.BasicFileAttributes;
 import lombok.SneakyThrows;
 import me.nithanim.fragmentationstatistics.natives.linux.LinuxApi;
@@ -28,8 +30,17 @@ interface LinuxDeviceGetter extends AutoCloseable {
             return new LinuxDeviceGetterHack(unwrapMethod, getDevMethod);
 
         } catch (Exception ex) {
-            //Alternative is calling native "stat" and get the infos (again)
-            return new LinuxDeviceGetterNative(linuxApi);
+            //Alternative is using the built-in java api.
+            //Although it does the same as we would do by calling "stat" under the hood,
+            //it carries a lot of overhead on the java side. On the other side it might be optimized...
+            try {
+                //Try if it works before using it.
+                Files.getAttribute(Paths.get("."), "unix:dev");
+                return new LinuxDeviceGetterAttributes();
+            } catch (Exception ex2) {
+                //Last alternative is doing all the work and calling native "stat" and get the infos (again)
+                return new LinuxDeviceGetterNative(linuxApi);
+            }
         }
     }
 
@@ -54,7 +65,7 @@ interface LinuxDeviceGetter extends AutoCloseable {
         }
     }
 
-    static class LinuxDeviceGetterHack implements LinuxDeviceGetter {
+    static class LinuxDeviceGetterHack extends LinuxDeviceGetterAdapter {
         private final Method unwrapMethod;
         private final Method getDevMethod;
 
@@ -69,7 +80,17 @@ interface LinuxDeviceGetter extends AutoCloseable {
             Object attrs = unwrapMethod.invoke(bfa);
             return (long) getDevMethod.invoke(attrs);
         }
+    }
 
+    static class LinuxDeviceGetterAttributes extends LinuxDeviceGetterAdapter {
+        @Override
+        @SneakyThrows
+        public long getDev(Path p, BasicFileAttributes bfa) {
+            return (long) Files.getAttribute(p, "unix:dev");
+        }
+    }
+
+    static abstract class LinuxDeviceGetterAdapter implements LinuxDeviceGetter {
         @Override
         public void close() throws Exception {
         }

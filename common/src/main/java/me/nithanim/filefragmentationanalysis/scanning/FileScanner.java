@@ -1,12 +1,12 @@
 package me.nithanim.filefragmentationanalysis.scanning;
 
-import me.nithanim.filefragmentationanalysis.OperatingSystemUtils;
 import java.io.IOException;
 import java.nio.file.FileVisitResult;
 import java.nio.file.Path;
 import java.nio.file.SimpleFileVisitor;
 import java.nio.file.attribute.BasicFileAttributes;
 import java.util.List;
+import me.nithanim.filefragmentationanalysis.OperatingSystemUtils;
 import me.nithanim.filefragmentationanalysis.filetypes.FileTypeResolver;
 import me.nithanim.filefragmentationanalysis.fragmentation.FragmentationAnalyzationException;
 import me.nithanim.filefragmentationanalysis.fragmentation.commonapi.FileFragmentationAnalyzer;
