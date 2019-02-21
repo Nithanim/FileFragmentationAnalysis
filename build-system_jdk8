@@ -2,12 +2,12 @@
 set -e
 
 cd native
-../mvnw install
+../mvnw clean install
 cd ..
 
 cd common
-../mvnw install
+../mvnw clean install
 cd ..
 
 cd assembly
-../mvnw package
+../mvnw clean package
