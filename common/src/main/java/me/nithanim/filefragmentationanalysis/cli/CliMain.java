@@ -21,7 +21,6 @@ import picocli.CommandLine.ParseResult;
 
 public class CliMain {
     public static void main(String[] args) throws InterruptedException, IOException, ExecutionException {
-
         CliData cliData = new CliData();
         try {
             ParseResult parseResult = new CommandLine(cliData).parseArgs(args);
