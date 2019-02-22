@@ -6,8 +6,7 @@ import java.util.List;
 import me.nithanim.filefragmentationanalysis.fragmentation.commonapi.Fragment;
 import me.nithanim.fragmentationstatistics.natives.windows.WinapiNative;
 
-public class TestDataGathererFragmentsData {
-
+public class TestDataGathererFragmentsDataMain {
     public static void main(String[] args) throws Exception {
         Path p = Paths.get(args[0]);
         WinapiNative wa = new WinapiNative();

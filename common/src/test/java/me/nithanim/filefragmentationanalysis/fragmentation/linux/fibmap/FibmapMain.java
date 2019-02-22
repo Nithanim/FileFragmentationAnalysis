@@ -8,11 +8,9 @@ import me.nithanim.fragmentationstatistics.natives.linux.LinuxApiNative;
 import me.nithanim.fragmentationstatistics.natives.linux.StatStruct;
 
 public class FibmapMain {
-
     public static void main(String[] args) throws Exception {
+        Path path = Paths.get(args[0]);
         LinuxApi la = new LinuxApiNative();
-        Path path = Paths.get("/home/nithanim/FTB_Launcher.jar");
-        //Path path = Paths.get("/media/nithanim/My Book/test/file.test");
         try (File f = File.open(la, path)) {
             int blocksize = la.getBlocksize(f.getFd());
 

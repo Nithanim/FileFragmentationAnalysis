@@ -1,6 +1,5 @@
 package me.nithanim.filefragmentationanalysis.fragmentation;
 
-import java.nio.file.Paths;
 import lombok.Value;
 import me.nithanim.filefragmentationanalysis.OperatingSystemUtils;
 import me.nithanim.filefragmentationanalysis.fragmentation.commonapi.FileFragmentationAnalyzer;
@@ -39,11 +38,6 @@ public class NativeToolbox {
                 la
             );
         }
-    }
-
-    public static void main(String[] args) {
-        NativeToolbox nt = NativeToolbox.create();
-        System.out.println(nt.getFileSystemUtil().getFileSystemInformation(Paths.get("/")));
     }
 
     private FileFragmentationAnalyzer fileFragmentationAnalyzer;

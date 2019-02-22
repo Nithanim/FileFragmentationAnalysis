@@ -9,10 +9,9 @@ import me.nithanim.fragmentationstatistics.natives.windows.StartingVcnInputBuffe
 import me.nithanim.fragmentationstatistics.natives.windows.Winapi;
 import me.nithanim.fragmentationstatistics.natives.windows.WinapiNative;
 
-public class TestDataGathererNativeData {
-
+public class TestDataGathererNativeDataMain {
     public static void main(String[] args) throws IOException {
-        Path p = Paths.get("/home/nithanim/FTB_Launcher.jar ");
+        Path p = Paths.get(args[0]);
 
         Winapi winapi = new WinapiNative();
         FileSystemInformation fsi = winapi.getFileSystemInformation(p);
