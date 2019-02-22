@@ -1,4 +1,4 @@
-package me.nithanim.filefragmentationanalysis.statistics;
+package me.nithanim.filefragmentationanalysis.gui.statistics;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -7,7 +7,7 @@ import me.nithanim.filefragmentationanalysis.filetypes.FileType;
 import me.nithanim.filefragmentationanalysis.filetypes.FileTypeCategory;
 import me.nithanim.filefragmentationanalysis.filetypes.FileTypeResolver;
 import me.nithanim.filefragmentationanalysis.fragmentation.commonapi.FileReport;
-import me.nithanim.filefragmentationanalysis.statistics.buckets.BucketSeparationData;
+import me.nithanim.filefragmentationanalysis.gui.statistics.buckets.BucketSeparationData;
 import me.nithanim.filefragmentationanalysis.storage.IndexEntry;
 import org.apache.commons.math3.stat.descriptive.DescriptiveStatistics;
 

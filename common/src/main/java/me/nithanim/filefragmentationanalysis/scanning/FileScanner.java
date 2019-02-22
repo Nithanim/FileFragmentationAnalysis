@@ -69,7 +69,6 @@ class FileScanner extends SimpleFileVisitor<Path> {
             List<Fragment> fragments = ffa.analyze(p);
             FileReport fr = FileReport.of(p, fragments, bfa.size(), ftr.resolveType(p), bfa, context.getScantime());
             context.getIndex().add(fr);
-            context.getSc().add(fr);
         } catch (Exception ex) {
             FragmentationAnalyzationException faex = new FragmentationAnalyzationException(p, ex);
             context.getOnException().accept(faex);

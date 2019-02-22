@@ -1,4 +1,4 @@
-package me.nithanim.filefragmentationanalysis.statistics;
+package me.nithanim.filefragmentationanalysis.gui.statistics;
 
 import lombok.Value;
 import me.nithanim.filefragmentationanalysis.filetypes.FileType;

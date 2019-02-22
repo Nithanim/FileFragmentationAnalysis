@@ -1,4 +1,4 @@
-package me.nithanim.filefragmentationanalysis.statistics.buckets;
+package me.nithanim.filefragmentationanalysis.gui.statistics.buckets;
 
 import java.util.ArrayList;
 import java.util.List;

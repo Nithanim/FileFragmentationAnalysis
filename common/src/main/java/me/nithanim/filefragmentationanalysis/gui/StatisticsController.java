@@ -16,9 +16,9 @@ import javafx.scene.control.TreeView;
 import lombok.extern.slf4j.Slf4j;
 import me.nithanim.filefragmentationanalysis.filetypes.FileType;
 import me.nithanim.filefragmentationanalysis.filetypes.FileTypeCategory;
-import me.nithanim.filefragmentationanalysis.statistics.FileStatisticsReport;
-import me.nithanim.filefragmentationanalysis.statistics.StatisticalAnalysis;
-import me.nithanim.filefragmentationanalysis.statistics.StatisticsCalculator;
+import me.nithanim.filefragmentationanalysis.gui.statistics.FileStatisticsReport;
+import me.nithanim.filefragmentationanalysis.gui.statistics.StatisticalAnalysis;
+import me.nithanim.filefragmentationanalysis.gui.statistics.StatisticsCalculator;
 import me.nithanim.filefragmentationanalysis.storage.Index;
 import me.nithanim.fragmentationstatistics.natives.FileSystemUtil;
 
