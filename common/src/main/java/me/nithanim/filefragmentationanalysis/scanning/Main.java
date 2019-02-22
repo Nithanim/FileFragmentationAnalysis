@@ -7,8 +7,6 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
 import lombok.SneakyThrows;
-import me.nithanim.filefragmentationanalysis.formatter.CsvStatisticFormatter;
-import me.nithanim.filefragmentationanalysis.formatter.TextStatisticFormatter;
 import me.nithanim.filefragmentationanalysis.fragmentation.FragmentationAnalyzationException;
 
 public class Main {
@@ -21,9 +19,6 @@ public class Main {
             Thread.sleep(500);
             System.out.println(sl.getCurrentPath().get());
         }
-        CsvStatisticFormatter csf = new CsvStatisticFormatter();
-        TextStatisticFormatter tsf = new TextStatisticFormatter();
-
         PathFragmentationScanner.ScanResult r = sl.getFuture().get();
 
         try (PrintWriter pw = new PrintWriter(Files.newOutputStream(Paths.get("logs.csv"), StandardOpenOption.CREATE, StandardOpenOption.TRUNCATE_EXISTING))) {
