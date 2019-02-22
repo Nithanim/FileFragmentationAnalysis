@@ -1,4 +1,4 @@
-package me.nithanim.filefragmentationanalysis.scanning;
+package me.nithanim.filefragmentationanalysis.fragmentation.scanning;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -8,6 +8,7 @@ import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
 import lombok.SneakyThrows;
 import me.nithanim.filefragmentationanalysis.fragmentation.FragmentationAnalyzationException;
+import me.nithanim.filefragmentationanalysis.scanning.PathFragmentationScanner;
 
 public class Main {
     @SneakyThrows

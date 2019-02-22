@@ -10,11 +10,10 @@ import me.nithanim.fragmentationstatistics.natives.linux.LinuxApi;
 import me.nithanim.fragmentationstatistics.natives.linux.LinuxApiNative;
 
 public class FiemapMainTestGenFsRaw {
-
     public static void main(String[] args) throws Exception {
         LinuxApi la = new LinuxApiNative();
 
-        Path path = Paths.get("/home/nithanim/.wine/dosdevices/c:/Games/World of Warcraft/Data/data/data.008");
+        Path path = Paths.get(args[0]);
         long fstype = la.getFilesystemType(path.toAbsolutePath());
         try (File f = File.open(la, path)) {
             int blockSize = la.getBlocksize(f.getFd());

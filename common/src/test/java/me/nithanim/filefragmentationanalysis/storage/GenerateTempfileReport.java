@@ -16,7 +16,7 @@ import me.nithanim.filefragmentationanalysis.fragmentation.commonapi.Fragment;
 import me.nithanim.filefragmentationanalysis.storage.formats.writer.FragStorageFormatWriter;
 import me.nithanim.fragmentationstatistics.natives.FileSystemUtil;
 
-public class Test {
+public class GenerateTempfileReport {
     public static void main(String[] args) throws IOException {
         Path p = Files.createTempFile("fragtest", "fragtest");
         Files.write(p, new byte[1024 * 1024 * 5], StandardOpenOption.CREATE, StandardOpenOption.TRUNCATE_EXISTING);

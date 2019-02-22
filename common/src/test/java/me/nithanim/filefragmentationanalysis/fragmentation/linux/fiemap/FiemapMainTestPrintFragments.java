@@ -9,10 +9,9 @@ import me.nithanim.fragmentationstatistics.natives.linux.LinuxApi;
 import me.nithanim.fragmentationstatistics.natives.linux.LinuxApiNative;
 
 public class FiemapMainTestPrintFragments {
-
     public static void main(String[] args) throws Exception {
         LinuxApi la = new LinuxApiNative();
-        Path path = Paths.get("/home/nithanim/FTB_Launcher.jar");
+        Path path = Paths.get(args[0]);
         try (File f = File.open(la, path)) {
             int blockSize = la.getBlocksize(f.getFd());
             try (LinuxFiemapFileFragmentationAnalyzer a = new LinuxFiemapFileFragmentationAnalyzer(la, 5)) {
