@@ -3,7 +3,7 @@ package me.nithanim.fragmentationstatistics.natives.linux;
 /**
  * Represents the native FiemapStruct.
  */
-public interface FiemapStruct extends AutoCloseable {
+public interface FiemapStruct extends Struct {
     /**
      * logical offset (inclusive) at which to start mapping (in)
      *

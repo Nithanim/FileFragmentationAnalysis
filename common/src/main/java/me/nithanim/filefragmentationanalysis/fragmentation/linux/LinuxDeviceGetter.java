@@ -17,30 +17,12 @@ interface LinuxDeviceGetter extends AutoCloseable {
 
     public static LinuxDeviceGetter newInstance(LinuxApi linuxApi) {
         try {
-            //Since the needed data is already present but hidden, we try to get access to it.
-            //For 9+ it needs the "--add-opens java.base/java.lang=ALL-UNNAMED" jvm arg
-            Class<?> uasfb = LinuxFileFragmentationAnalyzer.class.getClassLoader().loadClass("sun.nio.fs.UnixFileAttributes$UnixAsBasicFileAttributes");
-            Method unwrapMethod = uasfb.getDeclaredMethod("unwrap");
-            unwrapMethod.setAccessible(true);
-
-            Class<?> ufs = LinuxFileFragmentationAnalyzer.class.getClassLoader().loadClass("sun.nio.fs.UnixFileAttributes");
-            Method getDevMethod = ufs.getDeclaredMethod("dev");
-            getDevMethod.setAccessible(true);
-
-            return new LinuxDeviceGetterHack(unwrapMethod, getDevMethod);
-
-        } catch (Exception ex) {
-            //Alternative is using the built-in java api.
-            //Although it does the same as we would do by calling "stat" under the hood,
-            //it carries a lot of overhead on the java side. On the other side it might be optimized...
-            try {
-                //Try if it works before using it.
-                Files.getAttribute(Paths.get("."), "unix:dev");
-                return new LinuxDeviceGetterAttributes();
-            } catch (Exception ex2) {
-                //Last alternative is doing all the work and calling native "stat" and get the infos (again)
-                return new LinuxDeviceGetterNative(linuxApi);
-            }
+            //Try if it works before using it.
+            Files.getAttribute(Paths.get("."), "unix:dev");
+            return new LinuxDeviceGetterAttributes();
+        } catch (Exception ex2) {
+            //Last alternative is doing all the work and calling native "stat" and get the infos (again)
+            return new LinuxDeviceGetterNative(linuxApi);
         }
     }
 
@@ -54,6 +36,7 @@ interface LinuxDeviceGetter extends AutoCloseable {
         }
 
         @Override
+        @SneakyThrows
         public long getDev(Path p, BasicFileAttributes bfa) {
             la.stat(p, ss);
             return ss.getDev();

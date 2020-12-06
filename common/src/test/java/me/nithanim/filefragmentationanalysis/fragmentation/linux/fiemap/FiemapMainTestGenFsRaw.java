@@ -5,13 +5,12 @@ import java.nio.file.Paths;
 import me.nithanim.filefragmentationanalysis.fragmentation.linux.common.File;
 import me.nithanim.fragmentationstatistics.natives.linux.FiemapExtent;
 import me.nithanim.fragmentationstatistics.natives.linux.FiemapStruct;
-import me.nithanim.fragmentationstatistics.natives.linux.FiemapStructNative;
 import me.nithanim.fragmentationstatistics.natives.linux.LinuxApi;
-import me.nithanim.fragmentationstatistics.natives.linux.LinuxApiNative;
+import me.nithanim.fragmentationstatistics.natives.linux.LinuxApiPanama;
 
 public class FiemapMainTestGenFsRaw {
     public static void main(String[] args) throws Exception {
-        LinuxApi la = new LinuxApiNative();
+        LinuxApi la = new LinuxApiPanama();
 
         Path path = Paths.get(args[0]);
         long fstype = la.getFilesystemType(path.toAbsolutePath());
@@ -20,7 +19,7 @@ public class FiemapMainTestGenFsRaw {
             System.out.println(Long.toHexString(fstype) + "," + blockSize);
 
             int nExtents;
-            try (FiemapStruct fm = FiemapStructNative.allocate(0)) {
+            try (FiemapStruct fm = la.allocateFiemapStruct(0)) {
                 fm.setStart(0);
                 fm.setLength(~0);
                 fm.setFlags(0);

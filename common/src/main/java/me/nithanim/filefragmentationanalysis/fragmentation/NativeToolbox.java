@@ -1,45 +1,27 @@
 package me.nithanim.filefragmentationanalysis.fragmentation;
 
-import lombok.Value;
 import me.nithanim.filefragmentationanalysis.OperatingSystemUtils;
 import me.nithanim.filefragmentationanalysis.fragmentation.commonapi.FileFragmentationAnalyzer;
 import me.nithanim.filefragmentationanalysis.fragmentation.commonapi.UnsupportedOperatingSystem;
-import me.nithanim.filefragmentationanalysis.fragmentation.linux.LinuxFileFragmentationAnalyzer;
-import me.nithanim.filefragmentationanalysis.fragmentation.win.apiimpl.WindowsFileFragmentationAnalyzer;
 import me.nithanim.fragmentationstatistics.natives.FileSystemUtil;
-import me.nithanim.fragmentationstatistics.natives.linux.LinuxApi;
-import me.nithanim.fragmentationstatistics.natives.linux.LinuxApiNative;
-import me.nithanim.fragmentationstatistics.natives.windows.WinapiNative;
 
 /**
  * Main entry-point to the native world. The static {@link #create()} is used to
  * create a new instance of this object.
  */
-@Value
-public class NativeToolbox {
+public interface NativeToolbox {
     public static NativeToolbox create() {
         if (OperatingSystemUtils.isWindows()) {
-            WinapiNative wa = new WinapiNative();
-            return new NativeToolbox(
-                new WindowsFileFragmentationAnalyzer(
-                    wa,
-                    wa.allocateStartingVcnInputBuffer(),
-                    wa.allocateRetrievalPointersBuffer(100)
-                ),
-                wa
-            );
+            return new WindowsNativeToolbox();
         } else if (OperatingSystemUtils.isMac()) {
             throw new UnsupportedOperatingSystem("MacOS is not supported!");
         } else {
             //For the rest delegate to linux
-            LinuxApi la = new LinuxApiNative();
-            return new NativeToolbox(
-                new LinuxFileFragmentationAnalyzer(la),
-                la
-            );
+            return new LinuxNativeToolbox();
         }
     }
 
-    private FileFragmentationAnalyzer fileFragmentationAnalyzer;
-    private FileSystemUtil fileSystemUtil;
+    FileFragmentationAnalyzer createFileFragmentationAnalyzer();
+
+    FileSystemUtil getFileSystemUtil();
 }

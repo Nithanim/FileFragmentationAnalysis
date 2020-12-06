@@ -5,15 +5,15 @@ import me.nithanim.filefragmentationanalysis.fragmentation.commonapi.Fragment;
 import me.nithanim.filefragmentationanalysis.fragmentation.linux.common.File;
 import me.nithanim.filefragmentationanalysis.fragmentation.linux.common.LinuxSubFileFragmentationAnalyzer;
 import me.nithanim.fragmentationstatistics.natives.linux.LinuxApi;
-import me.nithanim.fragmentationstatistics.natives.linux.LinuxApiNative;
+import me.nithanim.fragmentationstatistics.natives.linux.LinuxApiPanama;
 import me.nithanim.fragmentationstatistics.natives.linux.StatStruct;
 
 public class LinuxFibmapFileFragmentationAnalyzer implements LinuxSubFileFragmentationAnalyzer {
     private final StatStruct st;
-    private LinuxApi la;
+    private final LinuxApi la;
 
     public LinuxFibmapFileFragmentationAnalyzer() {
-        this(new LinuxApiNative());
+        this(new LinuxApiPanama());
     }
 
     public LinuxFibmapFileFragmentationAnalyzer(LinuxApi la) {

@@ -6,26 +6,26 @@ import me.nithanim.fragmentationstatistics.natives.FileSystemUtil;
 
 public interface LinuxApi extends FileSystemUtil {
     int openFileForReading(Path path) throws IOException;
-    
-    void closeFile(int fd); 
-    
-    int getBlocksize(int fd);
 
-    long getFilesystemType(Path path);
-    
-    void fstat(int fd, StatStruct stat);
-    
-    void stat(Path file, StatStruct stat);
-    
-    void statvfs(Path file, StatVfsStruct stat);
-    
-    void fillFiemap(int fd, FiemapStruct fs);
-    
+    void closeFile(int fd) throws IOException;
+
+    int getBlocksize(int fd) throws IOException;
+
+    long getFilesystemType(Path path) throws IOException;
+
+    void fstat(int fd, StatStruct stat) throws IOException;
+
+    void stat(Path file, StatStruct stat) throws IOException;
+
+    void statvfs(Path file, StatVfsStruct stat) throws IOException;
+
+    void fillFiemap(int fd, FiemapStruct fs) throws IOException;
+
     FiemapStruct allocateFiemapStruct(int maxExtents);
-    
+
     StatStruct allocateStatStruct();
-    
+
     StatVfsStruct allocateStatVfsStruct();
-    
-    int fibmap(int fd, int idx);
+
+    int fibmap(int fd, int idx) throws IOException;
 }

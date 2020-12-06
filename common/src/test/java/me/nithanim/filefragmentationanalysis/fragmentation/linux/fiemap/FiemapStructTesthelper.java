@@ -1,5 +1,6 @@
 package me.nithanim.filefragmentationanalysis.fragmentation.linux.fiemap;
 
+import jdk.incubator.foreign.MemorySegment;
 import me.nithanim.filefragmentationanalysis.fragmentation.linux.TestExtent;
 import java.util.List;
 import me.nithanim.fragmentationstatistics.natives.linux.FiemapExtent;
@@ -16,7 +17,6 @@ public class FiemapStructTesthelper implements FiemapStruct {
 
     public FiemapStructTesthelper(int maxExtents) {
         this.maxExtents = maxExtents;
-
     }
 
     @Override
@@ -78,5 +78,10 @@ public class FiemapStructTesthelper implements FiemapStruct {
 
     public void setAllExtents(int allExtents) {
         this.allExtents = allExtents;
+    }
+
+    @Override
+    public MemorySegment getMemorySegment() {
+        return null;
     }
 }

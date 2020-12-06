@@ -47,8 +47,8 @@ public class PathFragmentationScanner {
             }
         );
         Thread t = new Thread(() -> {
-            try {
-                Files.walkFileTree(path, new FileScanner(ctx));
+            try (FileScanner fileScanner = new FileScanner(ctx)) {
+                Files.walkFileTree(path, fileScanner);
 
                 if (!Thread.interrupted()) {
                     cf.setSuccess(new ScanResult(ctx.getIndex(), errors));

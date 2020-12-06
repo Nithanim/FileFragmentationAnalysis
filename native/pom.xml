@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <groupId>me.nithanim.filefragmentationanalysis</groupId>
     <artifactId>FileFragmentationAnalysisNative</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <packaging>nar</packaging>
     <dependencies>
         <dependency>
             <groupId>org.scijava</groupId>
@@ -14,21 +14,32 @@
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
-            <version>1.18.4</version>
-            <scope>provided</scope>
+            <version>1.18.16</version>
         </dependency>
         <dependency>
             <groupId>com.google.code.findbugs</groupId>
             <artifactId>jsr305</artifactId>
             <version>3.0.2</version>
         </dependency>
+        <dependency>
+            <groupId>io.netty</groupId>
+            <artifactId>netty-buffer</artifactId>
+            <version>4.1.54.Final</version>
+        </dependency>
     </dependencies>
     <build>
         <plugins>
             <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>3.7.0</version>
+                <configuration>
+                    <source>16</source>
+                    <target>16</target>
+                    <compilerArgs>
+                        <arg>--add-modules</arg>
+                        <arg>jdk.incubator.foreign</arg>
+                    </compilerArgs>
+                </configuration>
             </plugin>
             <plugin>
                 <groupId>com.github.maven-nar</groupId>
@@ -36,6 +47,7 @@
                 <version>3.6.0</version>
                 <extensions>true</extensions>
                 <configuration>
+                    <skip>true</skip>
                     <libraries>
                         <library>
                             <type>jni</type>
@@ -47,8 +59,8 @@
                         <!-- default to linux, use windows by profile override -->
                         <sourceDirectory>src/main/c</sourceDirectory>
                         <includes>
-                            <include>common/**</include>
-                            <include>linux/**</include>
+                            <!--<include>common/**</include>
+                            <include>linux/**</include>-->
                         </includes>
                     </c>
                     <linker>
@@ -76,6 +88,7 @@
                         <artifactId>nar-maven-plugin</artifactId>
                         <extensions>true</extensions>
                         <configuration>
+                            <skip>false</skip>
                             <c>
                                 <sourceDirectory>src/main/c</sourceDirectory>
                                 <includes>
@@ -174,7 +187,7 @@
     </profiles>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <maven.compiler.source>1.8</maven.compiler.source>
-        <maven.compiler.target>1.8</maven.compiler.target>
+        <maven.compiler.source>16</maven.compiler.source>
+        <maven.compiler.target>16</maven.compiler.target>
     </properties>
 </project>

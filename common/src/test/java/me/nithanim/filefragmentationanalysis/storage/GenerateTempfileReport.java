@@ -17,13 +17,14 @@ import me.nithanim.filefragmentationanalysis.storage.formats.writer.FragStorageF
 import me.nithanim.fragmentationstatistics.natives.FileSystemUtil;
 
 public class GenerateTempfileReport {
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) throws Exception {
         Path p = Files.createTempFile("fragtest", "fragtest");
         Files.write(p, new byte[1024 * 1024 * 5], StandardOpenOption.CREATE, StandardOpenOption.TRUNCATE_EXISTING);
         NativeToolbox nt = NativeToolbox.create();
 
-        FileFragmentationAnalyzer ffa = nt.getFileFragmentationAnalyzer();
+        FileFragmentationAnalyzer ffa = nt.createFileFragmentationAnalyzer();
         List<Fragment> fragments = ffa.analyze(p);
+        ffa.close();
         
         FileSystemUtil.FileSystemInformation fsi = nt.getFileSystemUtil().getFileSystemInformation(p);
 

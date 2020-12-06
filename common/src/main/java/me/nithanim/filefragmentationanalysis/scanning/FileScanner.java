@@ -14,7 +14,7 @@ import me.nithanim.filefragmentationanalysis.fragmentation.commonapi.FileReport;
 import me.nithanim.filefragmentationanalysis.fragmentation.commonapi.Fragment;
 import me.nithanim.filefragmentationanalysis.fragmentation.linux.LinuxFileFragmentationAnalyzer;
 
-class FileScanner extends SimpleFileVisitor<Path> {
+class FileScanner extends SimpleFileVisitor<Path> implements AutoCloseable {
     private final ScanningContext context;
     private final FileFragmentationAnalyzer ffa;
     private final FileTypeResolver ftr;
@@ -22,7 +22,7 @@ class FileScanner extends SimpleFileVisitor<Path> {
 
     public FileScanner(ScanningContext context) {
         this.context = context;
-        this.ffa = context.getNativeToolbox().getFileFragmentationAnalyzer();
+        this.ffa = context.getNativeToolbox().createFileFragmentationAnalyzer();
         this.ftr = context.getFtr();
     }
 
@@ -45,8 +45,7 @@ class FileScanner extends SimpleFileVisitor<Path> {
     }
 
     private boolean isOnSameLinuxDevice(Path dir, BasicFileAttributes attrs) {
-        LinuxFileFragmentationAnalyzer lffa = (LinuxFileFragmentationAnalyzer) context.getNativeToolbox().getFileFragmentationAnalyzer();
-        long dev = lffa.getDevice(dir, attrs);
+        long dev = ((LinuxFileFragmentationAnalyzer) ffa).getDevice(dir, attrs);
         if (this.linuxDevice == 0) {
             //init
             this.linuxDevice = dev;
@@ -79,5 +78,10 @@ class FileScanner extends SimpleFileVisitor<Path> {
     @Override
     public FileVisitResult visitFileFailed(Path p, IOException ex) {
         return FileVisitResult.SKIP_SUBTREE;
+    }
+
+    @Override
+    public void close() throws Exception {
+        ffa.close();
     }
 }

@@ -8,7 +8,7 @@ import me.nithanim.filefragmentationanalysis.fragmentation.linux.common.LinuxSub
 import me.nithanim.fragmentationstatistics.natives.linux.FiemapExtent;
 import me.nithanim.fragmentationstatistics.natives.linux.FiemapStruct;
 import me.nithanim.fragmentationstatistics.natives.linux.LinuxApi;
-import me.nithanim.fragmentationstatistics.natives.linux.LinuxApiNative;
+import me.nithanim.fragmentationstatistics.natives.linux.LinuxApiPanama;
 
 public class LinuxFiemapFileFragmentationAnalyzer implements LinuxSubFileFragmentationAnalyzer {
     /**
@@ -20,7 +20,7 @@ public class LinuxFiemapFileFragmentationAnalyzer implements LinuxSubFileFragmen
     private final LinuxApi la;
 
     public LinuxFiemapFileFragmentationAnalyzer(int nMaxExtents) {
-        this(new LinuxApiNative(), nMaxExtents);
+        this(new LinuxApiPanama(), nMaxExtents);
     }
 
     public LinuxFiemapFileFragmentationAnalyzer(LinuxApi la, int nMaxExtents) {

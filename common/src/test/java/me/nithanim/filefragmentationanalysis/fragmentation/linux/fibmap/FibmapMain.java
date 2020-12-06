@@ -4,13 +4,13 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import me.nithanim.filefragmentationanalysis.fragmentation.linux.common.File;
 import me.nithanim.fragmentationstatistics.natives.linux.LinuxApi;
-import me.nithanim.fragmentationstatistics.natives.linux.LinuxApiNative;
+import me.nithanim.fragmentationstatistics.natives.linux.LinuxApiPanama;
 import me.nithanim.fragmentationstatistics.natives.linux.StatStruct;
 
 public class FibmapMain {
     public static void main(String[] args) throws Exception {
         Path path = Paths.get(args[0]);
-        LinuxApi la = new LinuxApiNative();
+        LinuxApi la = new LinuxApiPanama();
         try (File f = File.open(la, path)) {
             int blocksize = la.getBlocksize(f.getFd());
 

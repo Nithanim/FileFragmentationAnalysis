@@ -3,7 +3,7 @@ package me.nithanim.fragmentationstatistics.natives.linux;
 /**
  * The statvfs struct http://man7.org/linux/man-pages/man3/statvfs.3.html
  */
-public interface StatVfsStruct extends AutoCloseable {
+public interface StatVfsStruct extends Struct {
     /**
      * f_bsize Filesystem block size
      */

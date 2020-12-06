@@ -7,7 +7,7 @@ public class NativeLoader {
 
     public static void loadLibrary() {
         if (!loaded.getAndSet(true)) {
-            NarSystem.loadLibrary();
+            //NarSystem.loadLibrary();
         }
     }
 }

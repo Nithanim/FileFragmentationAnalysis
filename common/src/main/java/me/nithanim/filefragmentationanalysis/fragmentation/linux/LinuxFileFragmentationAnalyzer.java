@@ -11,7 +11,7 @@ import me.nithanim.filefragmentationanalysis.fragmentation.linux.fibmap.LinuxFib
 import me.nithanim.filefragmentationanalysis.fragmentation.linux.fiemap.LinuxFiemapFileFragmentationAnalyzer;
 import me.nithanim.fragmentationstatistics.natives.NativeCallException;
 import me.nithanim.fragmentationstatistics.natives.linux.LinuxApi;
-import me.nithanim.fragmentationstatistics.natives.linux.LinuxApiNative;
+import me.nithanim.fragmentationstatistics.natives.linux.LinuxApiPanama;
 
 public class LinuxFileFragmentationAnalyzer implements FileFragmentationAnalyzer {
     private final LinuxApi linuxapi;
@@ -20,7 +20,7 @@ public class LinuxFileFragmentationAnalyzer implements FileFragmentationAnalyzer
     private final LinuxDeviceGetter linuxDeviceGetter;
 
     public LinuxFileFragmentationAnalyzer() {
-        this(new LinuxApiNative());
+        this(new LinuxApiPanama());
     }
 
     public LinuxFileFragmentationAnalyzer(LinuxApi linuxapi) {
