@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import jdk.incubator.foreign.MemoryAddress;
 import lombok.RequiredArgsConstructor;
 import me.nithanim.fragmentationstatistics.natives.windows.RetrievalPointersBuffer;
 import me.nithanim.fragmentationstatistics.natives.windows.StartingVcnInputBuffer;
@@ -24,7 +25,7 @@ public class WinapiTesthelper implements Winapi {
     }
 
     @Override
-    public long createFile(Path p) throws IOException {
+    public MemoryAddress createFile(Path p) throws IOException {
         return paths.get(p);
     }
 
@@ -34,7 +35,7 @@ public class WinapiTesthelper implements Winapi {
     }
 
     @Override
-    public boolean fetchData(long fileHandle, StartingVcnInputBuffer inputBuffer, RetrievalPointersBuffer outputBuffer) {
+    public boolean fetchData(MemoryAddress fileHandle, StartingVcnInputBuffer inputBuffer, RetrievalPointersBuffer outputBuffer) {
         RetrievalPointersBufferTesthelper testOutputBuffer = (RetrievalPointersBufferTesthelper) outputBuffer;
         List<ExtendedExtentTestHelper> allExtents = openHandles[(int) fileHandle];
         ArrayList<ExtendedExtentTestHelper> partialExtents = new ArrayList<>();

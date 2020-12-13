@@ -3,6 +3,7 @@ package me.nithanim.filefragmentationanalysis.fragmentation.win.apiimpl;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.util.List;
+import jdk.incubator.foreign.MemoryAddress;
 import me.nithanim.filefragmentationanalysis.fragmentation.FragmentationAnalyzationException;
 import me.nithanim.filefragmentationanalysis.fragmentation.commonapi.FileFragmentationAnalyzer;
 import me.nithanim.filefragmentationanalysis.fragmentation.commonapi.Fragment;
@@ -35,7 +36,7 @@ public class WindowsFileFragmentationAnalyzer implements FileFragmentationAnalyz
     @Override
     public List<Fragment> analyze(Path p) throws IOException {
         ensureClusterSize(p);
-        long h = winapi.createFile(p);
+        MemoryAddress h = winapi.createFile(p);
 
         try {
             long currentVcn = 0;
@@ -84,7 +85,7 @@ public class WindowsFileFragmentationAnalyzer implements FileFragmentationAnalyz
         outputBuffer.close();
     }
 
-    private void ensureClusterSize(Path p) {
+    private void ensureClusterSize(Path p) throws IOException {
         if (lastRoot == null || !lastRoot.startsWith(p)) {
             Path root = p.getRoot();
 

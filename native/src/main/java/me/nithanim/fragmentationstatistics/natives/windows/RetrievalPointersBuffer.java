@@ -7,10 +7,6 @@ public interface RetrievalPointersBuffer extends AutoCloseable {
 
     Extent getExtent(int idx);
     
-    long getAddr();
-
-    int getStructSize();
-    
     int getNumberAllocatedExtents();
 
     public interface Extent {

@@ -12,7 +12,7 @@ import me.nithanim.fragmentationstatistics.natives.FileSystemUtil;
 public interface NativeToolbox {
     public static NativeToolbox create() {
         if (OperatingSystemUtils.isWindows()) {
-            return new WindowsNativeToolbox();
+            return new WindowsPanamaToolbox();
         } else if (OperatingSystemUtils.isMac()) {
             throw new UnsupportedOperatingSystem("MacOS is not supported!");
         } else {

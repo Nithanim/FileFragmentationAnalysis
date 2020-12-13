@@ -1,5 +1,6 @@
 package me.nithanim.fragmentationstatistics.natives;
 
+import java.io.IOException;
 import java.nio.file.Path;
 import java.util.Objects;
 import javax.annotation.Nullable;
@@ -10,7 +11,7 @@ import lombok.Value;
  * system.
  */
 public interface FileSystemUtil {
-    FileSystemInformation getFileSystemInformation(Path p);
+    FileSystemInformation getFileSystemInformation(Path p) throws IOException;
 
     OperatingSytem getOperatingSystem();
 

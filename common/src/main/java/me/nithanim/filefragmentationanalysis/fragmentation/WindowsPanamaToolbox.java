@@ -3,14 +3,14 @@ package me.nithanim.filefragmentationanalysis.fragmentation;
 import me.nithanim.filefragmentationanalysis.fragmentation.commonapi.FileFragmentationAnalyzer;
 import me.nithanim.filefragmentationanalysis.fragmentation.win.apiimpl.WindowsFileFragmentationAnalyzer;
 import me.nithanim.fragmentationstatistics.natives.FileSystemUtil;
-import me.nithanim.fragmentationstatistics.natives.windows.WinapiNative;
+import me.nithanim.fragmentationstatistics.natives.windows.WinapiPanama;
 
 
-class WindowsNativeToolbox implements NativeToolbox {
-    private final WinapiNative winapi;
+class WindowsPanamaToolbox implements NativeToolbox {
+    private final WinapiPanama winapi;
 
-    public WindowsNativeToolbox() {
-        this.winapi = new WinapiNative();
+    public WindowsPanamaToolbox() {
+        this.winapi = new WinapiPanama();
     }
 
     @Override

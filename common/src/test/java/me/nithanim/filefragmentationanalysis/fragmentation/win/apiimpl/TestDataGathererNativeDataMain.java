@@ -7,7 +7,6 @@ import me.nithanim.fragmentationstatistics.natives.FileSystemUtil.FileSystemInfo
 import me.nithanim.fragmentationstatistics.natives.windows.RetrievalPointersBuffer;
 import me.nithanim.fragmentationstatistics.natives.windows.StartingVcnInputBuffer;
 import me.nithanim.fragmentationstatistics.natives.windows.Winapi;
-import me.nithanim.fragmentationstatistics.natives.windows.WinapiNative;
 
 public class TestDataGathererNativeDataMain {
     public static void main(String[] args) throws IOException {
