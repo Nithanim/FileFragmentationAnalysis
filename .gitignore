@@ -4,6 +4,7 @@
 !.gitignore
 !README.md
 !LICENSE
+!/pom.xml
 
 !*/pom.xml
 !*/src
@@ -18,7 +19,3 @@
 !/mvnw
 !/mvnw.cmd
 
-!build-local_jdks*
-!build-system_jdk8*
-!run-local*
-!run-system*

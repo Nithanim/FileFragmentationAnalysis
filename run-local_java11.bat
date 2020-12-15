@@ -1,1 +1,0 @@
-jdk11\bin\java.exe --add-opens java.base/java.lang=ALL-UNNAMED -cp assembly\target\FileFragmentationAnalysisAssembly-0.0.1-SNAPSHOT.jar me.nithanim.filefragmentationanalysis.Main

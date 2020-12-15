@@ -16,16 +16,6 @@ public class StartingVcnInputBufferTesthelper implements StartingVcnInputBuffer 
     }
 
     @Override
-    public long getAddr() {
-        throw new UnsupportedOperationException();
-    }
-
-    @Override
-    public int getStructSize() {
-        throw new UnsupportedOperationException();
-    }
-
-    @Override
     public void close() throws Exception {
     }
 }

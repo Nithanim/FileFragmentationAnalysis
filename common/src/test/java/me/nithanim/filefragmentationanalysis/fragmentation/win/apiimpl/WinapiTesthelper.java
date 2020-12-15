@@ -15,13 +15,14 @@ import me.nithanim.fragmentationstatistics.natives.windows.Winapi;
 @RequiredArgsConstructor
 public class WinapiTesthelper implements Winapi {
     private final FileSystemInformation fileSystemInformation;
-    private final List<ExtendedExtentTestHelper>[] openHandles = new List[5];
-    private final Map<Path, Integer> paths = new HashMap<>();
+    private final Map<MemoryAddress, List<ExtendedExtentTestHelper>> openHandles = new HashMap<>();
+    private final Map<Path, MemoryAddress> paths = new HashMap<>();
     private int nextHandle = 0;
 
     public void expect(Path p, List<ExtendedExtentTestHelper> es) {
-        paths.put(p, nextHandle);
-        openHandles[nextHandle++] = es;
+        MemoryAddress next = MemoryAddress.ofLong(nextHandle);
+        paths.put(p, next);
+        openHandles.put(next, es);
     }
 
     @Override
@@ -30,14 +31,15 @@ public class WinapiTesthelper implements Winapi {
     }
 
     @Override
-    public void closeHandle(long h) {
-        //openHandles[(int)Pointer.nativeValue(h.getPointer())].close();
+    public void closeHandle(MemoryAddress h) throws IOException {
+        openHandles.remove(h);
+        paths.values().remove(h);
     }
 
     @Override
     public boolean fetchData(MemoryAddress fileHandle, StartingVcnInputBuffer inputBuffer, RetrievalPointersBuffer outputBuffer) {
         RetrievalPointersBufferTesthelper testOutputBuffer = (RetrievalPointersBufferTesthelper) outputBuffer;
-        List<ExtendedExtentTestHelper> allExtents = openHandles[(int) fileHandle];
+        List<ExtendedExtentTestHelper> allExtents = openHandles.get(fileHandle);
         ArrayList<ExtendedExtentTestHelper> partialExtents = new ArrayList<>();
         for (int i = 0; i < allExtents.size(); i++) {
             ExtendedExtentTestHelper e = allExtents.get(i);

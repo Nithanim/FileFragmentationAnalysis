@@ -4,11 +4,12 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
 import me.nithanim.filefragmentationanalysis.fragmentation.commonapi.Fragment;
+import me.nithanim.fragmentationstatistics.natives.windows.WinapiPanama;
 
 public class TestDataGathererFragmentsDataMain {
     public static void main(String[] args) throws Exception {
         Path p = Paths.get(args[0]);
-        WinapiNative wa = new WinapiNative();
+        WinapiPanama wa = new WinapiPanama();
         try (WindowsFileFragmentationAnalyzer analyzer = new WindowsFileFragmentationAnalyzer(wa)) {
             List<Fragment> fs = analyzer.analyze(p);
             for (Fragment f : fs) {

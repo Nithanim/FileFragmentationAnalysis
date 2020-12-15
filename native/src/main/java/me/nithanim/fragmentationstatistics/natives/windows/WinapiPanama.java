@@ -8,6 +8,7 @@ import jdk.incubator.foreign.MemoryAccess;
 import jdk.incubator.foreign.MemoryAddress;
 import jdk.incubator.foreign.MemoryLayout;
 import jdk.incubator.foreign.MemorySegment;
+import lombok.SneakyThrows;
 
 public class WinapiPanama implements Winapi {
     @Override
@@ -110,7 +111,8 @@ public class WinapiPanama implements Winapi {
     }
 
     @Override
-    public FileSystemInformation getFileSystemInformation(Path p) throws IOException {
+    @SneakyThrows
+    public FileSystemInformation getFileSystemInformation(Path p) {
         try (MemorySegment volumePathName = MemorySegment.allocateNative(30); MemorySegment filesystemName = MemorySegment
                 .allocateNative(30)) {
 

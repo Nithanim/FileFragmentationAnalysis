@@ -11,7 +11,7 @@ import lombok.Value;
  * system.
  */
 public interface FileSystemUtil {
-    FileSystemInformation getFileSystemInformation(Path p) throws IOException;
+    FileSystemInformation getFileSystemInformation(Path p);
 
     OperatingSytem getOperatingSystem();
 

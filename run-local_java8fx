@@ -1,2 +1,0 @@
-#!/bin/sh
-jdk8/bin/java -cp assembly\target\FileFragmentationAnalysisAssembly-0.0.1-SNAPSHOT.jar me.nithanim.filefragmentationanalysis.Main

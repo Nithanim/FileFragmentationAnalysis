@@ -2,15 +2,15 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-    <groupId>me.nithanim.filefragmentationanalysis</groupId>
-    <artifactId>FileFragmentationAnalysisNative</artifactId>
+    <artifactId>native</artifactId>
     <version>0.0.1-SNAPSHOT</version>
+    <name>FileFragmentationAnalysis-Native</name>
+    <parent>
+        <groupId>me.nithanim.filefragmentationanalysis</groupId>
+        <artifactId>root</artifactId>
+        <version>0.0.1-SNAPSHOT</version>
+    </parent>
     <dependencies>
-        <dependency>
-            <groupId>org.scijava</groupId>
-            <artifactId>native-lib-loader</artifactId>
-            <version>2.2.0</version>
-        </dependency>
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
@@ -21,17 +21,12 @@
             <artifactId>jsr305</artifactId>
             <version>3.0.2</version>
         </dependency>
-        <dependency>
-            <groupId>io.netty</groupId>
-            <artifactId>netty-buffer</artifactId>
-            <version>4.1.54.Final</version>
-        </dependency>
     </dependencies>
     <build>
         <plugins>
             <plugin>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.7.0</version>
+                <version>3.8.1</version>
                 <configuration>
                     <source>16</source>
                     <target>16</target>
@@ -41,153 +36,10 @@
                     </compilerArgs>
                 </configuration>
             </plugin>
-            <plugin>
-                <groupId>com.github.maven-nar</groupId>
-                <artifactId>nar-maven-plugin</artifactId>
-                <version>3.6.0</version>
-                <extensions>true</extensions>
-                <configuration>
-                    <skip>true</skip>
-                    <libraries>
-                        <library>
-                            <type>jni</type>
-                            <linkCPP>false</linkCPP>
-                            <narSystemPackage>me.nithanim.fragmentationstatistics.natives</narSystemPackage>
-                        </library>
-                    </libraries>
-                    <c>
-                        <!-- default to linux, use windows by profile override -->
-                        <sourceDirectory>src/main/c</sourceDirectory>
-                        <includes>
-                            <!--<include>common/**</include>
-                            <include>linux/**</include>-->
-                        </includes>
-                    </c>
-                    <linker>
-                        <name>g++</name><!-- gcc works but no package will be installed to maven repo! -->
-                        <options>
-                            <option>-Wall</option>
-                        </options>
-                    </linker>
-                </configuration>
-            </plugin>
         </plugins>
     </build>
-    <profiles>
-        <profile>
-            <id>Windows-MinGW-Path</id>
-            <activation>
-                <os>
-                    <family>Windows</family>
-                </os>
-            </activation>
-            <build>
-                <plugins>
-                    <plugin>
-                        <groupId>com.github.maven-nar</groupId>
-                        <artifactId>nar-maven-plugin</artifactId>
-                        <extensions>true</extensions>
-                        <configuration>
-                            <skip>false</skip>
-                            <c>
-                                <sourceDirectory>src/main/c</sourceDirectory>
-                                <includes>
-                                    <name>g++</name>
-                                    <include>common/**</include>
-                                    <include>windows/**</include>
-                                </includes>
-                            </c>
-                            <linker>
-                                <options>
-                                    <option>-Wall</option>
-                                    <option>-Wl,--kill-at</option>
-                                </options>
-                            </linker>
-                        </configuration>
-                    </plugin>
-                </plugins>
-            </build>
-        </profile>
-        <profile>
-            <id>Windows-MinGW-Force32</id>
-            <build>
-                <plugins>
-                    <plugin>
-                        <groupId>com.github.maven-nar</groupId>
-                        <artifactId>nar-maven-plugin</artifactId>
-                        <extensions>true</extensions>
-                        <configuration>
-                            <aol>x86-Windows-gpp</aol>
-                            <c>
-                                <sourceDirectory>src/main/c</sourceDirectory>
-                                <includes>
-                                    <include>common/**</include>
-                                    <include>windows/**</include>
-                                </includes>
-                            </c>
-                        </configuration>
-                    </plugin>
-                </plugins>
-            </build>
-        </profile>
-        <profile>
-            <id>Linux-MinGW-w64-cross</id>
-            <!-- cross-compilation not officially supported by NAR -->
-            <!--
-                does not currently work because the MinGW-w64 version output has
-                only 2 numbers (x.x) and native prints 3 (x.x.x) and so NAR
-                cannot detect version of gcc.
-                
-                native: gcc version 7.3.0 (Ubuntu 7.3.0-27ubuntu1~18.04)
-                x86_64-w64-mingw32-gcc: gcc version 7.3-win32 20180312 (GCC) 
-            -->
-            <build>
-                <plugins>
-                    <plugin>
-                        <groupId>com.github.maven-nar</groupId>
-                        <artifactId>nar-maven-plugin</artifactId>
-                        <extensions>true</extensions>
-                        <configuration>
-                            <aol>amd64-Windows-gcc</aol>
-                            <c>
-                                <sourceDirectory>src/main/c</sourceDirectory>
-                                <includes>
-                                    <include>common/**</include>
-                                    <include>windows/**</include>
-                                </includes>
-                            </c>
-                            <linker>
-                                <name>g++</name>
-                                <prefix>x86_64-w64-mingw32-</prefix>
-                            </linker>
-                        </configuration>
-                    </plugin>
-                </plugins>
-            </build>
-        </profile>
-        <profile>
-            <id>no-native</id>
-            <!-- can be used to disable native compilation and only create the jar -->
-            <build>
-                <plugins>
-                    <plugin>
-                        <groupId>com.github.maven-nar</groupId>
-                        <artifactId>nar-maven-plugin</artifactId>
-                        <extensions>true</extensions>
-                        <executions>
-                            <execution>
-                                <id>default-nar-compile</id>
-                                <phase>none</phase>
-                            </execution>
-                        </executions>
-                    </plugin>
-                </plugins>
-            </build>
-        </profile>
-    </profiles>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <maven.compiler.source>16</maven.compiler.source>
-        <maven.compiler.target>16</maven.compiler.target>
+        <argLine>--add-modules jdk.incubator.foreign</argLine>
     </properties>
 </project>
